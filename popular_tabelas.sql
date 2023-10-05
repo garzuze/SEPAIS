@@ -22,6 +22,7 @@ INSERT INTO `sepaisdb`.`motivos` (`motivos`) VALUES ('Médico');
 INSERT INTO `sepaisdb`.`motivos` (`motivos`) VALUES ('Transporte');
 INSERT INTO `sepaisdb`.`motivos` (`motivos`) VALUES ('Mal-estar');
 INSERT INTO `sepaisdb`.`motivos` (`motivos`) VALUES ('Motivo particular');
+INSERT INTO `sepaisdb`.`motivos` (`motivos`) VALUES ('Professor faltou');
 
 -- inserir sepae
 INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email_institucional`, `senha`, `foto_path`) VALUES ('Neras', 'Nereu Filho', 'nereu.filho@ifpr.edu.br', '$hash', 'nenhum');
