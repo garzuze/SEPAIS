@@ -37,9 +37,9 @@ INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('
 INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('rafael.greca@gmail.com', 'Rafael Greca', '$hash', '12345678912');
 
 -- inserir responsavel_libera_alunos
-INSERT INTO `sepaisdb`.`responsavel_libera_alunos` (`responsavel_email`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('jailson.mendes@gmail.com', '8', '2023-10-11', 'Luto');
-INSERT INTO `sepaisdb`.`responsavel_libera_alunos` (`responsavel_email`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('rafael.greca@gmail.com', '10', '2023-10-06', 'Transporte');
+INSERT INTO `sepaisdb`.`responsavel_libera_alunos` (`responsavel_email`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('jailson.mendes@gmail.com', '2', '2023-10-11', 'Luto');
+INSERT INTO `sepaisdb`.`responsavel_libera_alunos` (`responsavel_email`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('rafael.greca@gmail.com', '4', '2023-10-06', 'Transporte');
 
 -- inserir sepae_libera_alunos
-INSERT INTO `sepaisdb`.`sepae_libera_alunos` (`sepae_username`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('Chicão', '8', '2023-10-11', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_alunos` (`sepae_username`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('Neras', '7', '2023-10-06', 'Professor faltou');
+INSERT INTO `sepaisdb`.`sepae_libera_alunos` (`sepae_username`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('Chicão', '2', '2023-10-11', 'Professor faltou');
+INSERT INTO `sepaisdb`.`sepae_libera_alunos` (`sepae_username`, `alunos_id`, `data`, `motivos_motivos`) VALUES ('Neras', '1', '2023-10-06', 'Professor faltou');
