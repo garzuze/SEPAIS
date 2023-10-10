@@ -79,7 +79,7 @@ INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data
 INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Chicão', '4', '2023-10-18', 'Aula acabou mais cedo');
 INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '7', '2023-10-18', 'Professor faltou');
 INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '6', '2023-10-18', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`, `horario_saida`) VALUES ('Chicão', '5', '2023-10-18', 'Professor faltou', '0');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`, `horario_saida`) VALUES ('Chicão', '10', '2023-10-18', 'Professor faltou', '0');
 INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Chicão', '5', '2023-10-18', 'Aula acabou mais cedo');
 
 -- inserir sepae_libera_aluno
