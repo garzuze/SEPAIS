@@ -15,3 +15,9 @@ and (data = CURDATE()) and (horario_saida is null);
 -- Select recados que não passaram ou não tem validade
 SELECT titulo as Título, recado as Recado, data as Data, sepae_username as Enviado_por from recado 
 where (CURDATE() < validade) or (validade is null);
+
+-- Select responsáveis e alunos dependentes
+SELECT responsavel.nome as Responsável, aluno.nome as Aluno, aluno.turma_turma as Turma
+from responsavel_has_aluno, responsavel, aluno
+where (responsavel.email = responsavel_has_aluno.responsavel_email)
+and (aluno.id = responsavel_has_aluno.aluno_id); 
