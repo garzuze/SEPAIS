@@ -1,5 +1,22 @@
 <?php
+session_start();
+include('secure.php');
+secure_page();
+if (isset($_POST['logout'])){
+    session_destroy();
+    header('Location: login.php');
+}
 date_default_timezone_set('America/Sao_Paulo');
+
+# pegando nome completo do usuário
+
+$sql = connect();
+$query = $sql->prepare("SELECT nome FROM sepaisdb.sepae WHERE email = ?;");
+$query->bind_param("s", $_SESSION['email']);
+$query->execute();
+$result_query = $query->get_result();
+$result_array = $result_query->fetch_all(MYSQLI_ASSOC);
+$nome = $result_array[0]['nome']
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,12 +58,12 @@ date_default_timezone_set('America/Sao_Paulo');
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
                     <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-900">Nereu da Silva Filho</span>
-                        <span class="block text-sm  text-gray-500 truncate">nereu.filho@ifpr.edu.br</span>
+                        <span class="block text-sm text-gray-900"><?php echo $nome;?></span>
+                        <span class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email']?></span>
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            <form method="post"><input type="submit" name="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 m-auto" value="Logout"></form>
                         </li>
                     </ul>
                 </div>
