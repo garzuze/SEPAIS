@@ -9,16 +9,16 @@ INSERT INTO `sepaisdb`.`turma` (`turma`) VALUES ('INFO3');
 INSERT INTO `sepaisdb`.`turma` (`turma`) VALUES ('INFO4');
 
 -- inserir aluno
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Mateus', 'nenhum', 'ADM1');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Mariana', 'nenhum', 'ADM4');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Paulo', 'nenhum', 'INFO1');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Luan', 'nenhum', 'INFO2');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Mario', 'nenhum', 'ADM2');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Luigi', 'nenhum', 'ADM2');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Wario', 'nenhum', 'ADM3');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Waluigi', 'nenhum', 'INFO3');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Waluigi', 'nenhum', 'INFO3');
-INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_turma`) VALUES ('Sonic', 'nenhum', 'INFO4');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Mateus', 'nenhum', '1');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Mariana', 'nenhum', '4');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Paulo', 'nenhum', '5');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Luan', 'nenhum', '6');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Mario', 'nenhum', '2');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Luigi', 'nenhum', '2');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Wario', 'nenhum', '3');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Waluigi', 'nenhum', '7');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Waluigi', 'nenhum', '7');
+INSERT INTO `sepaisdb`.`aluno` (`nome`, `foto_path`, `turma_id`) VALUES ('Sonic', 'nenhum', '8');
 
 -- inserir motivo
 INSERT INTO `sepaisdb`.`motivo` (`motivo`) VALUES ('Luto');
@@ -30,9 +30,9 @@ INSERT INTO `sepaisdb`.`motivo` (`motivo`) VALUES ('Professor faltou');
 INSERT INTO `sepaisdb`.`motivo` (`motivo`) VALUES ('Aula acabou mais cedo');
 
 -- inserir sepae
-INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email_institucional`, `senha`, `foto_path`) VALUES ('Neras', 'Nereu Filho', 'nereu.filho@ifpr.edu.br', '$hash', 'nenhum');
-INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email_institucional`, `senha`, `foto_path`) VALUES ('Chicão', 'Francisco Fernando Kühn', 'francisco.kuhn@ifpr.edu.br', '$hash', 'nenhum');
-INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email_institucional`, `senha`, `foto_path`) VALUES ('Tati', 'Tatiana Mayumi Niwa', 'tatiana.niwa@ifpr.edu.br', '$hash', 'nenhum');
+INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email`, `senha`, `foto_path`) VALUES ('Neras', 'Nereu Filho', 'nereu.filho@ifpr.edu.br', '$hash', 'nenhum');
+INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email`, `senha`, `foto_path`) VALUES ('Chicão', 'Francisco Fernando Kühn', 'francisco.kuhn@ifpr.edu.br', '$hash', 'nenhum');
+INSERT INTO `sepaisdb`.`sepae` (`username`, `nome`, `email`, `senha`, `foto_path`) VALUES ('Tati', 'Tatiana Mayumi Niwa', 'tatiana.niwa@ifpr.edu.br', '$hash', 'nenhum');
 
 -- inserir recado
 INSERT INTO `sepaisdb`.`recado` (`titulo`, `recado`, `data`, `validade`, `sepae_username`) VALUES ('Reunião do Pais', 'A reunião dos pais vai acontecer nesta sexta-feira', '2023-10-05', '2023-10-14', 'Neras');
@@ -43,44 +43,44 @@ INSERT INTO `sepaisdb`.`recado` (`titulo`, `recado`, `data`, `validade`, `sepae_
 
 -- inserir responsaveis
 INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('eggman.robotnik@gmail.com', 'Dr. Eggman', '$hash', '12345678912');
-INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('king.boo@gmail.com', 'King Boo', '$hash', '123456789123');
-INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('kratos@gmail.com', 'Bom de Guerra', '$hash', '123456789124');
-INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('francesco.bernoulli@gmail.com', 'Francesco Bernoulli', '$hash', '123456789125');
-INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('neymar.junior@gmail.com', 'Neymar Jr.', '$hash', '123456789123');
+INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('king.boo@gmail.com', 'King Boo', '$hash', '12345678922');
+INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('kratos@gmail.com', 'Bom de Guerra', '$hash', '12345678933');
+INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('francesco.bernoulli@gmail.com', 'Francesco Bernoulli', '$hash', '12345678944');
+INSERT INTO `sepaisdb`.`responsavel` (`email`, `nome`, `senha`, `cpf`) VALUES ('neymar.junior@gmail.com', 'Neymar Jr.', '$hash', '12345678955');
 
 -- inserir responsavel_libera_aluno
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('eggman.robotnik@gmail.com', '2', '2023-10-10', 'Luto');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('king.boo@gmail.com', '4', '2023-10-10', 'Transporte');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('kratos@gmail.com', '1', '2023-10-10', 'Médico');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('francesco.bernoulli@gmail.com', '5', '2023-10-05', 'Motivo particular');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('neymar.junior@gmail.com', '3', '2023-10-10', 'Mal-estar');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('eggman.robotnik@gmail.com', '8', '2023-10-11', 'Mal-estar');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('king.boo@gmail.com', '9', '2023-10-11', 'Médico');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('kratos@gmail.com', '7', '2023-10-11', 'Transporte');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('francesco.bernoulli@gmail.com', '6', '2023-10-11', 'Luto');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('neymar.junior@gmail.com', '10', '2023-10-11', 'Mal-estar');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('eggman.robotnik@gmail.com', '2', '2023-10-12', 'Motivo particular');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('king.boo@gmail.com', '4', '2023-10-12', 'Médico');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('kratos@gmail.com', '1', '2023-10-12', 'Motivo particular');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('francesco.bernoulli@gmail.com', '5', '2023-10-12', 'Transporte');
-INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('neymar.junior@gmail.com', '3', '2023-10-12', 'Mal-estar');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('eggman.robotnik@gmail.com', '2', '2023-10-10', '1');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('king.boo@gmail.com', '4', '2023-10-10', '3');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('kratos@gmail.com', '1', '2023-10-10', '2');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('francesco.bernoulli@gmail.com', '5', '2023-10-05', '5');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('neymar.junior@gmail.com', '3', '2023-10-10', '4');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('eggman.robotnik@gmail.com', '8', '2023-10-11', '4');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('king.boo@gmail.com', '9', '2023-10-11', '2');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('kratos@gmail.com', '7', '2023-10-11', '3');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('francesco.bernoulli@gmail.com', '6', '2023-10-11', '1');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('neymar.junior@gmail.com', '10', '2023-10-11', '4');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('eggman.robotnik@gmail.com', '2', '2023-10-12', '5');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('king.boo@gmail.com', '4', '2023-10-12', '2');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('kratos@gmail.com', '1', '2023-10-12', '5');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('francesco.bernoulli@gmail.com', '5', '2023-10-12', '3');
+INSERT INTO `sepaisdb`.`responsavel_libera_aluno` (`responsavel_email`, `aluno_id`, `data`, `motivo_id`) VALUES ('neymar.junior@gmail.com', '3', '2023-10-12', '4');
 
 -- inserir sepae_libera_aluno
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Chicão', '2', '2023-10-11', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '1', '2023-10-10', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '3', '2023-10-10', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`, `horario_saida`) VALUES ('Chicão', '4', '2023-10-10', 'Professor faltou', '0');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Chicão', '5', '2023-10-10', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Tati', '6', '2023-10-11', 'Aula acabou mais cedo');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Tati', '7', '2023-10-11', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '8', '2023-10-11', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`, `horario_saida`) VALUES ('Chicão', '9', '2023-10-11', 'Aula acabou mais cedo', '0');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '10', '2023-10-18', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Chicão', '4', '2023-10-18', 'Aula acabou mais cedo');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '7', '2023-10-18', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Neras', '6', '2023-10-18', 'Professor faltou');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`, `horario_saida`) VALUES ('Chicão', '10', '2023-10-18', 'Professor faltou', '0');
-INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_motivo`) VALUES ('Chicão', '5', '2023-10-18', 'Aula acabou mais cedo');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Chicão', '2', '2023-10-11', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Neras', '1', '2023-10-10', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Neras', '3', '2023-10-10', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`, `horario_saida`) VALUES ('Chicão', '4', '2023-10-10', '6', '0');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Chicão', '5', '2023-10-10', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Tati', '6', '2023-10-11', '7');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Tati', '7', '2023-10-11', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Neras', '8', '2023-10-11', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`, `horario_saida`) VALUES ('Chicão', '9', '2023-10-11', '7', '0');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Neras', '10', '2023-10-18', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Chicão', '4', '2023-10-18', '7');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Neras', '7', '2023-10-18', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Neras', '6', '2023-10-18', '6');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`, `horario_saida`) VALUES ('Chicão', '10', '2023-10-18', '6', '0');
+INSERT INTO `sepaisdb`.`sepae_libera_aluno` (`sepae_username`, `aluno_id`, `data`, `motivo_id`) VALUES ('Chicão', '5', '2023-10-18', '7');
 
 -- inserir sepae_libera_aluno
 INSERT INTO `sepaisdb`.`responsavel_has_aluno` (`responsavel_email`, `aluno_id`) VALUES ('king.boo@gmail.com', '4');
