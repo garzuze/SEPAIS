@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `sepaisdb` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `sepaisdb`;
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sepaisdb
 -- ------------------------------------------------------
@@ -46,6 +46,21 @@ INSERT INTO `aluno` VALUES (1,'Mateus','nenhum',1),(2,'Mariana','nenhum',4),(3,'
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `aluno_liberado_responsavel`
+--
+
+DROP TABLE IF EXISTS `aluno_liberado_responsavel`;
+/*!50001 DROP VIEW IF EXISTS `aluno_liberado_responsavel`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `aluno_liberado_responsavel` AS SELECT 
+ 1 AS `Aluno`,
+ 1 AS `Turma`,
+ 1 AS `Motivo`,
+ 1 AS `Responsável`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `aluno_liberado_sepae`
 --
 
@@ -61,6 +76,35 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `aluno_responsavel`
+--
+
+DROP TABLE IF EXISTS `aluno_responsavel`;
+/*!50001 DROP VIEW IF EXISTS `aluno_responsavel`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `aluno_responsavel` AS SELECT 
+ 1 AS `Responsável`,
+ 1 AS `Aluno`,
+ 1 AS `Turma`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `alunos_visualizar`
+--
+
+DROP TABLE IF EXISTS `alunos_visualizar`;
+/*!50001 DROP VIEW IF EXISTS `alunos_visualizar`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `alunos_visualizar` AS SELECT 
+ 1 AS `id`,
+ 1 AS `Nome`,
+ 1 AS `Turma`,
+ 1 AS `Foto`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `motivo`
 --
 
@@ -69,7 +113,7 @@ DROP TABLE IF EXISTS `motivo`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `motivo` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `motivo` varchar(45) DEFAULT NULL,
+  `motivo` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -139,6 +183,21 @@ INSERT INTO `recado` VALUES (1,'Reunião do Pais','A reunião dos pais vai acont
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `recados`
+--
+
+DROP TABLE IF EXISTS `recados`;
+/*!50001 DROP VIEW IF EXISTS `recados`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `recados` AS SELECT 
+ 1 AS `Título`,
+ 1 AS `Recado`,
+ 1 AS `Data`,
+ 1 AS `Enviado_por`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `responsavel`
 --
 
@@ -161,7 +220,7 @@ CREATE TABLE `responsavel` (
 
 LOCK TABLES `responsavel` WRITE;
 /*!40000 ALTER TABLE `responsavel` DISABLE KEYS */;
-INSERT INTO `responsavel` VALUES ('eggman.robotnik@gmail.com','Dr. Eggman','$hash','12345678912'),('francesco.bernoulli@gmail.com','Francesco Bernoulli','$hash','12345678935'),('king.boo@gmail.com','King Boo','$hash','12345678944'),('kratos@gmail.com','Bom de Guerra','$hash','12345678933'),('neymar.junior@gmail.com','Neymar Jr.','$hash','56345678977');
+INSERT INTO `responsavel` VALUES ('eggman.robotnik@gmail.com','Dr. Eggman','$hash','12345678912'),('francesco.bernoulli@gmail.com','Francesco Bernoulli','$hash','12345678944'),('king.boo@gmail.com','King Boo','$hash','12345678922'),('kratos@gmail.com','Bom de Guerra','$hash','12345678933'),('neymar.junior@gmail.com','Neymar Jr.','$hash','12345678955');
 /*!40000 ALTER TABLE `responsavel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +295,7 @@ DROP TABLE IF EXISTS `sepae`;
 CREATE TABLE `sepae` (
   `username` varchar(45) NOT NULL,
   `nome` varchar(144) NOT NULL,
-  `email_institucional` varchar(144) NOT NULL,
+  `email` varchar(144) NOT NULL,
   `senha` varchar(144) NOT NULL,
   `foto_path` varchar(144) NOT NULL,
   PRIMARY KEY (`username`)
@@ -319,6 +378,24 @@ UNLOCK TABLES;
 --
 
 --
+-- Final view structure for view `aluno_liberado_responsavel`
+--
+
+/*!50001 DROP VIEW IF EXISTS `aluno_liberado_responsavel`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `aluno_liberado_responsavel` AS select `aluno`.`nome` AS `Aluno`,`turma`.`turma` AS `Turma`,`motivo`.`motivo` AS `Motivo`,`responsavel`.`nome` AS `Responsável` from ((((`responsavel_libera_aluno` join `responsavel`) join `aluno`) join `motivo`) join `turma`) where ((`aluno`.`id` = `responsavel_libera_aluno`.`aluno_id`) and (`motivo`.`id` = `responsavel_libera_aluno`.`motivo_id`) and (`responsavel`.`email` = `responsavel_libera_aluno`.`responsavel_email`) and (`responsavel_libera_aluno`.`data` = curdate()) and (`responsavel_libera_aluno`.`horario_saida` is null) and (`turma`.`id` = `aluno`.`turma_id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `aluno_liberado_sepae`
 --
 
@@ -335,6 +412,60 @@ UNLOCK TABLES;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `aluno_responsavel`
+--
+
+/*!50001 DROP VIEW IF EXISTS `aluno_responsavel`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `aluno_responsavel` AS select `responsavel`.`nome` AS `Responsável`,`aluno`.`nome` AS `Aluno`,`turma`.`turma` AS `Turma` from (((`responsavel_has_aluno` join `responsavel`) join `aluno`) join `turma`) where ((`responsavel`.`email` = `responsavel_has_aluno`.`responsavel_email`) and (`aluno`.`id` = `responsavel_has_aluno`.`aluno_id`) and (`turma`.`id` = `aluno`.`turma_id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `alunos_visualizar`
+--
+
+/*!50001 DROP VIEW IF EXISTS `alunos_visualizar`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `alunos_visualizar` AS select `aluno`.`id` AS `id`,`aluno`.`nome` AS `Nome`,`turma`.`turma` AS `Turma`,`aluno`.`foto_path` AS `Foto` from (`aluno` join `turma`) where (`turma`.`id` = `aluno`.`turma_id`) order by `aluno`.`id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `recados`
+--
+
+/*!50001 DROP VIEW IF EXISTS `recados`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `recados` AS select `recado`.`titulo` AS `Título`,`recado`.`recado` AS `Recado`,`recado`.`data` AS `Data`,`recado`.`sepae_username` AS `Enviado_por` from `recado` where ((curdate() < `recado`.`validade`) or (`recado`.`validade` is null)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -345,4 +476,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-11  9:00:32
+-- Dump completed on 2023-10-11 11:30:31
