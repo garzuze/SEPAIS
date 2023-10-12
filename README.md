@@ -17,5 +17,5 @@ A ferramenta procura facilitar a comunicação entre a seção pedagógica, os e
 </ul>
  
 <p align="center">
- <img style="font-align: center;" src="static/logo.png">
+ <img style="font-align: center;" src="frontend/static/sepais_logo2.png">
 </p>
