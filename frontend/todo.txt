@@ -1,0 +1,7 @@
+- Registrar todos os servidores @done
+- Fazer caminho para fotos de servidores @done
+- Adicionar barra lateral direita com todas as turmas
+- Função que quando você clica numa turma, aparece uma tabela com todos os alunos
+- Arquitetar onde ficará funcionalidade de recados
+- Arquitetar quais queries serão utilizadas para determinadas funções (liberar turma, liberar aluno, recado etc)
+    - Codar em PHP essas queries baseadas nas requests feitas pelos servidores

@@ -11,12 +11,13 @@ date_default_timezone_set('America/Sao_Paulo');
 # pegando nome completo do usuário
 
 $sql = connect();
-$query = $sql->prepare("SELECT nome FROM sepaisdb.sepae WHERE email = ?;");
+$query = $sql->prepare("SELECT * FROM sepaisdb.sepae WHERE email = ?;");
 $query->bind_param("s", $_SESSION['email']);
 $query->execute();
 $result_query = $query->get_result();
 $result_array = $result_query->fetch_all(MYSQLI_ASSOC);
-$nome = $result_array[0]['nome']
+$nome = $result_array[0]['nome'];
+$foto_path = $result_array[0]['foto_path'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +54,7 @@ $nome = $result_array[0]['nome']
             <div class="flex items-center md:order-2">
                 <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-[#00bf63]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Abrir menu de usuário</span>
-                    <img class="w-8 h-8 rounded-full" src="static/nereu.jpg" alt="user photo">
+                    <img class="w-8 h-8 rounded-full" src="<?php echo $foto_path;?>" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
