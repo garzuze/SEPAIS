@@ -29,3 +29,9 @@ SELECT aluno.id, aluno.nome as Nome, turma.turma as Turma, foto_path as Foto
 from aluno, turma 
 where (turma.id = aluno.turma_id)
 order by aluno.id;
+
+-- Select alunos por turma
+SELECT nome, turma FROM sepaisdb.aluno
+INNER JOIN sepaisdb.turma
+ON sepaisdb.aluno.turma_id = sepaisdb.turma.id
+WHERE sepaisdb.turma.id = '{id_da_turma}';
