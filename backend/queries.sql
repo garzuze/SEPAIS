@@ -35,3 +35,11 @@ SELECT nome, turma FROM sepaisdb.aluno
 INNER JOIN sepaisdb.turma
 ON sepaisdb.aluno.turma_id = sepaisdb.turma.id
 WHERE sepaisdb.turma.id = '{id_da_turma}';
+
+-- select nome do aluno, nome do responsavel, email do responsavel e turma especifica
+SELECT aluno.nome as 'nome aluno', responsavel.nome as 'nome responsavel', responsavel.email as 'email responsavel', turma.turma as 'turma'
+from responsavel_has_aluno, responsavel, aluno, turma
+where (responsavel.email = responsavel_has_aluno.responsavel_email)
+and (aluno.id = responsavel_has_aluno.aluno_id) and (turma.id = aluno.turma_id) and (turma.turma = 'adm1'); 
+
+
