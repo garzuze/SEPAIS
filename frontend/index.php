@@ -51,23 +51,14 @@ $foto_path = $result_array[0]['foto_path'];
         setInterval(updateTime, 1000);
 
         $(function(){
-        //button select all or cancel
-        $("#select-all").click(function () {
-            var all = $("input.select-all")[0];
-            all.checked = !all.checked
-            var checked = all.checked;
-            $("input.select-item").each(function (index,item) {
-                item.checked = checked;
-            });
-        });
-        //column checkbox select all or cancel
+        // Coluna checkbox que seleciona ou deseleciona todos
         $("input.select-all").click(function () {
             var checked = this.checked;
             $("input.select-item").each(function (index,item) {
                 item.checked = checked;
             });
         });
-        //check selected items
+        // Marca os checkbox clicados 
         $("input.select-item").click(function () {
             var checked = this.checked;
             var all = $("input.select-all")[0];
@@ -81,7 +72,7 @@ $foto_path = $result_array[0]['foto_path'];
 </head>
 
 <body class="grid grid-cols-12 gap-1">
-<header class="col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
+<header class="ações-servidor col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
     <div class="user">
         <div class="flex items-center md:order-2">
             <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-[#00bf63]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
@@ -117,7 +108,7 @@ $foto_path = $result_array[0]['foto_path'];
                 <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                     <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z"/>
                 </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Escrever recado</span>
+                    <span class="flex-1 ml-3">Escrever recado</span>
                 </a>
             </li>
             <li>
@@ -125,24 +116,26 @@ $foto_path = $result_array[0]['foto_path'];
                 <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                     <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z"/>
                 </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Histórico de liberações</span>
+                    <span class="flex-1 ml-3">Histórico de liberações</span>
                 </a>
             </li>
         </ul>
     </div>
 </aside>
-<section class="col-span-8">
+<section class="tabele-alunos-responsaveis col-span-8">
     <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-                <th scope="col" class="p-4">
+                <th scope="col" class="active p-4">
                     <div class="flex items-center">
-                        <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                        <input type="checkbox" class="select-all checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                        name="select-all">
                         <label for="checkbox-all" class="sr-only">checkbox</label>
                     </div>
                 </th>
                 <th scope="col" class="px-6 py-3 hidden">
                     id
+                    <!-- Hidden porque não vamos mostrar, mas será necessário para a lógica backend -->
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Nome do aluno
@@ -155,14 +148,16 @@ $foto_path = $result_array[0]['foto_path'];
                 </th>
                 <th scope="col" class="px-6 py-3 hidden">
                     Turma
+                    <!-- Hidden porque não vamos mostrar, mas será necessário para a lógica backend -->
                 </th>
             </tr>
         </thead>
         <tbody>
             <tr class="bg-white border-b">
-                <td class="w-4 p-4">
+                <td class="active w-4 p-4">
                     <div class="flex items-center">
-                        <input id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                        <input type="checkbox" class="select-item checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                        name="select-item">
                         <label for="checkbox-table-1" class="sr-only">checkbox</label>
                     </div>
                 </td>
@@ -176,10 +171,11 @@ $foto_path = $result_array[0]['foto_path'];
                     leda.garzuze@gmail.com
                 </td>
             </tr>
+            
         </tbody>
     </table>
 </section>
-<aside class="right-0 col-span-2 h-screen" aria-label="Sidebar">
+<aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
         <ul class="space-y-2 font-medium text-center">
             <li>
