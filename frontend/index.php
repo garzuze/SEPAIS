@@ -131,7 +131,54 @@ $foto_path = $result_array[0]['foto_path'];
         </ul>
     </div>
 </aside>
-
+<section class="col-span-8">
+    <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+                <th scope="col" class="p-4">
+                    <div class="flex items-center">
+                        <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                        <label for="checkbox-all" class="sr-only">checkbox</label>
+                    </div>
+                </th>
+                <th scope="col" class="px-6 py-3 hidden">
+                    id
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Nome do aluno
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Nome do responsável
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Email do responsável
+                </th>
+                <th scope="col" class="px-6 py-3 hidden">
+                    Turma
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b">
+                <td class="w-4 p-4">
+                    <div class="flex items-center">
+                        <input id="checkbox-table-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                    </div>
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    Lucas Garzuze Cordeiro
+                </th>
+                <td class="px-6 py-4">
+                    Leda Aparecida Sodré Garzuze Cordeiro
+                </td>
+                <td class="px-6 py-4">
+                    leda.garzuze@gmail.com
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 <aside class="right-0 col-span-2 h-screen" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
         <ul class="space-y-2 font-medium text-center">
