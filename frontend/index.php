@@ -1,4 +1,5 @@
 <?php
+# segurança da página
 session_start();
 include('secure.php');
 secure_page();
@@ -6,9 +7,11 @@ if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: login.php');
 }
+
+# função de horário em tempo real
 date_default_timezone_set('America/Sao_Paulo');
 
-# pegando nome completo do usuário
+# pegando nome completo do usuário e a sua foto
 
 $sql = connect();
 $query = $sql->prepare("SELECT * FROM sepaisdb.sepae WHERE email = ?;");
@@ -27,6 +30,7 @@ $foto_path = $result_array[0]['foto_path'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         function updateTime() {
             var currentTime = new Date()
@@ -45,12 +49,40 @@ $foto_path = $result_array[0]['foto_path'];
             document.getElementById('time').innerHTML = time;
         }
         setInterval(updateTime, 1000);
+
+        $(function(){
+        //button select all or cancel
+        $("#select-all").click(function () {
+            var all = $("input.select-all")[0];
+            all.checked = !all.checked
+            var checked = all.checked;
+            $("input.select-item").each(function (index,item) {
+                item.checked = checked;
+            });
+        });
+        //column checkbox select all or cancel
+        $("input.select-all").click(function () {
+            var checked = this.checked;
+            $("input.select-item").each(function (index,item) {
+                item.checked = checked;
+            });
+        });
+        //check selected items
+        $("input.select-item").click(function () {
+            var checked = this.checked;
+            var all = $("input.select-all")[0];
+            var total = $("input.select-item").length;
+            var len = $("input.select-item:checked:checked").length;
+            all.checked = len===total;
+        });
+        
+    });
     </script>
 </head>
 
-<body>
-<nav class="nav-top w-full h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
-    <div class="user ">
+<body class="grid grid-cols-12 gap-1">
+<header class="col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
+    <div class="user">
         <div class="flex items-center md:order-2">
             <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-[#00bf63]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                 <span class="sr-only">Abrir menu de usuário</span>
@@ -76,54 +108,76 @@ $foto_path = $result_array[0]['foto_path'];
     <div class="">
         <img src="static/sepais_logo.png" class="sm:h-6 h-4">
     </div>
-</nav>
-<aside class="fixed top-16 right-0 z-40 w-36 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+</header>
+<aside class="aside left-0 col-span-2 h-screen" aria-label="Sidebar">
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
-        <ul class="space-y-2 font-medium text-center">
+        <ul class="space-y-2 font-medium">
             <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 1</span>
+                <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                    <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z"/>
+                </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Escrever recado</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 2</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 3</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 4</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 1</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 2</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 3</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 4</span>
+                <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                    <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z"/>
+                </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">Histórico de liberações</span>
                 </a>
             </li>
         </ul>
     </div>
 </aside>
 
+<aside class="right-0 col-span-2 h-screen" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+        <ul class="space-y-2 font-medium text-center">
+            <li>
+                <a href="?turma=adm1" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 1</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=adm2" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 2</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=adm3" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 3</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=adm4" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 4</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=info1" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 1</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=info2" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 2</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=info3" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 3</span>
+                </a>
+            </li>
+            <li>
+                <a href="?turma=info4" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 4</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 
 </body>
