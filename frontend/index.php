@@ -50,7 +50,8 @@ $foto_path = $result_array[0]['foto_path'];
         }
         setInterval(updateTime, 1000);
 
-        $(function(){
+        // Função para os checkbox serem selecionados todos de uma vez
+        $(document).ready(function(){
         // Coluna checkbox que seleciona ou deseleciona todos
         $("input.select-all").click(function () {
             var checked = this.checked;
@@ -66,6 +67,47 @@ $foto_path = $result_array[0]['foto_path'];
             var len = $("input.select-item:checked:checked").length;
             all.checked = len===total;
         });
+
+        $('.select-turma').click(function () {
+            var turma = $(this).attr('id');
+            $.ajax({
+                url: 'read_alunos_turma.php',
+                data: 'turma=' + turma,
+                type: 'GET',
+                success: function (data) {
+                    data = JSON.parse(data)
+                    console.log(data);
+                    // Limpando o body da tabela dos dados antigos
+                    $('#tb-alunos-resp > tr').empty();
+                    for(var i = 0; i < data.length; i++) {
+                        $('#tb-alunos-resp').append(
+                            '<tr class="bg-white border-b">' +
+                            '<td class="active w-4 p-4">' +
+                                '<div class="flex items-center">' +
+                                    '<input type="checkbox" class="select-item checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-item">' +
+                                    '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
+                                '</div>' +
+                            '</td>' +
+                            '<td id="id" scope="col" class="px-6 py-3 hidden">' +
+                                data[i]['id'] +
+                            '</td>' +
+                            '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-1/3">' +
+                                data[i]['nome_aluno'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/3">' +
+                                data[i]['nome_responsavel'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/3">' +
+                                data[i]['email_responsavel'] +
+                            '</td>' +
+                            '<td scope="col" class="px-6 py-3 hidden">' +
+                                data[i]['turma'] +
+                            '</td>' +
+                            '</tr>');
+                    }
+                }
+            })
+        })
         
     });
     </script>
@@ -104,7 +146,7 @@ $foto_path = $result_array[0]['foto_path'];
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
         <ul class="space-y-2 font-medium">
             <li>
-                <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <a class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                 <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                     <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z"/>
                 </svg>
@@ -112,7 +154,7 @@ $foto_path = $result_array[0]['foto_path'];
                 </a>
             </li>
             <li>
-                <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                <a class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                 <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                     <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z"/>
                 </svg>
@@ -122,8 +164,8 @@ $foto_path = $result_array[0]['foto_path'];
         </ul>
     </div>
 </aside>
-<section class="tabele-alunos-responsaveis col-span-8">
-    <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto">
+<section class="tabela-alunos-responsaveis col-span-8">
+    <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
                 <th scope="col" class="active p-4">
@@ -137,13 +179,13 @@ $foto_path = $result_array[0]['foto_path'];
                     id
                     <!-- Hidden porque não vamos mostrar, mas será necessário para a lógica backend -->
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 w-1/3">
                     Nome do aluno
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 w-1/3">
                     Nome do responsável
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 w-1/3">
                     Email do responsável
                 </th>
                 <th scope="col" class="px-6 py-3 hidden">
@@ -152,25 +194,7 @@ $foto_path = $result_array[0]['foto_path'];
                 </th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="bg-white border-b">
-                <td class="active w-4 p-4">
-                    <div class="flex items-center">
-                        <input type="checkbox" class="select-item checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                        name="select-item">
-                        <label for="checkbox-table-1" class="sr-only">checkbox</label>
-                    </div>
-                </td>
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                    Lucas Garzuze Cordeiro
-                </th>
-                <td class="px-6 py-4">
-                    Leda Aparecida Sodré Garzuze Cordeiro
-                </td>
-                <td class="px-6 py-4">
-                    leda.garzuze@gmail.com
-                </td>
-            </tr>
+        <tbody id="tb-alunos-resp">
             
         </tbody>
     </table>
@@ -179,43 +203,43 @@ $foto_path = $result_array[0]['foto_path'];
     <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
         <ul class="space-y-2 font-medium text-center">
             <li>
-                <a href="?turma=adm1" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 1</span>
+                <a href="#" id="adm1" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM1</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=adm2" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 2</span>
+                <a href="#" id="adm2" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM2</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=adm3" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 3</span>
+                <a href="#" id="adm3" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM3</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=adm4" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">ADM 4</span>
+                <a href="#" id="adm4" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">ADM4</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=info1" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 1</span>
+                <a href="#" id="info1" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO1</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=info2" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 2</span>
+                <a href="#" id="info2" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO2</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=info3" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 3</span>
+                <a href="#" id="info3" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO3</span>
                 </a>
             </li>
             <li>
-                <a href="?turma=info4" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                    <span class="flex-1 ml-3 whitespace-nowrap">INFO 4</span>
+                <a href="#" id="info4" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <span class="flex-1 ml-3 whitespace-nowrap">INFO4</span>
                 </a>
             </li>
         </ul>
