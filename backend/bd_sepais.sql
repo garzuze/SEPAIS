@@ -32,7 +32,7 @@ CREATE TABLE `aluno` (
   PRIMARY KEY (`id`),
   KEY `fk_aluno_turma1_idx` (`turma_id`),
   CONSTRAINT `fk_aluno_turma1` FOREIGN KEY (`turma_id`) REFERENCES `turma` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `aluno` (
 
 LOCK TABLES `aluno` WRITE;
 /*!40000 ALTER TABLE `aluno` DISABLE KEYS */;
-INSERT INTO `aluno` VALUES (1,'Mateus','nenhum',1),(2,'Mariana','nenhum',4),(3,'Paulo','nenhum',5),(4,'Luan','nenhum',6),(5,'Mario','nenhum',2),(6,'Luigi','nenhum',2),(7,'Wario','nenhum',3),(8,'Waluigi','nenhum',7),(9,'Waluigi','nenhum',7),(10,'Sonic','nenhum',8);
+INSERT INTO `aluno` VALUES (1,'Mateus','nenhum',1),(2,'Mariana','nenhum',4),(3,'Paulo','nenhum',5),(4,'Luan','nenhum',6),(5,'Mario','nenhum',2),(6,'Luigi','nenhum',2),(7,'Wario','nenhum',3),(8,'Waluigi','nenhum',7),(10,'Sonic','nenhum',8),(11,'Bart Simpson','nenhum',2),(12,'Homer Simpson','nenhum',5),(13,'Marge Simpson','nenhum',1),(14,'Lisa Simpson','nenhum',3),(15,'Maggie Simpson','nenhum',7),(16,'Ned Flanders','nenhum',4),(17,'Moe Szyslak','nenhum',6),(18,'Apu Nahasapeemapetilon','nenhum',3),(19,'Krusty the Clown','nenhum',8),(20,'Barney Gumble','nenhum',5),(21,'Chief Wiggum','nenhum',2),(22,'Mr. Burns','nenhum',1),(23,'Ned Flanders','nenhum',6),(24,'Sideshow Bob','nenhum',7),(25,'Groundskeeper Willie','nenhum',4),(26,'Professor Frink','nenhum',2),(27,'Waylon Smithers','nenhum',3),(28,'Selma Bouvier','nenhum',8),(29,'Squeaky-Voiced Teen','nenhum',1),(30,'Kang and Kodos','nenhum',5);
 /*!40000 ALTER TABLE `aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,28 +76,14 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
--- Temporary view structure for view `aluno_responsavel`
+-- Temporary view structure for view `aluno_view`
 --
 
-DROP TABLE IF EXISTS `aluno_responsavel`;
-/*!50001 DROP VIEW IF EXISTS `aluno_responsavel`*/;
+DROP TABLE IF EXISTS `aluno_view`;
+/*!50001 DROP VIEW IF EXISTS `aluno_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `aluno_responsavel` AS SELECT 
- 1 AS `Responsável`,
- 1 AS `Aluno`,
- 1 AS `Turma`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `alunos_visualizar`
---
-
-DROP TABLE IF EXISTS `alunos_visualizar`;
-/*!50001 DROP VIEW IF EXISTS `alunos_visualizar`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `alunos_visualizar` AS SELECT 
+/*!50001 CREATE VIEW `aluno_view` AS SELECT 
  1 AS `id`,
  1 AS `Nome`,
  1 AS `Turma`,
@@ -113,7 +99,7 @@ DROP TABLE IF EXISTS `motivo`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `motivo` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `motivo` varchar(45) NOT NULL,
+  `motivo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,19 +164,19 @@ CREATE TABLE `recado` (
 
 LOCK TABLES `recado` WRITE;
 /*!40000 ALTER TABLE `recado` DISABLE KEYS */;
-INSERT INTO `recado` VALUES (1,'Reunião do Pais','A reunião dos pais vai acontecer nesta sexta-feira','2023-10-05','2023-10-14','Neras'),(2,'Semana Científica','A semana científica ira acontecer dos dias 11/10 a 13/10. Se divirta!','2023-10-06','2023-10-14','Chicão'),(3,'Boas Vindas','Boas vindas ao Instituto Federal','2023-02-15',NULL,'Neras'),(4,'Rematrícula','Realize a rematrícula o quanto antes','2023-02-15','2023-03-01','Chicão'),(5,'Processo Seletivo – Curso de Especialização em Estudos da Linguagem','Informações importantes: Inscrição: de 04 até 24 de outubro – online por meio de formulário eletrônico; Custo: gratuito – sem taxa de inscrição ou cobrança de mensalidades. Duração do Curso: 12 meses, com início no 1º semestre de 2024; Oferta: 30 vagas; Modalidade: semipresencial, com aulas nas segundas e quartas-feiras, das 18:30 às 22:30 no Campus Pinhais do IFPR.','2023-10-09','2023-10-25','Tati');
+INSERT INTO `recado` VALUES (2,'Semana Científica','A semana científica ira acontecer dos dias 11/10 a 13/10. Se divirta!','2023-10-06','2023-10-14','Chicão'),(4,'Rematrícula','Realize a rematrícula o quanto antes','2023-02-15','2023-03-01','Chicão'),(5,'Processo Seletivo – Curso de Especialização em Estudos da Linguagem','Informações importantes: Inscrição: de 04 até 24 de outubro – online por meio de formulário eletrônico; Custo: gratuito – sem taxa de inscrição ou cobrança de mensalidades. Duração do Curso: 12 meses, com início no 1º semestre de 2024; Oferta: 30 vagas; Modalidade: semipresencial, com aulas nas segundas e quartas-feiras, das 18:30 às 22:30 no Campus Pinhais do IFPR.','2023-10-09','2023-10-25','Tati');
 /*!40000 ALTER TABLE `recado` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Temporary view structure for view `recados`
+-- Temporary view structure for view `recados_validade`
 --
 
-DROP TABLE IF EXISTS `recados`;
-/*!50001 DROP VIEW IF EXISTS `recados`*/;
+DROP TABLE IF EXISTS `recados_validade`;
+/*!50001 DROP VIEW IF EXISTS `recados_validade`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `recados` AS SELECT 
+/*!50001 CREATE VIEW `recados_validade` AS SELECT 
  1 AS `Título`,
  1 AS `Recado`,
  1 AS `Data`,
@@ -220,9 +206,23 @@ CREATE TABLE `responsavel` (
 
 LOCK TABLES `responsavel` WRITE;
 /*!40000 ALTER TABLE `responsavel` DISABLE KEYS */;
-INSERT INTO `responsavel` VALUES ('eggman.robotnik@gmail.com','Dr. Eggman','$hash','12345678912'),('francesco.bernoulli@gmail.com','Francesco Bernoulli','$hash','12345678944'),('king.boo@gmail.com','King Boo','$hash','12345678922'),('kratos@gmail.com','Bom de Guerra','$hash','12345678933'),('neymar.junior@gmail.com','Neymar Jr.','$hash','12345678955');
+INSERT INTO `responsavel` VALUES ('charliebrown@gmail.com','Charlie Brown','#hash','98765432100'),('eggman.robotnik@gmail.com','Dr. Eggman','$hash','12345678912'),('francesco.bernoulli@gmail.com','Francesco Bernoulli','$hash','12345678935'),('franklin@gmail.com','Franklin','#hash','45612398700'),('king.boo@gmail.com','King Boo','$hash','12345678944'),('kratos@gmail.com','Bom de Guerra','$hash','12345678933'),('linus@gmail.com','Linus van Pelt','#hash','55555555501'),('lucy@gmail.com','Lucy van Pelt','#hash','12345678901'),('marcie@gmail.com','Marcie','#hash','12398745600'),('neymar.junior@gmail.com','Neymar Jr.','$hash','56345678977'),('peppermint@gmail.com','Peppermint Patty','#hash','24681357900'),('peppermintfriend@gmail.com','Peppermint Patty\'s Friend','#hash','98712398700'),('pigpen@gmail.com','Pig-Pen','#hash','45698712300'),('rerun@gmail.com','Rerun','#hash','98745612300'),('sallybrown@gmail.com','Sally Brown','#hash','12398712300'),('schroeder@gmail.com','Schroeder','#hash','13579246801'),('snoopy@gmail.com','Snoopy','#hash','13136465468'),('woodstock@gmail.com','Woodstock','#hash','98712345600');
 /*!40000 ALTER TABLE `responsavel` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `responsavel_alunos`
+--
+
+DROP TABLE IF EXISTS `responsavel_alunos`;
+/*!50001 DROP VIEW IF EXISTS `responsavel_alunos`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `responsavel_alunos` AS SELECT 
+ 1 AS `Responsável`,
+ 1 AS `Aluno`,
+ 1 AS `Turma`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `responsavel_has_aluno`
@@ -248,7 +248,7 @@ CREATE TABLE `responsavel_has_aluno` (
 
 LOCK TABLES `responsavel_has_aluno` WRITE;
 /*!40000 ALTER TABLE `responsavel_has_aluno` DISABLE KEYS */;
-INSERT INTO `responsavel_has_aluno` VALUES ('kratos@gmail.com',1),('eggman.robotnik@gmail.com',2),('neymar.junior@gmail.com',3),('king.boo@gmail.com',4),('francesco.bernoulli@gmail.com',5),('francesco.bernoulli@gmail.com',6),('kratos@gmail.com',7),('eggman.robotnik@gmail.com',8),('king.boo@gmail.com',9),('neymar.junior@gmail.com',10);
+INSERT INTO `responsavel_has_aluno` VALUES ('kratos@gmail.com',1),('eggman.robotnik@gmail.com',2),('neymar.junior@gmail.com',3),('king.boo@gmail.com',4),('francesco.bernoulli@gmail.com',5),('francesco.bernoulli@gmail.com',6),('kratos@gmail.com',7),('eggman.robotnik@gmail.com',8),('neymar.junior@gmail.com',10),('snoopy@gmail.com',11),('lucy@gmail.com',12),('marcie@gmail.com',13),('peppermint@gmail.com',14),('peppermintfriend@gmail.com',15),('pigpen@gmail.com',16),('rerun@gmail.com',17),('sallybrown@gmail.com',18),('schroeder@gmail.com',19),('linus@gmail.com',20),('woodstock@gmail.com',21),('neymar.junior@gmail.com',22),('lucy@gmail.com',23),('marcie@gmail.com',24),('peppermint@gmail.com',25),('peppermintfriend@gmail.com',26),('pigpen@gmail.com',27),('rerun@gmail.com',28),('sallybrown@gmail.com',29),('schroeder@gmail.com',30);
 /*!40000 ALTER TABLE `responsavel_has_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +281,7 @@ CREATE TABLE `responsavel_libera_aluno` (
 
 LOCK TABLES `responsavel_libera_aluno` WRITE;
 /*!40000 ALTER TABLE `responsavel_libera_aluno` DISABLE KEYS */;
-INSERT INTO `responsavel_libera_aluno` VALUES ('eggman.robotnik@gmail.com',2,'2023-10-10 00:00:00',NULL,1),('eggman.robotnik@gmail.com',2,'2023-10-12 00:00:00',NULL,5),('eggman.robotnik@gmail.com',8,'2023-10-11 00:00:00',NULL,4),('francesco.bernoulli@gmail.com',5,'2023-10-05 00:00:00',NULL,5),('francesco.bernoulli@gmail.com',5,'2023-10-12 00:00:00',NULL,3),('francesco.bernoulli@gmail.com',6,'2023-10-11 00:00:00',NULL,1),('king.boo@gmail.com',4,'2023-10-10 00:00:00',NULL,3),('king.boo@gmail.com',4,'2023-10-12 00:00:00',NULL,2),('king.boo@gmail.com',9,'2023-10-11 00:00:00',NULL,2),('kratos@gmail.com',1,'2023-10-10 00:00:00',NULL,2),('kratos@gmail.com',1,'2023-10-12 00:00:00',NULL,5),('kratos@gmail.com',7,'2023-10-11 00:00:00',NULL,3),('neymar.junior@gmail.com',3,'2023-10-10 00:00:00',NULL,4),('neymar.junior@gmail.com',3,'2023-10-12 00:00:00',NULL,4),('neymar.junior@gmail.com',10,'2023-10-11 00:00:00',NULL,4);
+INSERT INTO `responsavel_libera_aluno` VALUES ('eggman.robotnik@gmail.com',2,'2023-10-10 00:00:00',NULL,1),('eggman.robotnik@gmail.com',2,'2023-10-12 00:00:00',NULL,5),('eggman.robotnik@gmail.com',8,'2023-10-11 00:00:00',NULL,4),('francesco.bernoulli@gmail.com',5,'2023-10-05 00:00:00',NULL,5),('francesco.bernoulli@gmail.com',5,'2023-10-12 00:00:00',NULL,3),('francesco.bernoulli@gmail.com',6,'2023-10-11 00:00:00',NULL,1),('king.boo@gmail.com',4,'2023-10-10 00:00:00',NULL,3),('king.boo@gmail.com',4,'2023-10-12 00:00:00',NULL,2),('kratos@gmail.com',1,'2023-10-10 00:00:00',NULL,2),('kratos@gmail.com',1,'2023-10-12 00:00:00',NULL,5),('kratos@gmail.com',7,'2023-10-11 00:00:00',NULL,3),('neymar.junior@gmail.com',3,'2023-10-10 00:00:00',NULL,4),('neymar.junior@gmail.com',3,'2023-10-12 00:00:00',NULL,4),('neymar.junior@gmail.com',10,'2023-10-11 00:00:00',NULL,4);
 /*!40000 ALTER TABLE `responsavel_libera_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +298,8 @@ CREATE TABLE `sepae` (
   `email` varchar(144) NOT NULL,
   `senha` varchar(144) NOT NULL,
   `foto_path` varchar(144) NOT NULL,
-  PRIMARY KEY (`username`)
+  PRIMARY KEY (`username`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -308,7 +309,7 @@ CREATE TABLE `sepae` (
 
 LOCK TABLES `sepae` WRITE;
 /*!40000 ALTER TABLE `sepae` DISABLE KEYS */;
-INSERT INTO `sepae` VALUES ('Chicão','Francisco Fernando Kühn','francisco.kuhn@ifpr.edu.br','$hash','nenhum'),('Neras','Nereu Filho','nereu.filho@ifpr.edu.br','$hash','nenhum'),('Tati','Tatiana Mayumi Niwa','tatiana.niwa@ifpr.edu.br','$hash','nenhum');
+INSERT INTO `sepae` VALUES ('andrius','Andrius Felipe Roque','direcao.ensino.pinhais@ifpr.edu.br','$2y$10$k5DHEoynkqFJPa1lBi2SdeZleWE1xsahGj4ye/9qFY8csdOdJ1bMa','static/andrius.jpg'),('chicao','Francisco Fernando Kühn','francisco.kuhn@ifpr.edu.br','$2y$10$71NRrFV9nkfZudK8ypXdVefiAUgbVjMlKlxjeZ392Rax2HY.5nwOi','static/chicao.jpg'),('eduardo.tieppo','Eduardo Tieppo','eduardo.tieppo@ifpr.edu.br','$2y$10$wF4GS2MC/DxZ8HMh0nZzH.VUQH5kl38/Z8g/hCKXioF8E.B7Ryxlq','static/tieppo.png'),('neras','Nereu da Silva Filho','nereu.filho@ifpr.edu.br','$2y$10$mSuU.LpMxc9yU/NBD9VP9ejSs236lr0jBKMROOHNs6V.AzxaDlg1G','static/nereu.jpg'),('tati','Tatiana Mayumi Niwa','tatiana.niwa@ifpr.edu.br','$2y$10$rtNhkl2aaKL4v/ab8JtiA.sy8.3yEkuC4eqJC6QyxCt4UmrISSU1u','static/tati.jpg');
 /*!40000 ALTER TABLE `sepae` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +342,7 @@ CREATE TABLE `sepae_libera_aluno` (
 
 LOCK TABLES `sepae_libera_aluno` WRITE;
 /*!40000 ALTER TABLE `sepae_libera_aluno` DISABLE KEYS */;
-INSERT INTO `sepae_libera_aluno` VALUES ('Chicão',2,'2023-10-11 00:00:00',NULL,6),('Chicão',4,'2023-10-10 00:00:00','0000-00-00 00:00:00',6),('Chicão',4,'2023-10-18 00:00:00',NULL,7),('Chicão',5,'2023-10-10 00:00:00',NULL,6),('Chicão',5,'2023-10-18 00:00:00',NULL,7),('Chicão',9,'2023-10-11 00:00:00','0000-00-00 00:00:00',7),('Chicão',10,'2023-10-18 00:00:00','0000-00-00 00:00:00',6),('Neras',1,'2023-10-10 00:00:00',NULL,6),('Neras',3,'2023-10-10 00:00:00',NULL,6),('Neras',6,'2023-10-18 00:00:00',NULL,6),('Neras',7,'2023-10-18 00:00:00',NULL,6),('Neras',8,'2023-10-11 00:00:00',NULL,6),('Neras',10,'2023-10-18 00:00:00',NULL,6),('Tati',6,'2023-10-11 00:00:00',NULL,7),('Tati',7,'2023-10-11 00:00:00',NULL,6);
+INSERT INTO `sepae_libera_aluno` VALUES ('Chicão',2,'2023-10-11 00:00:00',NULL,6),('Chicão',4,'2023-10-10 00:00:00','0000-00-00 00:00:00',6),('Chicão',4,'2023-10-18 00:00:00',NULL,7),('Chicão',5,'2023-10-10 00:00:00',NULL,6),('Chicão',5,'2023-10-18 00:00:00',NULL,7),('Chicão',10,'2023-10-18 00:00:00','0000-00-00 00:00:00',6),('Tati',6,'2023-10-11 00:00:00',NULL,7),('Tati',7,'2023-10-11 00:00:00',NULL,6);
 /*!40000 ALTER TABLE `sepae_libera_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -414,10 +415,10 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `aluno_responsavel`
+-- Final view structure for view `aluno_view`
 --
 
-/*!50001 DROP VIEW IF EXISTS `aluno_responsavel`*/;
+/*!50001 DROP VIEW IF EXISTS `aluno_view`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -426,16 +427,16 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `aluno_responsavel` AS select `responsavel`.`nome` AS `Responsável`,`aluno`.`nome` AS `Aluno`,`turma`.`turma` AS `Turma` from (((`responsavel_has_aluno` join `responsavel`) join `aluno`) join `turma`) where ((`responsavel`.`email` = `responsavel_has_aluno`.`responsavel_email`) and (`aluno`.`id` = `responsavel_has_aluno`.`aluno_id`) and (`turma`.`id` = `aluno`.`turma_id`)) */;
+/*!50001 VIEW `aluno_view` AS select `aluno`.`id` AS `id`,`aluno`.`nome` AS `Nome`,`turma`.`turma` AS `Turma`,`aluno`.`foto_path` AS `Foto` from (`aluno` join `turma`) where (`turma`.`id` = `aluno`.`turma_id`) order by `aluno`.`id` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `alunos_visualizar`
+-- Final view structure for view `recados_validade`
 --
 
-/*!50001 DROP VIEW IF EXISTS `alunos_visualizar`*/;
+/*!50001 DROP VIEW IF EXISTS `recados_validade`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -444,16 +445,16 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `alunos_visualizar` AS select `aluno`.`id` AS `id`,`aluno`.`nome` AS `Nome`,`turma`.`turma` AS `Turma`,`aluno`.`foto_path` AS `Foto` from (`aluno` join `turma`) where (`turma`.`id` = `aluno`.`turma_id`) order by `aluno`.`id` */;
+/*!50001 VIEW `recados_validade` AS select `recado`.`titulo` AS `Título`,`recado`.`recado` AS `Recado`,`recado`.`data` AS `Data`,`recado`.`sepae_username` AS `Enviado_por` from `recado` where ((curdate() < `recado`.`validade`) or (`recado`.`validade` is null)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `recados`
+-- Final view structure for view `responsavel_alunos`
 --
 
-/*!50001 DROP VIEW IF EXISTS `recados`*/;
+/*!50001 DROP VIEW IF EXISTS `responsavel_alunos`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -462,7 +463,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `recados` AS select `recado`.`titulo` AS `Título`,`recado`.`recado` AS `Recado`,`recado`.`data` AS `Data`,`recado`.`sepae_username` AS `Enviado_por` from `recado` where ((curdate() < `recado`.`validade`) or (`recado`.`validade` is null)) */;
+/*!50001 VIEW `responsavel_alunos` AS select `responsavel`.`nome` AS `Responsável`,`aluno`.`nome` AS `Aluno`,`turma`.`turma` AS `Turma` from (((`responsavel_has_aluno` join `responsavel`) join `aluno`) join `turma`) where ((`responsavel`.`email` = `responsavel_has_aluno`.`responsavel_email`) and (`aluno`.`id` = `responsavel_has_aluno`.`aluno_id`) and (`turma`.`id` = `aluno`.`turma_id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -476,4 +477,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-11 11:59:57
+-- Dump completed on 2023-10-18 11:35:51
