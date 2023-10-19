@@ -21,6 +21,7 @@ $result_query = $query->get_result();
 $result_array = $result_query->fetch_all(MYSQLI_ASSOC);
 $nome = $result_array[0]['nome'];
 $foto_path = $result_array[0]['foto_path'];
+$username = $result_array[0]['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,7 +138,7 @@ $foto_path = $result_array[0]['foto_path'];
                                 '</tr>');
                         }
                         $('#main').append(`
-                        <a class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
+                        <a class="bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
                             Liberar
                         </a>`)
                     }
@@ -222,6 +223,9 @@ $foto_path = $result_array[0]['foto_path'];
         </div>
     </aside>
     <section id="main" class="col-span-8">
+        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
+            Seja bem vindo, <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username);?>!</span>
+        </h1>
     </section>
     <aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
