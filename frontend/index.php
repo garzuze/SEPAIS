@@ -77,8 +77,39 @@ $foto_path = $result_array[0]['foto_path'];
                     success: function(data) {
                         data = JSON.parse(data)
                         console.log(data);
-                        // Limpando o body da tabela dos dados antigos
-                        $('#tb-alunos-resp').empty();
+                        // Limpando o seção principal
+                        $('#main').empty();
+                        $('#main').prepend(`
+                        <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="active p-4">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" class="select-all checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
+                                            <label for="checkbox-all" class="sr-only">checkbox</label>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 hidden">
+                                        id
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/3">
+                                        Nome do aluno
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/3">
+                                        Nome do responsável
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/3">
+                                        Email do responsável
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 hidden">
+                                        Turma
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb-alunos-resp">
+
+                            </tbody>
+                        </table>`)
                         for (var i = 0; i < data.length; i++) {
                             $('#tb-alunos-resp').append(
                                 '<tr class="bg-white border-b">' +
@@ -105,8 +136,34 @@ $foto_path = $result_array[0]['foto_path'];
                                 '</td>' +
                                 '</tr>');
                         }
+                        $('#main').append(`
+                        <a class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
+                            Liberar
+                        </a>`)
                     }
                 })
+            })
+            $('#escrever-recado').click(function() {
+                $('#main').empty();
+                $('#main').prepend(`
+                <div id="recado" class="mx-auto w-3/4 mt-4">
+                    <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
+                    <form action="#">
+                        <div>
+                            <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
+                            <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
+                        </div>
+                        <div>
+                            <label for="recado" class="block my-2 text-sm font-medium text-gray-900">Recado</label>
+                            <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!"></textarea>
+                        </div>
+                    </form>
+                </div>
+                `)
+                $('#main').append(`
+                        <a class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
+                            Enviar recado
+                        </a>`)
             })
 
         });
@@ -146,7 +203,7 @@ $foto_path = $result_array[0]['foto_path'];
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="escrever-recado" class="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                             <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
                         </svg>
@@ -154,7 +211,7 @@ $foto_path = $result_array[0]['foto_path'];
                     </a>
                 </li>
                 <li>
-                    <a class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                             <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z" />
                         </svg>
@@ -164,97 +221,48 @@ $foto_path = $result_array[0]['foto_path'];
             </ul>
         </div>
     </aside>
-    <section class="tabela-alunos-responsaveis col-span-8">
-        <!-- <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                <tr>
-                    <th scope="col" class="active p-4">
-                        <div class="flex items-center">
-                            <input type="checkbox" class="select-all checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
-                            <label for="checkbox-all" class="sr-only">checkbox</label>
-                        </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3 hidden">
-                        id
-                    </th>
-                    <th scope="col" class="px-6 py-3 w-1/3">
-                        Nome do aluno
-                    </th>
-                    <th scope="col" class="px-6 py-3 w-1/3">
-                        Nome do responsável
-                    </th>
-                    <th scope="col" class="px-6 py-3 w-1/3">
-                        Email do responsável
-                    </th>
-                    <th scope="col" class="px-6 py-3 hidden">
-                        Turma
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="tb-alunos-resp">
-
-            </tbody>
-        </table>
-         -->
-
-        <div id="recado" class="mx-auto w-3/4 mt-4">
-            <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
-            <form action="#">
-                <div>
-                    <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
-                    <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
-                </div>
-                <div>
-                    <label for="recado" class="block my-2 text-sm font-medium text-gray-900">Recado</label>
-                    <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!"></textarea>
-                </div>
-            </form>
-        </div>
-        
-        <a href="#" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
-            Liberar
-        </a>
+    <section id="main" class="col-span-8">
     </section>
     <aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium text-center">
                 <li>
-                    <a href="#" id="adm1" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="adm1" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM1</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="adm2" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="adm2" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM2</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="adm3" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="adm3" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM3</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="adm4" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="adm4" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM4</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="info1" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info1" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO1</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="info2" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info2" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO2</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="info3" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info3" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO3</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" id="info4" class="select-turma flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info4" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO4</span>
                     </a>
                 </li>
