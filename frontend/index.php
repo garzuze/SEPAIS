@@ -165,7 +165,7 @@ $foto_path = $result_array[0]['foto_path'];
         </div>
     </aside>
     <section class="tabela-alunos-responsaveis col-span-8">
-        <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4">
+        <!-- <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="active p-4">
@@ -176,7 +176,6 @@ $foto_path = $result_array[0]['foto_path'];
                     </th>
                     <th scope="col" class="px-6 py-3 hidden">
                         id
-                        <!-- Hidden porque não vamos mostrar, mas será necessário para a lógica backend -->
                     </th>
                     <th scope="col" class="px-6 py-3 w-1/3">
                         Nome do aluno
@@ -189,7 +188,6 @@ $foto_path = $result_array[0]['foto_path'];
                     </th>
                     <th scope="col" class="px-6 py-3 hidden">
                         Turma
-                        <!-- Hidden porque não vamos mostrar, mas será necessário para a lógica backend -->
                     </th>
                 </tr>
             </thead>
@@ -197,8 +195,23 @@ $foto_path = $result_array[0]['foto_path'];
 
             </tbody>
         </table>
+         -->
+
+        <div id="recado" class="mx-auto w-3/4 mt-4">
+            <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
+            <form action="#">
+                <div>
+                    <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
+                    <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
+                </div>
+                <div>
+                    <label for="recado" class="block my-2 text-sm font-medium text-gray-900">Recado</label>
+                    <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!"></textarea>
+                </div>
+            </form>
+        </div>
         
-        <a href="#" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-3 left-[25%] right-[25%]">
+        <a href="#" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
             Liberar
         </a>
     </section>
