@@ -30,6 +30,7 @@ $username = $result_array[0]['username'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
@@ -69,6 +70,11 @@ $username = $result_array[0]['username'];
                 all.checked = len === total;
             });
 
+            $('.select-destaque').click(function() {
+                $('.select-destaque').removeClass('bg-gray-100'); 
+                $(this).addClass('bg-gray-100'); // Função para botões ficarem em destaque quando ativos
+            });
+
             $('.select-turma').click(function() {
                 var turma = $(this).attr('id');
                 $.ajax({
@@ -86,7 +92,7 @@ $username = $result_array[0]['username'];
                                 <tr>
                                     <th scope="col" class="active p-4">
                                         <div class="flex items-center">
-                                            <input type="checkbox" class="select-all checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
+                                            <input type="checkbox" class="select-all gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
                                             <label for="checkbox-all" class="sr-only">checkbox</label>
                                         </div>
                                     </th>
@@ -116,7 +122,7 @@ $username = $result_array[0]['username'];
                                 '<tr class="bg-white border-b">' +
                                 '<td class="active w-4 p-4">' +
                                 '<div class="flex items-center">' +
-                                '<input type="checkbox" class="select-item checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-item">' +
+                                '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-item">' +
                                 '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
                                 '</div>' +
                                 '</td>' +
@@ -204,7 +210,7 @@ $username = $result_array[0]['username'];
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="escrever-recado" class="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="escrever-recado" class="select-destaque flex cursor-pointer items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                             <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
                         </svg>
@@ -231,42 +237,42 @@ $username = $result_array[0]['username'];
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium text-center">
                 <li>
-                    <a id="adm1" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="adm1" class="select-turma select-destaque target cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM1</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm2" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="adm2" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM2</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm3" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="adm3" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM3</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm4" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="adm4" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">ADM4</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info1" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info1" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO1</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info2" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info2" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO2</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info3" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info3" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO3</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info4" class="select-turma cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="info4" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <span class="flex-1 ml-3 whitespace-nowrap">INFO4</span>
                     </a>
                 </li>
@@ -274,7 +280,6 @@ $username = $result_array[0]['username'];
         </div>
     </aside>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
-
 </body>
 
 </html>
