@@ -23,7 +23,6 @@ try {
 	print_r($mysqli->error);
 	exit('Alguma coisa estranha aconteceu...');
 }
-
 echo json_encode($resultadoFormatado);
 
 $consulta->close();
