@@ -53,15 +53,15 @@ $username = $result_array[0]['username'];
 
         // Função para os checkbox serem selecionados todos de uma vez
         $(document).ready(function() {
+            $("#main").on("click", "input.select-all", function(){
             // Coluna checkbox que seleciona ou deseleciona todos
-            $("input.select-all").click(function() {
                 var checked = this.checked;
                 $("input.select-item").each(function(index, item) {
                     item.checked = checked;
                 });
             });
             // Marca os checkbox clicados 
-            $("input.select-item").click(function() {
+            $("#main").on("click", "input.select-item", function(){
                 var checked = this.checked;
                 var all = $("input.select-all")[0];
                 var total = $("input.select-item").length;
