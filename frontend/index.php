@@ -151,12 +151,14 @@ $username = $result_array[0]['username'];
                 })
             })
             $('#escrever-recado').click(function() {
+                var usernameValue = "<?php echo $username; ?>";
                 $('#main').empty();
                 $('#main').prepend(`
                 <div id="recado" class="mx-auto w-3/4 mt-4">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
-                    <form action="#">
+                    <form id="form_valida" action="insert_registro.php" method="post">
                         <div>
+                            <input type="hidden" id="username" name="username" value="${usernameValue}">
                             <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
                             <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
                         </div>
@@ -167,14 +169,14 @@ $username = $result_array[0]['username'];
                         <div>
                             <label for="validade" class="block my-2 text-sm font-medium text-gray-900">Validade</label>
                             <input type="date" name="validade" id="validade" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-50 p-2.5">
+                            <label class="text-gray-600" for="comando"><small>*Deixe vazio caso o recado não tenha validade</small></label>
                         </div>
-                    </form>
-                </div>
                 `)
-                $('#main').append(`
-                        <a class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
-                            Enviar recado
-                        </a>`)
+                $('#form_valida').append(`
+                        <input type="submit" name="submit" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                        value="Enviar recado">
+                        </form>
+                </div>`)
             })
 
         });
@@ -234,7 +236,7 @@ $username = $result_array[0]['username'];
     </aside>
     <section id="main" class="col-span-8">
         <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
-            Seja bem vindo, <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username);?>!</span>
+            Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username);?>!</span>
         </h1>
     </section>
     <aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">
