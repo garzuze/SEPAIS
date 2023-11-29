@@ -1,5 +1,5 @@
 <?php 
-require_once('connect.php');
+require_once('../connect.php');
 
 if (ISSET($_GET['turma'])) {
 	$turma = $_GET['turma'];

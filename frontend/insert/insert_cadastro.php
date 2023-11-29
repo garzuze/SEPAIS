@@ -1,5 +1,5 @@
 <?php
-include('secure.php');
+include('../secure.php');
 if (isset($_POST['submit'])){
 
 // Preparando variáveis para inserção no BD
@@ -16,7 +16,7 @@ $query = $sql->prepare("INSERT INTO sepae (username, nome, email, senha, foto_pa
 $query->bind_param("sssss", $username, $name, $email, $hashed_password, $foto_path);
 $query->execute();
 
-header('Location: login.php');
+header('Location: ../login.php');
 }
 
 ?>

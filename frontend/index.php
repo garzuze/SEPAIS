@@ -78,7 +78,7 @@ $username = $result_array[0]['username'];
             $('.select-turma').click(function() {
                 var turma = $(this).attr('id');
                 $.ajax({
-                    url: 'read_alunos_turma.php',
+                    url: 'read/read_alunos_turma.php',
                     data: 'turma=' + turma,
                     type: 'GET',
                     success: function(data) {
@@ -156,7 +156,7 @@ $username = $result_array[0]['username'];
                 $('#main').prepend(`
                 <div id="recado" class="mx-auto w-3/4 mt-4">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
-                    <form id="form_valida" action="insert_registro.php" method="post">
+                    <form id="form_valida" action="insert/insert_recado.php" method="post">
                         <div>
                             <input type="hidden" id="username" name="username" value="${usernameValue}">
                             <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>

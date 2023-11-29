@@ -1,5 +1,5 @@
 <?php
-require_once('connect.php');
+require_once('../connect.php');
 
 if (isset($_POST['titulo'])){
     try {
@@ -19,7 +19,7 @@ if (isset($_POST['titulo'])){
         $query->bind_param("ssss", $titulo, $recado, $validade, $username);
         $query->execute();
         echo "Deu certo";
-        header('Location: index.php');
+        header('Location: ../index.php');
     }catch (Exception $e) {
         error_log($e->getMessage());
         exit("<br>Alguma coisa estranha aconteceu");
