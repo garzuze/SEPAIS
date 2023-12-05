@@ -70,13 +70,16 @@ $username = $result_array[0]['username'];
                 all.checked = len === total;
             });
 
+            // Função para botões ficarem em destaque quando ativos
             $('.select-destaque').click(function() {
                 $('.select-destaque').removeClass('bg-gray-100'); 
-                $(this).addClass('bg-gray-100'); // Função para botões ficarem em destaque quando ativos
+                $(this).addClass('bg-gray-100'); 
             });
 
+            // Função para selecionar alunos por turma
             $('.select-turma').click(function() {
                 var turma = $(this).attr('id');
+                $('.btn-liberar').removeClass('invisible');
                 $.ajax({
                     url: 'read/read_alunos_turma.php',
                     data: 'turma=' + turma,
@@ -85,7 +88,7 @@ $username = $result_array[0]['username'];
                         data = JSON.parse(data)
                         console.log(data);
                         // Limpando o seção principal
-                        $('#main').empty();
+                        $("#main > *:not('.modal')").remove();
                         $('#main').prepend(`
                         <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -122,7 +125,7 @@ $username = $result_array[0]['username'];
                                 '<tr class="bg-white border-b">' +
                                 '<td class="active w-4 p-4">' +
                                 '<div class="flex items-center">' +
-                                '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-item">' +
+                                '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[] value="'+data[i]['id_aluno']+'">' +
                                 '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
                                 '</div>' +
                                 '</td>' +
@@ -143,15 +146,13 @@ $username = $result_array[0]['username'];
                                 '</td>' +
                                 '</tr>');
                         }
-                        $('#main').append(`
-                        <a class="bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
-                            Liberar
-                        </a>`)
                     }
                 })
             })
             
+            // Função para visualizar histórico 
             $('#historico').click(function() {
+                $('.btn-liberar').addClass('invisible');
                 $.ajax({
                     url: 'read/read_historico_liberado_sepae.php',
                     type: 'GET',
@@ -159,7 +160,7 @@ $username = $result_array[0]['username'];
                         data = JSON.parse(data)
                         console.log(data);
                         // Limpando o seção principal
-                        $('#main').empty();
+                        $("#main > *:not('.modal')").remove();
                         $('#main').prepend(`
                         <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -225,9 +226,11 @@ $username = $result_array[0]['username'];
                 })
             })
 
+            // Função para escrever recado.
             $('#escrever-recado').click(function() {
+                $('.btn-liberar').addClass('invisible');
                 var usernameValue = "<?php echo $username; ?>";
-                $('#main').empty();
+                $("#main > *:not('.modal')").remove();
                 $('#main').prepend(`
                 <div id="recado" class="mx-auto w-3/4 mt-4">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
@@ -310,9 +313,57 @@ $username = $result_array[0]['username'];
         </div>
     </aside>
     <section id="main" class="col-span-8">
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
+        <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username);?>!</span>
         </h1>
+        <div class="modal">
+            <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                            <h3 class="text-lg font-semibold text-dark-900">
+                                Confirmação de liberação
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="crud-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="p-4 md:p-5">
+                            <div class="grid gap-4 mb-4 grid-cols-2">
+                                <div class="col-span-2 sm:col-span-2">
+                                    <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Motivo</label>
+                                    <select required id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                        <option disabledselected="">Selecionar motivo</option>
+                                        <option value="1">Luto</option>
+                                        <option value="2">Médico</option>
+                                        <option value="3">Transporte</option>
+                                        <option value="4">Mal-estar</option>
+                                        <option value="5">Motivo particular</option>
+                                        <option value="6">Professor faltou</option>
+                                        <option value="7">Aula acabou mais cedo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                                Liberar alunos
+                            </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a data-modal-target="crud-modal" data-modal-toggle="crud-modal"  type="button" class="btn-liberar invisible bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
+                Liberar
+            </a>
+        </div>
     </section>
     <aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
