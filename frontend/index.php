@@ -150,6 +150,81 @@ $username = $result_array[0]['username'];
                     }
                 })
             })
+            
+            $('#historico').click(function() {
+                $.ajax({
+                    url: 'read/read_historico_liberado_sepae.php',
+                    type: 'GET',
+                    success: function(data) {
+                        data = JSON.parse(data)
+                        console.log(data);
+                        // Limpando o seção principal
+                        $('#main').empty();
+                        $('#main').prepend(`
+                        <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <th scope="col" class="px-6 py-3 hidden">
+                                        id
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-3/12">
+                                        Nome do aluno
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/12">
+                                        Turma
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-2/12">
+                                        Data
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-2/12">
+                                        Saída
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/12">
+                                        Servidor
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-2/12">
+                                        Motivo
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb-alunos-resp">
+
+                            </tbody>
+                        </table>`)
+                        for (var i = 0; i < data.length; i++) {
+                            if(data[i]['saida'] == null){
+                                data[i]['saida'] = "Não saiu";
+                            }
+                            else{
+                                data[i]['saida'] = data[i]['saida'].slice(11,19);
+                            }
+                            $('#tb-alunos-resp').append(
+                                '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
+                                data[i]['id_aluno'] +
+                                '</td>' +
+                                '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                                data[i]['nome_aluno'] +
+                                '</td>' +
+                                '<td class="px-6 py-4 w-1/12">' +
+                                data[i]['turma'] +
+                                '</td>' +
+                                '<td class="px-6 py-4 w-2/12">' +
+                                data[i]['data'].slice(0,10) +
+                                '</td>' +
+                                '<td class="px-6 py-4 w-2/12">' +
+                                data[i]['saida']+
+                                '</td>' +
+                                '<td class="px-6 py-4 w-1/12">' +
+                                data[i]['Servidor']+
+                                '</td>' +
+                                '<td class="px-6 py-4 w-3/12">' +
+                                data[i]['motivo']+
+                                '</td>' +
+                                '</tr>');
+                        }
+                    }
+                })
+            })
+
             $('#escrever-recado').click(function() {
                 var usernameValue = "<?php echo $username; ?>";
                 $('#main').empty();
@@ -224,7 +299,7 @@ $username = $result_array[0]['username'];
                     </a>
                 </li>
                 <li>
-                    <a class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="historico" class="select-destaque flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                             <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z" />
                         </svg>
