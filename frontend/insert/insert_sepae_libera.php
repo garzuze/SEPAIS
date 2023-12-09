@@ -1,22 +1,34 @@
 <?php
 include('../secure.php');
-if (isset($_POST['submit'])){
 
-// Preparando variáveis para inserção no BD
-$username = $_POST['username'];
-$name = $_POST['name'];
-$email = $_POST['email'];
-$senha = $_POST['senha'];
-$hashed_password = password_hash($senha, PASSWORD_DEFAULT);
-$foto_path = 'nenhum';
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Preparando variáveis para inserção no BD
+    $motivo = $_POST['motivo'];
+    $username = ucfirst($_POST['username']);
+    $id_aluno = $_POST['id_aluno'];
 
-// Conectando ao BD e inserindo novos dados
-$sql = connect();
-$query = $sql->prepare("INSERT INTO sepae (username, nome, email, senha, foto_path) VALUES (?, ?, ?, ?, ?)");
-$query->bind_param("sssss", $username, $name, $email, $hashed_password, $foto_path);
-$query->execute();
+    // Conectando ao BD e inserindo novos dados
+    $sql = connect();
 
-header('Location: ../login.php');
+    foreach ($id_aluno as $aluno_id) {
+        $query = $sql->prepare("INSERT INTO sepae_libera_aluno (sepae_username, aluno_id, data, horario_saida, motivo_id) VALUES (?, ?, now(), NULL, ?)");
+
+        if ($query) {
+            $query->bind_param("sss", $username, $aluno_id, $motivo);
+            $query->execute();
+
+            if ($query->affected_rows <= 0) {
+                echo "Error inserting data: " . $query->error;
+            }
+
+            $query->close();
+        } else {
+            echo "Error preparing statement: " . $sql->error;
+        }
+    }
+
+    $sql->close();
+
+    header('Location: ../login.php');
 }
-
 ?>

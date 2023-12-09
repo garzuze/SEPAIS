@@ -55,20 +55,42 @@ $username = $result_array[0]['username'];
 
         // Função para os checkbox serem selecionados todos de uma vez
         $(document).ready(function() {
+            //esconde o botão liberar ao carregar o documento
             $("#main").on("click", "input.select-all", function(){
             // Coluna checkbox que seleciona ou deseleciona todos
                 var checked = this.checked;
                 $("input.select-item").each(function(index, item) {
                     item.checked = checked;
                 });
+
+                // Não deixa o usuário apertar o botão liberar se nenhum checkbox foi marcado
+                var len = $("input.select-item:checked:checked").length;
+                $(".btn-liberar").prop("disabled", len === 0);
             });
+
+            $.ajax({
+                    url: 'read/read_motivos.php',
+                    type: 'GET',
+                    success: function(motivo) {
+                        motivo = JSON.parse(motivo)
+                        console.log(motivo);
+                        for (var i = 0; i < motivo.length; i++) {
+                            $('.select-motivo').append(
+                                '<option value="'+motivo[i]["id"]+'">'+motivo[i]["motivo"]+'</option>'
+                            )
+                        }
+                    }
+                })
             // Marca os checkbox clicados 
             $("#main").on("click", "input.select-item", function(){
                 var checked = this.checked;
                 var all = $("input.select-all")[0];
                 var total = $("input.select-item").length;
                 var len = $("input.select-item:checked:checked").length;
+
+                // Não deixa o usuário apertar o botão liberar se nenhum checkbox foi marcado
                 all.checked = len === total;
+                $(".btn-liberar").prop("disabled", len === 0);
             });
 
             // Função para botões ficarem em destaque quando ativos
@@ -80,7 +102,8 @@ $username = $result_array[0]['username'];
             // Função para selecionar alunos por turma
             $('.select-turma').click(function() {
                 var turma = $(this).attr('id');
-                $('.btn-liberar').removeClass('invisible');
+                //mostra o botão liberar
+                $('.btn-liberar').show()
                 $.ajax({
                     url: 'read/read_alunos_turma.php',
                     data: 'turma=' + turma,
@@ -118,15 +141,13 @@ $username = $result_array[0]['username'];
                                 </tr>
                             </thead>
                             <tbody id="tb-alunos-resp">
-
-                            </tbody>
-                        </table>`)
+                            </tbody>`)
                         for (var i = 0; i < data.length; i++) {
                             $('#tb-alunos-resp').append(
                                 '<tr class="bg-white border-b">' +
                                 '<td class="active w-4 p-4">' +
                                 '<div class="flex items-center">' +
-                                '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[] value="'+data[i]['id_aluno']+'">' +
+                                '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" value="'+ data[i]['id_aluno'] +'">' +
                                 '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
                                 '</div>' +
                                 '</td>' +
@@ -151,9 +172,31 @@ $username = $result_array[0]['username'];
                 })
             })
             
+            $("#main").on("click", ".confirmar-liberar ", function(){
+                id_aluno = [];
+                motivo = $(".select-motivo").children("option:selected").val();
+                username = "<?php echo $username; ?>"
+                $("input.select-item:checked").each(function() {
+                    id_aluno.push(this.value);
+                });
+                // console.log(id_aluno);
+                // console.log(motivo);
+                // console.log(username);
+                $.ajax({
+                    type: "POST",
+                    data: {
+                    id_aluno:id_aluno,
+                    motivo:motivo,
+                    username:username},
+                    url: "insert/insert_sepae_libera.php",
+                });
+                location.reload();
+            });
+
             // Função para visualizar histórico 
             $('#historico').click(function() {
-                $('.btn-liberar').addClass('invisible');
+                //esconde o botão liberar
+                $('.btn-liberar').hide();
                 $.ajax({
                     url: 'read/read_historico_liberado_sepae.php',
                     type: 'GET',
@@ -229,7 +272,8 @@ $username = $result_array[0]['username'];
 
             // Função para escrever recado.
             $('#escrever-recado').click(function() {
-                $('.btn-liberar').addClass('invisible');
+                //esconde o botão liberar
+                $('.btn-liberar').hide();
                 var usernameValue = "<?php echo $username; ?>";
                 $("#main > *:not('.modal')").remove();
                 $('#main').prepend(`
@@ -257,6 +301,10 @@ $username = $result_array[0]['username'];
                         </form>
                 </div>`)
             })
+
+            $('.select-motivo').change(function() { 
+                $(".confirmar-liberar").prop("disabled", false);
+            });
 
         });
     </script>
@@ -303,7 +351,7 @@ $username = $result_array[0]['username'];
                     </a>
                 </li>
                 <li>
-                    <a id="historico" class="select-destaque flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
+                    <a id="historico" class="select-destaque flex cursor-pointer items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                         <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                             <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z" />
                         </svg>
@@ -339,31 +387,25 @@ $username = $result_array[0]['username'];
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 <div class="col-span-2 sm:col-span-2">
                                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Motivo</label>
-                                    <select required id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                        <option disabledselected="">Selecionar motivo</option>
-                                        <option value="1">Luto</option>
-                                        <option value="2">Médico</option>
-                                        <option value="3">Transporte</option>
-                                        <option value="4">Mal-estar</option>
-                                        <option value="5">Motivo particular</option>
-                                        <option value="6">Professor faltou</option>
-                                        <option value="7">Aula acabou mais cedo</option>
+                                    <select required id="category" class="select-motivo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                        <option disabled selected="">Selecionar motivo</option>
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            <button disabled class="confirmar-liberar text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                                 Liberar alunos
                             </button>
                             </form>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <a data-modal-target="crud-modal" data-modal-toggle="crud-modal"  type="button" class="btn-liberar invisible bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
+            <button disabled style="display:none;" data-modal-target="crud-modal" data-modal-toggle="crud-modal"  type="button" class="btn-liberar bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
                 Liberar
-            </a>
+            </button>
         </div>
     </section>
     <aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">

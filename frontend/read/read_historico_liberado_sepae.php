@@ -9,7 +9,8 @@ try {
     sepae_libera_aluno.sepae_username as Servidor  
     FROM sepaisdb.sepae_libera_aluno, aluno, turma, motivo 
     where (aluno.id = sepae_libera_aluno.aluno_id) -- and (horario_saida is not null)
-    and (turma.id = aluno.turma_id) and (motivo.id = sepae_libera_aluno.motivo_id);");
+    and (turma.id = aluno.turma_id) and (motivo.id = sepae_libera_aluno.motivo_id)
+	order by data desc;");
 	$consulta->execute();
 
 	$resultado = $consulta->get_result();
