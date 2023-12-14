@@ -31,8 +31,10 @@ $username = $result_array[0]['username'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="jquery.dataTables.css">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         function updateTime() {
@@ -172,6 +174,7 @@ $username = $result_array[0]['username'];
                 })
             })
             
+            // Função para enviar dados para o registro das liberações
             $("#main").on("click", ".confirmar-liberar ", function(){
                 id_aluno = [];
                 motivo = $(".select-motivo").children("option:selected").val();
@@ -206,7 +209,7 @@ $username = $result_array[0]['username'];
                         // Limpando o seção principal
                         $("#main > *:not('.modal')").remove();
                         $('#main').prepend(`
-                        <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
+                        <table id="tabela-historico" style="display:none;" class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto mt-4">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <th scope="col" class="px-6 py-3 hidden">
                                         id
@@ -234,7 +237,7 @@ $username = $result_array[0]['username'];
                             <tbody id="tb-alunos-resp">
 
                             </tbody>
-                        </table>`)
+                        </table>`);
                         for (var i = 0; i < data.length; i++) {
                             if(data[i]['saida'] == null){
                                 data[i]['saida'] = "Não saiu";
@@ -266,6 +269,10 @@ $username = $result_array[0]['username'];
                                 '</td>' +
                                 '</tr>');
                         }
+                        setTimeout(function() {
+                            $("#tabela-historico").show(),
+                            $("#tabela-historico").DataTable();
+                        }, 1); 
                     }
                 })
             })

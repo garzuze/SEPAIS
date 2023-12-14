@@ -26,3 +26,7 @@
     inset: 0;
     transform: scale(3);
 }
+
+#tabela-historico {
+    all: unset;
+}
