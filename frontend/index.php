@@ -31,11 +31,18 @@ $username = $result_array[0]['username'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="jquery.dataTables.css">
+    <link rel="stylesheet" href="datatable.css">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Datatables -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    
     <script>
         function updateTime() {
             var currentTime = new Date()
@@ -209,7 +216,7 @@ $username = $result_array[0]['username'];
                         // Limpando o seção principal
                         $("#main > *:not('.modal')").remove();
                         $('#main').prepend(`
-                        <table id="tabela-historico" style="display:none;" class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto mt-4">
+                        <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <th scope="col" class="px-6 py-3 hidden">
                                         id
@@ -269,10 +276,34 @@ $username = $result_array[0]['username'];
                                 '</td>' +
                                 '</tr>');
                         }
-                        setTimeout(function() {
-                            $("#tabela-historico").show(),
-                            $("#tabela-historico").DataTable();
-                        }, 1); 
+                        var tabela = $(".tabela-historico").DataTable({
+                            "bSort": false,
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                            },
+                            dom: '<"row"lBf>rtip',
+                            buttons: [
+                                'copy', 
+                                {
+                                    extend: 'csv',
+                                    title: 'Histórico de liberação'
+                                }, 
+                                {
+                                    extend: 'excel',
+                                    title: 'Histórico de liberação'
+                                }, 
+                                {
+                                    extend: 'pdf',
+                                    title: 'Histórico de liberação',
+                                    customize: function(doc) {
+                                        doc.content[1].margin = [ 30, 0, 30, 0 ] //left, top, right, bottom
+                                    }
+                                }
+                            ]
+                        });
+                        setTimeout(function () {
+                            $(".tabela-historico").show();
+                        }, 30);
                     }
                 })
             })
