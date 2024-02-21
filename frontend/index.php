@@ -207,6 +207,7 @@ $username = $result_array[0]['username'];
             $('#historico').click(function() {
                 //esconde o botão liberar
                 $('.btn-liberar').hide();
+                $("#main > *:not('.modal')").hide();
                 $.ajax({
                     url: 'read/read_historico_liberado_sepae.php',
                     type: 'GET',
@@ -302,8 +303,9 @@ $username = $result_array[0]['username'];
                             ]
                         });
                         setTimeout(function () {
+                            $("#main > *:not('.modal')").show();
                             $(".tabela-historico").show();
-                        }, 30);
+                        }, 10);
                     }
                 })
             })
@@ -377,7 +379,7 @@ $username = $result_array[0]['username'];
             <img src="static/sepais_logo.png" class="sm:h-6 h-4">
         </div>
     </header>
-    <aside class="aside left-0 col-span-2 h-screen" aria-label="Sidebar">
+    <aside class="aside left-0 col-span-2 h-full" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
@@ -399,7 +401,7 @@ $username = $result_array[0]['username'];
             </ul>
         </div>
     </aside>
-    <section id="main" class="col-span-8">
+    <section id="main" class="col-span-8 overflow-x-auto">
         <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username);?>!</span>
         </h1>
@@ -446,7 +448,7 @@ $username = $result_array[0]['username'];
             </button>
         </div>
     </section>
-    <aside class="turmas right-0 col-span-2 h-screen" aria-label="Sidebar">
+    <aside class="min-h-screen h-full turmas right-0 col-span-2" aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium text-center">
                 <li>
