@@ -73,31 +73,31 @@ $username = $result_array[0]['username'];
             <img src="static/sepais_logo.png" class="sm:h-6 h-4">
         </div>
     </header>
-    <aside class="aside left-0 col-span-2 h-full" aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+    <aside class="aside left-0 col-span-2 sm:col-span-1 h-full">
+        <div class="h-full overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="escrever-recado" class="select-destaque flex cursor-pointer items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                    <a id="escrever-recado" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <!-- <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                             <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
-                        </svg>
-                        <span class="flex-1 ml-3">Escrever recado</span>
+                        </svg> -->
+                        <span>Recado</span>
                     </a>
                 </li>
                 <li>
-                    <a id="historico" class="select-destaque flex cursor-pointer items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                    <a id="historico" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <!-- <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                             <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z" />
-                        </svg>
-                        <span class="flex-1 ml-3">Histórico de liberações</span>
+                        </svg> -->
+                        <span>Histórico</span>
                     </a>
                 </li>
             </ul>
         </div>
     </aside>
-    <section id="main" class="col-span-8 overflow-x-auto">
+    <section id="main" class="col-span-8 sm:col-span-10 overflow-x-auto">
         <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
-            Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username);?>!</span>
+            Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username); ?>!</span>
         </h1>
         <div class="modal">
             <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -111,7 +111,7 @@ $username = $result_array[0]['username'];
                             </h3>
                             <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="crud-modal">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
                                 <span class="sr-only">Close modal</span>
                             </button>
@@ -127,7 +127,9 @@ $username = $result_array[0]['username'];
                                 </div>
                             </div>
                             <button disabled class="confirmar-liberar text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                </svg>
                                 Liberar alunos
                             </button>
                             </form>
@@ -136,53 +138,53 @@ $username = $result_array[0]['username'];
                     </div>
                 </div>
             </div>
-            
-            <button disabled style="display:none;" data-modal-target="crud-modal" data-modal-toggle="crud-modal"  type="button" class="btn-liberar bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
+
+            <button disabled style="display:none;" data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="btn-liberar bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
                 Liberar
             </button>
         </div>
     </section>
-    <aside class="min-h-screen h-full turmas right-0 col-span-2" aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
-            <ul class="space-y-2 font-medium text-center">
+    <aside class="turmas min-h-screen h-full right-t-0 col-span-2 sm:col-span-1">
+        <div class="h-full overflow-y-auto bg-gray-50">
+            <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="adm1" class="select-turma select-destaque target cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">ADM1</span>
+                    <a id="adm1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>ADM1</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm2" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">ADM2</span>
+                    <a id="adm2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>ADM2</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm3" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">ADM3</span>
+                    <a id="adm3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>ADM3</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm4" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">ADM4</span>
+                    <a id="adm4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>ADM4</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info1" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">INFO1</span>
+                    <a id="info1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>INFO1</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info2" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">INFO2</span>
+                    <a id="info2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>INFO2</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info3" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">INFO3</span>
+                    <a id="info3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>INFO3</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info4" class="select-turma select-destaque cursor-pointer flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                        <span class="flex-1 ml-3 whitespace-nowrap">INFO4</span>
+                    <a id="info4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                        <span>INFO4</span>
                     </a>
                 </li>
             </ul>
