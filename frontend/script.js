@@ -137,9 +137,9 @@ $(document).ready(function () {
 
     // Função para enviar dados para o registro das liberações
     $("#main").on("click", ".confirmar-liberar ", function () {
+
         id_aluno = [];
         motivo = $(".select-motivo").children("option:selected").val();
-        username = "<?php echo $username; ?>"
         $("input.select-item:checked").each(function () {
             id_aluno.push(this.value);
         });
@@ -269,14 +269,13 @@ $(document).ready(function () {
     $('#escrever-recado').click(function () {
         //esconde o botão liberar
         $('.btn-liberar').hide();
-        var usernameValue = "<?php echo $username; ?>";
         $("#main > *:not('.modal')").remove();
         $('#main').prepend(`
                 <div id="recado" class="mx-auto w-3/4 mt-4">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
                     <form id="form_valida" action="insert/insert_recado.php" method="post">
                         <div>
-                            <input type="hidden" id="username" name="username" value="${usernameValue}">
+                            <input type="hidden" id="username" name="username" value="`+username+`">
                             <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
                             <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
                         </div>

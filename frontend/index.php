@@ -12,7 +12,6 @@ if (isset($_POST['logout'])) {
 date_default_timezone_set('America/Sao_Paulo');
 
 # pegando nome completo do usuário e a sua foto
-
 $sql = connect();
 $query = $sql->prepare("SELECT * FROM sepaisdb.sepae WHERE email = ?;");
 $query->bind_param("s", $_SESSION['email']);
@@ -42,6 +41,7 @@ $username = $result_array[0]['username'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript">var username = "<?= $username ?>";</script>
 </head>
 
 <body class="grid grid-cols-12 gap-1">
