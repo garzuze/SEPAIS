@@ -35,12 +35,16 @@ $(document).ready(function () {
         url: 'read/read_motivos.php',
         type: 'GET',
         success: function (motivo) {
-            motivo = JSON.parse(motivo)
-            console.log(motivo);
-            for (var i = 0; i < motivo.length; i++) {
-                $('.select-motivo').append(
-                    '<option value="' + motivo[i]["id"] + '">' + motivo[i]["motivo"] + '</option>'
-                )
+            if(motivo==0){
+                location.reload();
+            } else{
+                motivo = JSON.parse(motivo)
+                console.log(motivo);
+                for (var i = 0; i < motivo.length; i++) {
+                    $('.select-motivo').append(
+                        '<option value="' + motivo[i]["id"] + '">' + motivo[i]["motivo"] + '</option>'
+                    )
+                }
             }
         }
     })
@@ -72,65 +76,72 @@ $(document).ready(function () {
             data: 'turma=' + turma,
             type: 'GET',
             success: function (data) {
-                data = JSON.parse(data)
-                console.log(data);
-                // Limpando o seção principal
-                $("#main > *:not('.modal')").remove();
-                $('#main').prepend(`
-                        <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="active p-4">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" class="select-all gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
-                                            <label for="checkbox-all" class="sr-only">checkbox</label>
-                                        </div>
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 hidden">
-                                        id
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-1/3">
-                                        Nome do aluno
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-1/3">
-                                        Nome do responsável
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-1/3">
-                                        Email do responsável
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 hidden">
-                                        Turma
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb-alunos-resp">
-                            </tbody>`)
-                for (var i = 0; i < data.length; i++) {
-                    $('#tb-alunos-resp').append(
-                        '<tr class="bg-white border-b">' +
-                        '<td class="active w-4 p-4">' +
-                        '<div class="flex items-center">' +
-                        '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" value="' + data[i]['id_aluno'] + '">' +
-                        '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
-                        '</div>' +
-                        '</td>' +
-                        '<td id="id" scope="col" class="px-6 py-3 hidden">' +
-                        data[i]['id_aluno'] +
-                        '</td>' +
-                        '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-1/3">' +
-                        data[i]['nome_aluno'] +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-1/3">' +
-                        data[i]['nome_responsavel'] +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-1/3">' +
-                        data[i]['email_responsavel'] +
-                        '</td>' +
-                        '<td scope="col" class="px-6 py-3 hidden">' +
-                        data[i]['turma'] +
-                        '</td>' +
-                        '</tr>');
+                if(data==0){
+                    location.reload();
+                } else{
+                    data = JSON.parse(data)
+                    console.log(data);
+                    // Limpando o seção principal
+                    $("#main > *:not('.modal')").remove();
+                    $('#main').prepend(`
+                            <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="active p-4">
+                                            <div class="flex items-center">
+                                                <input type="checkbox" class="select-all gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
+                                                <label for="checkbox-all" class="sr-only">checkbox</label>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 hidden">
+                                            id
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/3">
+                                            Nome do aluno
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/3">
+                                            Nome do responsável
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/3">
+                                            Email do responsável
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 hidden">
+                                            Turma
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb-alunos-resp">
+                                </tbody>`)
+                    for (var i = 0; i < data.length; i++) {
+                        $('#tb-alunos-resp').append(
+                            '<tr class="bg-white border-b">' +
+                            '<td class="active w-4 p-4">' +
+                            '<div class="flex items-center">' +
+                            '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" value="' + data[i]['id_aluno'] + '">' +
+                            '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
+                            '</div>' +
+                            '</td>' +
+                            '<td id="id" scope="col" class="px-6 py-3 hidden">' +
+                            data[i]['id_aluno'] +
+                            '</td>' +
+                            '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-1/3">' +
+                            data[i]['nome_aluno'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/3">' +
+                            data[i]['nome_responsavel'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/3">' +
+                            data[i]['email_responsavel'] +
+                            '</td>' +
+                            '<td scope="col" class="px-6 py-3 hidden">' +
+                            data[i]['turma'] +
+                            '</td>' +
+                            '</tr>');
+                    }
                 }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
             }
         })
     })
@@ -154,6 +165,11 @@ $(document).ready(function () {
                 username: username
             },
             url: "insert/insert_sepae_libera.php",
+            success: function (data) {
+                if(data==0){
+                    location.reload();
+                }
+            }
         });
         location.reload();
     });
@@ -167,100 +183,104 @@ $(document).ready(function () {
             url: 'read/read_historico_liberado_sepae.php',
             type: 'GET',
             success: function (data) {
-                data = JSON.parse(data)
-                console.log(data);
-                // Limpando o seção principal
-                $("#main > *:not('.modal')").remove();
-                $('#main').prepend(`
-                        <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                    <th scope="col" class="px-6 py-3 hidden">
-                                        id
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-3/12">
-                                        Nome do aluno
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-1/12">
-                                        Turma
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-2/12">
-                                        Data
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-2/12">
-                                        Saída
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-1/12">
-                                        Servidor
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 w-2/12">
-                                        Motivo
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="tb-alunos-resp">
+                if(data==0){
+                    location.reload();
+                } else{
+                    data = JSON.parse(data)
+                    console.log(data);
+                    // Limpando o seção principal
+                    $("#main > *:not('.modal')").remove();
+                    $('#main').prepend(`
+                            <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                        <th scope="col" class="px-6 py-3 hidden">
+                                            id
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-3/12">
+                                            Nome do aluno
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/12">
+                                            Turma
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-2/12">
+                                            Data
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-2/12">
+                                            Saída
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/12">
+                                            Servidor
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-2/12">
+                                            Motivo
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb-alunos-resp">
 
-                            </tbody>
-                        </table>`);
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i]['saida'] == null) {
-                        data[i]['saida'] = "Não saiu";
-                    }
-                    else {
-                        data[i]['saida'] = data[i]['saida'].slice(11, 19);
-                    }
-                    $('#tb-alunos-resp').append(
-                        '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
-                        data[i]['id_aluno'] +
-                        '</td>' +
-                        '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
-                        data[i]['nome_aluno'] +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-1/12">' +
-                        data[i]['turma'] +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-2/12">' +
-                        data[i]['data'].slice(0, 10) +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-2/12">' +
-                        data[i]['saida'] +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-1/12">' +
-                        data[i]['Servidor'] +
-                        '</td>' +
-                        '<td class="px-6 py-4 w-3/12">' +
-                        data[i]['motivo'] +
-                        '</td>' +
-                        '</tr>');
-                }
-                var tabela = $(".tabela-historico").DataTable({
-                    "bSort": false,
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
-                    },
-                    dom: '<"row"lBf>rtip',
-                    buttons: [
-                        'copy',
-                        {
-                            extend: 'csv',
-                            title: 'Histórico de liberação'
-                        },
-                        {
-                            extend: 'excel',
-                            title: 'Histórico de liberação'
-                        },
-                        {
-                            extend: 'pdf',
-                            title: 'Histórico de liberação',
-                            customize: function (doc) {
-                                doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
-                            }
+                                </tbody>
+                            </table>`);
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i]['saida'] == null) {
+                            data[i]['saida'] = "Não saiu";
                         }
-                    ]
-                });
-                setTimeout(function () {
-                    $("#main > *:not('.modal')").show();
-                    $(".tabela-historico").show();
-                }, 10);
+                        else {
+                            data[i]['saida'] = data[i]['saida'].slice(11, 19);
+                        }
+                        $('#tb-alunos-resp').append(
+                            '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
+                            data[i]['id_aluno'] +
+                            '</td>' +
+                            '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                            data[i]['nome_aluno'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/12">' +
+                            data[i]['turma'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['data'].slice(0, 10) +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['saida'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/12">' +
+                            data[i]['Servidor'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-3/12">' +
+                            data[i]['motivo'] +
+                            '</td>' +
+                            '</tr>');
+                    }
+                    var tabela = $(".tabela-historico").DataTable({
+                        "bSort": false,
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                        },
+                        dom: '<"row"lBf>rtip',
+                        buttons: [
+                            'copy',
+                            {
+                                extend: 'csv',
+                                title: 'Histórico de liberação'
+                            },
+                            {
+                                extend: 'excel',
+                                title: 'Histórico de liberação'
+                            },
+                            {
+                                extend: 'pdf',
+                                title: 'Histórico de liberação',
+                                customize: function (doc) {
+                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
+                                }
+                            }
+                        ]
+                    });
+                    setTimeout(function () {
+                        $("#main > *:not('.modal')").show();
+                        $(".tabela-historico").show();
+                    }, 10);
+                }
             }
         })
     })

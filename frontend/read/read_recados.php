@@ -1,6 +1,8 @@
 <?php
 require_once('../connect.php');
 
+session_start();
+if(isset($_SESSION['email'])) {
 try {
 	$mysqli = connect();
 	$consulta = $mysqli->prepare("SELECT titulo, recado, data, sepae_username from recado 
@@ -19,4 +21,7 @@ echo json_encode($resultadoFormatado);
 
 $consulta->close();
 $mysqli->close();
+} else{
+	echo json_encode(0);
+}
 ?>
