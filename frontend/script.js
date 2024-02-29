@@ -89,8 +89,8 @@ $(document).ready(function () {
                                     <tr>
                                         <th scope="col" class="active p-4">
                                             <div class="flex items-center">
-                                                <input type="checkbox" class="select-all gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-all">
-                                                <label for="checkbox-all" class="sr-only">checkbox</label>
+                                                <input type="checkbox" class="select-all gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" id="select-all" name="select-all">
+                                                <label for="select-all" class="sr-only">checkbox</label>
                                             </div>
                                         </th>
                                         <th scope="col" class="px-6 py-3 hidden">
@@ -113,12 +113,13 @@ $(document).ready(function () {
                                 <tbody id="tb-alunos-resp">
                                 </tbody>`)
                     for (var i = 0; i < data.length; i++) {
+                        var aluno_check = "aluno"+i;
                         $('#tb-alunos-resp').append(
                             '<tr class="bg-white border-b">' +
                             '<td class="active w-4 p-4">' +
                             '<div class="flex items-center">' +
-                            '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" value="' + data[i]['id_aluno'] + '">' +
-                            '<label for="checkbox-table-1" class="sr-only">checkbox</label>' +
+                            '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" id="'+aluno_check+'" value="' + data[i]['id_aluno'] + '">' +
+                            '<label for="'+aluno_check+'" class="sr-only">checkbox</label>' +
                             '</div>' +
                             '</td>' +
                             '<td id="id" scope="col" class="px-6 py-3 hidden">' +
@@ -300,13 +301,13 @@ $(document).ready(function () {
                             <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
                         </div>
                         <div>
-                            <label for="recado" class="block my-2 text-sm font-medium text-gray-900">Recado</label>
+                            <p class="block my-2 text-sm font-medium text-gray-900">Recado</p>
                             <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!"></textarea>
                         </div>
                         <div>
                             <label for="validade" class="block my-2 text-sm font-medium text-gray-900">Validade</label>
                             <input type="date" name="validade" id="validade" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-50 p-2.5">
-                            <label class="text-gray-600" for="comando"><small>*Deixe vazio caso o recado não tenha validade</small></label>
+                            <p class="text-gray-600"><small>*Deixe vazio caso o recado não tenha validade</small></p>
                         </div>
                 `)
         $('#form_valida').append(`
