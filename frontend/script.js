@@ -11,10 +11,10 @@ function updateTime() {
         minutes = "0" + minutes
     }
 
-    var time = hours + ":" + minutes;
-    document.getElementById('time').innerHTML = time;
+    var time = hours + ":" + minutes
+    $('#time').html(time)
 }
-setInterval(updateTime, 1000);
+setInterval(updateTime, 1000)
 
 // Função para os checkbox serem selecionados todos de uma vez
 $(document).ready(function () {
