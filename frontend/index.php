@@ -3,6 +3,9 @@
 session_start();
 include('secure.php');
 secure_page();
+if ($_SESSION['funcao'] == "portaria"){
+    header('Location: portaria.php');
+}
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: login.php');

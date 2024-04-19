@@ -179,7 +179,7 @@ $(document).ready(function () {
     $('#historico').click(function () {
         //esconde o botão liberar
         $('.btn-liberar').hide();
-        $("#main > *:not('.modal')").hide();
+        $("#main").css('visibility', 'hidden');
         $.ajax({
             url: 'read/read_historico_liberado_sepae.php',
             type: 'GET',
@@ -278,8 +278,8 @@ $(document).ready(function () {
                         ]
                     });
                     setTimeout(function () {
-                        $("#main > *:not('.modal')").show();
                         $(".tabela-historico").show();
+                        $("#main").css('visibility', 'visible');
                     }, 10);
                 }
             }
@@ -302,7 +302,7 @@ $(document).ready(function () {
                         </div>
                         <div>
                             <p class="block my-2 text-sm font-medium text-gray-900">Recado</p>
-                            <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!"></textarea>
+                            <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!" required></textarea>
                         </div>
                         <div>
                             <label for="validade" class="block my-2 text-sm font-medium text-gray-900">Validade</label>
@@ -320,5 +320,4 @@ $(document).ready(function () {
     $('.select-motivo').change(function () {
         $(".confirmar-liberar").prop("disabled", false);
     });
-
 });

@@ -15,18 +15,20 @@ if(isset($_SESSION['email'])) {
         `sepaisdb`.`aluno`.`nome` AS `Aluno`,
         `sepaisdb`.`turma`.`turma` AS `Turma`,
         `sepaisdb`.`motivo`.`motivo` AS `Motivo`,
-        `sepaisdb`.`sepae_libera_aluno`.`sepae_username` AS `Servidor`
+        `sepaisdb`.`responsavel`.`nome` AS Responsável
     FROM
-        (((`sepaisdb`.`sepae_libera_aluno`
-        JOIN `sepaisdb`.`aluno`)
-        JOIN `sepaisdb`.`turma`)
-        JOIN `sepaisdb`.`motivo`)
+        ((((sepaisdb.responsavel_libera_aluno
+        JOIN sepaisdb.responsavel)
+        JOIN sepaisdb.aluno)
+        JOIN sepaisdb.motivo)
+        JOIN sepaisdb.turma)
     WHERE
-        ((`sepaisdb`.`aluno`.`id` = `sepaisdb`.`sepae_libera_aluno`.`aluno_id`)
-            AND (CAST(`sepaisdb`.`sepae_libera_aluno`.`data` AS DATE) = CURDATE())
-            AND (`sepaisdb`.`sepae_libera_aluno`.`horario_saida` IS NULL)
-            AND (`sepaisdb`.`turma`.`id` = `sepaisdb`.`aluno`.`turma_id`)
-            AND (`sepaisdb`.`motivo`.`id` = `sepaisdb`.`sepae_libera_aluno`.`motivo_id`));");
+        ((sepaisdb.aluno.id = sepaisdb.responsavel_libera_aluno.aluno_id)
+            AND (sepaisdb.motivo.id = sepaisdb.responsavel_libera_aluno.motivo_id)
+            AND (sepaisdb.responsavel.email = sepaisdb.responsavel_libera_aluno.responsavel_email)
+            AND (CAST(sepaisdb.responsavel_libera_aluno.data AS DATE) = CURDATE())
+            AND (sepaisdb.responsavel_libera_aluno.horario_saida IS NULL)
+            AND (sepaisdb.turma.id = sepaisdb.aluno.turma_id));");
 		// and (aluno.id = ?);
 		// $consulta->bind_param("s", $idAluno);
 		$consulta->execute();
