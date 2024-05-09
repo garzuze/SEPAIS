@@ -91,13 +91,13 @@ $username = $result_array[0]['username'];
                         Histórico
                     </p>
                     <div class="text-sm ml-6">
-                        <a id="historico" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico_sepae" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
                             <span>Sepae</span>
                         </a>
-                        <a class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico_responsavel" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
                             <span>Responsável</span>
                         </a>
-                        <a class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico_atrasos" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
                             <span>Atrasos</span>
                         </a>
                     </div>

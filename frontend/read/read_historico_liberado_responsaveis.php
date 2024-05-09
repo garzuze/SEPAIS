@@ -6,11 +6,13 @@ if(isset($_SESSION['email'])) {
 	try {
 		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT aluno.id as id_aluno, aluno.nome as nome_aluno, 
-		turma.turma as turma, aluno_atrasado.data as data,  
-		aluno_atrasado.portaria_username as Servidor  
-		FROM sepaisdb.aluno_atrasado, aluno, turma
-		where (aluno.id = aluno_atrasado.aluno_id)
-		and (turma.id = aluno.turma_id)
+		turma.turma as turma, responsavel_libera_aluno.data as data, 
+		responsavel_libera_aluno.horario_saida as saida, motivo.motivo as motivo, 
+		responsavel.nome as responsavel  
+		FROM sepaisdb.responsavel_libera_aluno, aluno, turma, motivo, responsavel
+		where (aluno.id = responsavel_libera_aluno.aluno_id) 
+        and (responsavel.email = responsavel_libera_aluno.responsavel_email)
+		and (turma.id = aluno.turma_id) and (motivo.id = responsavel_libera_aluno.motivo_id)
 		order by data desc;");
 		$consulta->execute();
 
