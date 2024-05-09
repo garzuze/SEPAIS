@@ -176,8 +176,8 @@ $(document).ready(function () {
         location.reload();
     });
 
-    // Função para visualizar histórico 
-    $('#historico').click(function () {
+    // Função para visualizar histórico de liberações pela SEPAE
+    $('#historico_sepae').click(function () {
         //esconde o botão liberar
         $('.btn-liberar').hide();
         $("#main").css('visibility', 'hidden');
@@ -246,7 +246,7 @@ $(document).ready(function () {
                             data[i]['saida'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-1/12">' +
-                            data[i]['Servidor'] +
+                            data[i]['servidor'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-3/12">' +
                             data[i]['motivo'] +
@@ -263,15 +263,15 @@ $(document).ready(function () {
                             'copy',
                             {
                                 extend: 'csv',
-                                title: 'Histórico de liberação'
+                                title: 'Histórico de liberação por SEPAE'
                             },
                             {
                                 extend: 'excel',
-                                title: 'Histórico de liberação'
+                                title: 'Histórico de liberação por SEPAE'
                             },
                             {
                                 extend: 'pdf',
-                                title: 'Histórico de liberação',
+                                title: 'Histórico de liberação por SEPAE',
                                 customize: function (doc) {
                                     doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
                                 }
@@ -286,6 +286,204 @@ $(document).ready(function () {
             }
         })
     })
+
+    // Função para visualizar histórico de liberações pelos responsáveis
+    $('#historico_responsavel').click(function () {
+        //esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main").css('visibility', 'hidden');
+        $.ajax({
+            url: 'read/read_historico_liberado_responsaveis.php',
+            type: 'GET',
+            success: function (data) {
+                if(data==0){
+                    location.reload();
+                } else{
+                    data = JSON.parse(data)
+                    console.log(data);
+                    // Limpando o seção principal
+                    $("#main > *:not('.modal')").remove();
+                    $('#main').prepend(`
+                            <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                        <th scope="col" class="px-6 py-3 hidden">
+                                            id
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-3/12">
+                                            Nome do aluno
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/12">
+                                            Turma
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-2/12">
+                                            Data
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-2/12">
+                                            Saída
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-1/12">
+                                            Responsável
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 w-2/12">
+                                            Motivo
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tb-alunos-resp">
+
+                                </tbody>
+                            </table>`);
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i]['saida'] == null) {
+                            data[i]['saida'] = "Não saiu";
+                        }
+                        else {
+                            data[i]['saida'] = data[i]['saida'].slice(11, 19);
+                        }
+                        $('#tb-alunos-resp').append(
+                            '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
+                            data[i]['id_aluno'] +
+                            '</td>' +
+                            '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                            data[i]['nome_aluno'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/12">' +
+                            data[i]['turma'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['data'].slice(0, 10) +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['saida'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/12">' +
+                            data[i]['responsavel'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-3/12">' +
+                            data[i]['motivo'] +
+                            '</td>' +
+                            '</tr>');
+                    }
+                    var tabela = $(".tabela-historico").DataTable({
+                        "bSort": false,
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                        },
+                        dom: '<"row"lBf>rtip',
+                        buttons: [
+                            'copy',
+                            {
+                                extend: 'csv',
+                                title: 'Histórico de liberação por responsáveis'
+                            },
+                            {
+                                extend: 'excel',
+                                title: 'Histórico de liberação por responsáveis'
+                            },
+                            {
+                                extend: 'pdf',
+                                title: 'Histórico de liberação por responsáveis',
+                                customize: function (doc) {
+                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
+                                }
+                            }
+                        ]
+                    });
+                    setTimeout(function () {
+                        $(".tabela-historico").show();
+                        $("#main").css('visibility', 'visible');
+                    }, 10);
+                }
+            }
+        })
+    })
+
+        // Função para visualizar histórico de atrasos
+        $('#historico_atrasos').click(function () {
+            //esconde o botão liberar
+            $('.btn-liberar').hide();
+            $("#main").css('visibility', 'hidden');
+            $.ajax({
+                url: 'read/read_historico_atrasos.php',
+                type: 'GET',
+                success: function (data) {
+                    if(data==0){
+                        location.reload();
+                    } else{
+                        data = JSON.parse(data)
+                        console.log(data);
+                        // Limpando o seção principal
+                        $("#main > *:not('.modal')").remove();
+                        $('#main').prepend(`
+                                <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                            <th scope="col" class="px-6 py-3 hidden">
+                                                id
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 w-3/12">
+                                                Nome do aluno
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 w-1/12">
+                                                Turma
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 w-2/12">
+                                                Data
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb-alunos-resp">
+    
+                                    </tbody>
+                                </table>`);
+                        for (var i = 0; i < data.length; i++) {
+                            $('#tb-alunos-resp').append(
+                                '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
+                                data[i]['id_aluno'] +
+                                '</td>' +
+                                '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                                data[i]['nome_aluno'] +
+                                '</td>' +
+                                '<td class="px-6 py-4 w-1/12">' +
+                                data[i]['turma'] +
+                                '</td>' +
+                                '<td class="px-6 py-4 w-2/12">' +
+                                data[i]['data'] +
+                                '</td>'+  
+                                +'</tr>');
+                        }
+                        var tabela = $(".tabela-historico").DataTable({
+                            "bSort": false,
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                            },
+                            dom: '<"row"lBf>rtip',
+                            buttons: [
+                                'copy',
+                                {
+                                    extend: 'csv',
+                                    title: 'Histórico de atrasos'
+                                },
+                                {
+                                    extend: 'excel',
+                                    title: 'Histórico de atrasos'
+                                },
+                                {
+                                    extend: 'pdf',
+                                    title: 'Histórico de atrasos',
+                                    customize: function (doc) {
+                                        doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
+                                    }
+                                }
+                            ]
+                        });
+                        setTimeout(function () {
+                            $(".tabela-historico").show();
+                            $("#main").css('visibility', 'visible');
+                        }, 10);
+                    }
+                }
+            })
+        })
 
     // Função para escrever recado.
     $('#escrever-recado').click(function () {
