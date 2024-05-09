@@ -62,6 +62,7 @@ $(document).ready(function () {
 
     // Função para botões ficarem em destaque quando ativos
     $('.select-destaque').click(function () {
+        $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $('.select-destaque').removeClass('bg-gray-100');
         $(this).addClass('bg-gray-100');
     });
@@ -320,4 +321,14 @@ $(document).ready(function () {
     $('.select-motivo').change(function () {
         $(".confirmar-liberar").prop("disabled", false);
     });
+
+    $(".clique-desliza").click(function () {
+        $(this).next().children().slideToggle("slow");
+    })
+    
+    $(".subclasse-historico").click(function () {
+        $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
+        $(this).addClass("border-[#00bf63] border-l-2");
+    })    
+
 });

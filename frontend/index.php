@@ -3,7 +3,7 @@
 session_start();
 include('secure.php');
 secure_page();
-if ($_SESSION['funcao'] == "portaria"){
+if ($_SESSION['funcao'] == "portaria") {
     header('Location: portaria.php');
 }
 if (isset($_POST['logout'])) {
@@ -44,7 +44,9 @@ $username = $result_array[0]['username'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script type="text/javascript">var username = "<?= $username ?>";</script>
+    <script type="text/javascript">
+        var username = "<?= $username ?>";
+    </script>
 </head>
 
 <body class="grid grid-cols-12 gap-1">
@@ -63,7 +65,7 @@ $username = $result_array[0]['username'];
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                            <form method="post"><input type="submit" name="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 m-auto" value="Logout"></form>
+                            <form method="post"><input type="submit" name="logout" class="block px-4 py-2 text-sm text-gray-700 active:hover:bg-gray-100 m-auto" value="Logout"></form>
                         </li>
                     </ul>
                 </div>
@@ -80,20 +82,26 @@ $username = $result_array[0]['username'];
         <div class="h-full overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="escrever-recado" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
-                        <!-- <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-                            <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
-                        </svg> -->
+                    <a id="escrever-recado" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
                         <span>Recado</span>
                     </a>
                 </li>
                 <li>
-                    <a id="historico" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
-                        <!-- <svg class="w-[15px] h-[15px] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                            <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z" />
-                        </svg> -->
-                        <span>Histórico</span>
-                    </a>
+                    <p class="clique-desliza select-destaque flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
+                        Histórico
+                    </p>
+                    <div class="text-sm ml-6">
+                        <a id="historico" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                            <span>Sepae</span>
+                        </a>
+                        <a class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                            <span>Responsável</span>
+                        </a>
+                        <a class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                            <span>Atrasos</span>
+                        </a>
+                    </div>
+
                 </li>
             </ul>
         </div>
@@ -151,42 +159,42 @@ $username = $result_array[0]['username'];
         <div class="h-full overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="adm1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="adm1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>ADM1</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="adm2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>ADM2</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="adm3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>ADM3</span>
                     </a>
                 </li>
                 <li>
-                    <a id="adm4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="adm4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>ADM4</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="info1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>INFO1</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="info2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>INFO2</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="info3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>INFO3</span>
                     </a>
                 </li>
                 <li>
-                    <a id="info4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
+                    <a id="info4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
                         <span>INFO4</span>
                     </a>
                 </li>
