@@ -16,9 +16,7 @@ function updateTime() {
 }
 setInterval(updateTime, 1000)
 
-// Função para os checkbox serem selecionados todos de uma vez
 $(document).ready(function () {
-    //esconde o botão liberar ao carregar o documento
     $("#main").on("click", "input.select-all", function () {
         // Coluna checkbox que seleciona ou deseleciona todos
         var checked = this.checked;
@@ -528,5 +526,27 @@ $(document).ready(function () {
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $(this).addClass("border-[#00bf63] border-l-2");
     })    
+
+    // teste
+    $("#main").on("click", ".btn-testar", function () {
+
+        id_aluno = 4;
+        console.log(id_aluno);
+        $.ajax({
+            type: "POST",
+            data: {
+                id_aluno: id_aluno,
+                data: "2024-05-12",
+                responsavel: username
+            },
+            url: "update/update_libera_alunos.php",
+            success: function (data) {
+                if(data==0){
+                    location.reload();
+                }
+            }
+        });
+        // location.reload();
+    });
 
 });

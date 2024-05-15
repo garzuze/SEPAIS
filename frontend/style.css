@@ -26,3 +26,36 @@
     inset: 0;
     transform: scale(3);
 }
+
+.gmail-clock {
+    position: relative;
+    accent-color: #016D39;
+}
+
+.gmail-clock::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #016D39;
+    opacity: 0;
+    transform: scale(0);
+    border-radius: 45%;
+} 
+
+.gmail-clock:hover::before {
+    transform: scale(1.5);
+    opacity: 0.1;
+    transition: transform opacity;
+    transition-duration: 0.3s;
+}
+
+.gmail-clock::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: scale(3);
+}
+
+span {
+    display: inline-flex;
+}
