@@ -10,14 +10,16 @@ if(isset($_SESSION['email'])) {
 
         // Conectando ao BD e inserindo novos dados
         $sql = connect();
-        if(isset($_POST['servidor'])) {
-            $query = $sql->prepare("UPDATE `sepaisdb`.`sepae_libera_aluno` SET `horario_saida` = now() 
-            WHERE (`aluno_id` = ?) and `data` LIKE ?;");
-        }
-        elseif(isset($_POST['responsavel'])){
-            $query = $sql->prepare("UPDATE `sepaisdb`.`responsavel_libera_aluno` SET `horario_saida` = now() 
-            WHERE (`aluno_id` = ?) and `data` LIKE ?;");
-        }
+        // if(isset($_POST['servidor'])) {
+        $query = $sql->prepare("UPDATE `sepaisdb`.`sepae_libera_aluno` SET `horario_saida` = now() 
+        WHERE (`aluno_id` = ?) and `data` LIKE ?;
+        UPDATE `sepaisdb`.`responsavel_libera_aluno` SET `horario_saida` = now() 
+        WHERE (`aluno_id` = ?) and `data` LIKE ?;");
+        // }
+        // elseif(isset($_POST['responsavel'])){
+        //     $query = $sql->prepare("UPDATE `sepaisdb`.`responsavel_libera_aluno` SET `horario_saida` = now() 
+        //     WHERE (`aluno_id` = ?) and `data` LIKE ?;");
+        // }
 
         if ($query) {
             $query->bind_param("is", $id_aluno, $data);

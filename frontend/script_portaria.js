@@ -19,11 +19,11 @@ setInterval(updateTime, 1000)
 $(document).ready(function () {
     // Função para botões ficarem em destaque quando ativos
     $('.select-destaque').click(function () {
-        $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $('.select-destaque').removeClass('bg-gray-100');
         $(this).addClass('bg-gray-100');
     });
 
+    // Função para ler os alunos por turma
     $('.select-turma').click(function () {
         var turma = $(this).attr('id');
         //mostra o botão liberar
@@ -100,6 +100,8 @@ $(document).ready(function () {
         })
     })
 });
+
+// Função para abrir modal de atraso e preparar os dados para registrar o atraso
 $("#main").on("click", ".registrar-atraso", function() {
     // alert($(this).attr('value'));
     $("#modal-nome").empty();
@@ -110,6 +112,7 @@ $("#main").on("click", ".registrar-atraso", function() {
     $('#atraso-escondido').trigger("click");
 });
 
+// Função para enviar os dados do registro do atraso para a inserção no banco de dados
 $("#main").on("click", "#confirmar-atraso ", function () {
 
     id_aluno = $("#modal-id").text();
@@ -130,4 +133,69 @@ $("#main").on("click", "#confirmar-atraso ", function () {
     });
     location.reload();
 });
+
+$('#saidas').click(function () {
+    $.ajax({
+        url: 'read/read_alunos_liberados.php',
+        type: 'GET',
+        success: function (data) {
+            if(data==0){
+                location.reload();
+            } else{
+                data = JSON.parse(data)
+                console.log(data);
+                // Limpando o seção principal
+                $("#main > *:not('.modal')").remove();
+                $('#main').prepend(`
+                        <table style="width:100%;" class="tabela-saidas text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <th scope="col" class="px-6 py-3 hidden">
+                                        id
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-3/12">
+                                        Nome do aluno
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/12">
+                                        Turma
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/12">
+                                        Liberado por
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb-alunos-resp">
+
+                            </tbody>
+                        </table>`);
+                for (var i = 0; i < data.length; i++) {
+                    $('#tb-alunos-resp').append(
+                        '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
+                        data[i]['id_aluno'] +
+                        '</td>' +
+                        '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                        data[i]['aluno'] +
+                        '</td>' +
+                        '<td class="px-6 py-4 w-1/12">' +
+                        data[i]['turma'] +
+                        '</td>' +
+                        '<td class="px-6 py-4 w-1/12">' +
+                        data[i]['liberador'] +
+                        '</td>' +
+                        '</tr>');
+                }
+                var tabela = $(".tabela-saidas").DataTable({
+                    "bSort": false,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                    },
+                    "pageLength":25
+                });
+                setTimeout(function () {
+                    $(".tabela-saidas").show();
+                    $("#main").css('visibility', 'visible');
+                }, 10);
+            }
+        }
+    })
+})
 

@@ -12,10 +12,12 @@ if(isset($_SESSION['email'])) {
 	try {
 		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT 
-        `sepaisdb`.`aluno`.`nome` AS `Aluno`,
-        `sepaisdb`.`turma`.`turma` AS `Turma`,
-        `sepaisdb`.`motivo`.`motivo` AS `Motivo`,
-        `sepaisdb`.`responsavel`.`nome` AS Responsável
+		`sepaisdb`.`aluno`.`id` AS `id_aluno`,
+        `sepaisdb`.`aluno`.`nome` AS `aluno`,
+        `sepaisdb`.`turma`.`turma` AS `turma`,
+        `sepaisdb`.`motivo`.`motivo` AS `motivo`,
+        `sepaisdb`.`responsavel`.`nome` AS responsavel,
+		sepaisdb.responsavel_libera_aluno.data as data
     FROM
         ((((sepaisdb.responsavel_libera_aluno
         JOIN sepaisdb.responsavel)
