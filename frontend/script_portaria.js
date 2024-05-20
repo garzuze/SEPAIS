@@ -161,6 +161,9 @@ $('#saidas').click(function () {
                                     <th scope="col" class="px-6 py-3 w-1/12">
                                         Liberado por
                                     </th>
+                                    <th scope="col" class="text-center px-6 py-3 w-1/12">
+                                        Validar saída
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody id="tb-alunos-resp">
@@ -181,6 +184,17 @@ $('#saidas').click(function () {
                         '<td class="px-6 py-4 w-1/12">' +
                         data[i]['liberador'] +
                         '</td>' +
+                        '<td class="active w-1/12 p-4">' +
+                                '<div class="flex items-center justify-center">' +
+                                    '<span class="validar-saida gmail-clock" name="'+data[i]['data']+'" id="'+data[i]['aluno']+'" value="' + data[i]['id_aluno'] + '">'+
+                                    '<svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0">'+
+                                    '</g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Exit">'+
+                                    '<path id="Vector"'+
+                                    'd="M12 15L15 12M15 12L12 9M15 12H4M4 7.24802V7.2002C4 6.08009 4 5.51962 4.21799 5.0918C4.40973 4.71547 4.71547 4.40973 5.0918 4.21799C5.51962 4 6.08009 4 7.2002 4H16.8002C17.9203 4 18.4796 4 18.9074 4.21799C19.2837 4.40973 19.5905 4.71547 19.7822 5.0918C20 5.5192 20 6.07899 20 7.19691V16.8036C20 17.9215 20 18.4805 19.7822 18.9079C19.5905 19.2842 19.2837 19.5905 18.9074 19.7822C18.48 20 17.921 20 16.8031 20H7.19691C6.07899 20 5.5192 20 5.0918 19.7822C4.71547 19.5905 4.40973 19.2839 4.21799 18.9076C4 18.4798 4 17.9201 4 16.8V16.75"'+
+                                    'stroke="#016D39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>'+
+                                    '</span>'+
+                                '</div>'+
+                                '</td>' +
                         '</tr>');
                 }
                 var tabela = $(".tabela-saidas").DataTable({
@@ -199,3 +213,39 @@ $('#saidas').click(function () {
     })
 })
 
+$("#main").on("click", ".validar-saida", function() {
+    // alert($(this).attr('value'));
+    // alert($(this).attr('id'));
+    // alert($(this).attr('name'));
+    $("#valida-nome").empty();
+    $("#valida-id").empty();
+    $("#valida-data").empty();
+    $("#valida-nome").append(" <b>"+$(this).attr('id')+"</b>");
+    $("#valida-id").append($(this).attr('value'));
+    $("#valida-data").append($(this).attr('name').slice(0, 10));
+    $('#valida-escondido').trigger("click");
+});
+
+// Função para enviar os dados da validação da saída para a inserção no banco de dados
+$("#main").on("click", "#valida-saida", function () {
+
+    id_aluno = $("#valida-id").text();
+    date = $("#valida-data").text();
+    // alert(id_aluno);
+    // alert(date);
+
+    $.ajax({
+        type: "POST",
+        data: {
+            id_aluno: id_aluno,
+            date: date
+        },
+        url: "update/update_libera_alunos.php",
+        success: function (data) {
+            if(data==0){
+                location.reload();
+            }
+        }
+    });
+    location.reload();
+});
