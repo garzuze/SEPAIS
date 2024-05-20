@@ -32,6 +32,7 @@ $username = $result_array[0]['username'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
+    <link rel="stylesheet" href="style.css">
     <!-- <link rel="stylesheet" href="datatable.css"> -->
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,6 +58,7 @@ $username = $result_array[0]['username'];
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
                     <div class="px-4 py-3">
+                        <span id="servidor-username" style="visibility: hidden; display: none;" class="block text-sm text-gray-900"><?php echo $username; ?></span>
                         <span class="block text-sm text-gray-900"><?php echo $nome; ?></span>
                         <span class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
                     </div>
@@ -79,7 +81,7 @@ $username = $result_array[0]['username'];
         <div class="h-full overflow-y-auto bg-gray-50">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="saidas" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
+                <a id="saidas" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
                         <span>Saídas</span>
                     </a>
                 </li>
@@ -90,6 +92,46 @@ $username = $result_array[0]['username'];
         <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username); ?>!</span>
         </h1>
+        <div class="modal">
+        <button id="atraso-escondido" data-modal-target="small-modal" data-modal-toggle="small-modal" type="button" style="visibility: hidden; display: none;">
+        </button>
+
+            <div id="small-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+                            <h3 class="text-xl font-medium text-gray-900">
+                                Registrar atraso
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="small-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="p-4 md:p-5 space-y-4">
+                            <p class="text-base leading-relaxed text-gray-500">
+                                Deseja registrar o atraso do seguinte aluno?<br>
+                                <b id="modal-nome"></b>
+                                <p id="modal-id" style="visibility: hidden; display: none;"></p>
+                            </p>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
+                            <button id="confirmar-atraso" type="button" class="text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center" data-modal-hide="small-modal">
+                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+                                Registrar atraso
+                            </button>
+                            <button data-modal-hide="small-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <aside class="turmas min-h-screen h-full right-t-0 col-span-2 sm:col-span-1">
         <div class="h-full overflow-y-auto bg-gray-50">
