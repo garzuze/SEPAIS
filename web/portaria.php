@@ -39,10 +39,11 @@ $username = $result_array[0]['username'];
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Datatables, vai ser usado no futuro-->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="removeWaterMark.js"></script>
 
 </head>
 
-<body class="grid grid-cols-12 gap-1">
+<body class="grid grid-cols-12 gap-x-1">
     <header class="ações-servidor col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
         <div class="user">
             <div class="flex items-center md:order-2">
@@ -73,7 +74,7 @@ $username = $result_array[0]['username'];
         </div>
     </header>
     <aside class="aside left-0 col-span-2 sm:col-span-1 h-full">
-        <div class="h-full overflow-y-auto bg-gray-50">
+        <div class="h-full overflow-y-auto bg-gray-50 pt-1">
             <ul class="space-y-2 font-medium">
                 <li>
                 <a id="saidas" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">
@@ -169,7 +170,7 @@ $username = $result_array[0]['username'];
         </div>
     </section>
     <aside class="turmas min-h-screen h-full right-t-0 col-span-2 sm:col-span-1">
-        <div class="h-full overflow-y-auto bg-gray-50">
+        <div class="h-full overflow-y-auto bg-gray-50 pt-1">
             <ul class="space-y-2 font-medium">
                 <li>
                     <a id="adm1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 active:bg-gray-100 group">

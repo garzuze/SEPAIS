@@ -11,6 +11,7 @@ include('secure.php');
     <title>Login | SEPAIS</title>
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="removeWaterMark.js"></script>
 </head>
 
 <body>
