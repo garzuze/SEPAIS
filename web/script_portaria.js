@@ -114,7 +114,6 @@ $("#main").on("click", ".registrar-atraso", function() {
 
 // Função para enviar os dados do registro do atraso para a inserção no banco de dados
 $("#main").on("click", "#confirmar-atraso ", function () {
-
     id_aluno = $("#modal-id").text();
     username = $("#servidor-username").text();
 
@@ -131,6 +130,16 @@ $("#main").on("click", "#confirmar-atraso ", function () {
             }
         }
     });
+    
+    // Notificar que a operação foi realizada com sucesso
+    let snackbar  = new SnackBar();
+    snackbar.make("message",
+  [
+    "Atraso Registrado!",
+    null,
+    "bottom",
+    "center"
+  ], 4000);
     // location.reload();
 });
 
@@ -247,6 +256,17 @@ $("#main").on("click", "#valida-saida", function () {
             }
         }
     });
+    
+    // Notificar que a operação foi realizada com sucesso
+    let snackbar  = new SnackBar();
+    snackbar.make("message",
+  [
+    "Saída Validada!",
+    null,
+    "bottom",
+    "center"
+  ], 4000);
+  
     setTimeout(function () {
             $("#saidas").trigger("click");
     }, 100);

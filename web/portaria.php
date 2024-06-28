@@ -34,6 +34,8 @@ $username = $result_array[0]['username'];
     <title>Dashboard | SEPAIS</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="datatable.css">
+    <link rel="stylesheet" href="snackbar.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -85,16 +87,17 @@ $username = $result_array[0]['username'];
         </div>
     </aside>
     <section id="main" class="col-span-8 sm:col-span-10 overflow-x-auto">
+        <snackbar></snackbar>
         <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username); ?>!</span>
         </h1>
         <div class="modal">
         <button id="atraso-escondido" data-modal-target="modal-atraso" data-modal-toggle="modal-atraso" type="button" style="visibility: hidden; display: none;">
         </button>
-
+      
         <button id="valida-escondido" data-modal-target="modal-valida" data-modal-toggle="modal-valida" type="button" style="visibility: hidden; display: none;">
         </button>
-
+        
             <div id="modal-atraso" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative w-full max-w-md max-h-full">
                     <!-- Modal content -->
@@ -217,4 +220,5 @@ $username = $result_array[0]['username'];
     </aside>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <script src="script_portaria.js"></script>
+    <script src="snackbar.js"></script>
 </body>
