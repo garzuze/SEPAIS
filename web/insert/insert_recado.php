@@ -21,7 +21,7 @@ if(isset($_SESSION['email'])) {
             $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_username) VALUES (?, ?, ?, ?, ?)");
             $query->bind_param("sssss", $titulo, $recado, $date, $validade, $username);
             $query->execute();
-            header('Location: ../index.php');
+            header('Location: ../login.php');
         }catch (Exception $e) {
             error_log($e->getMessage());
             exit("<br>Alguma coisa estranha aconteceu");
@@ -29,6 +29,6 @@ if(isset($_SESSION['email'])) {
     }
 } else{
 	echo json_encode(0);
-    header('Location: ../index.php');
+	header('Location: ../login.php');
 }
 ?>

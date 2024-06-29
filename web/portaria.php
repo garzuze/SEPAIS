@@ -32,16 +32,16 @@ $username = $result_array[0]['username'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="datatable.css">
-    <link rel="stylesheet" href="snackbar.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/datatable.css">
+    <link rel="stylesheet" href="styles/snackbar.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Datatables, vai ser usado no futuro-->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="removeWaterMark.js"></script>
+    <script src="scripts/removeWaterMark.js"></script>
 
 </head>
 
@@ -71,9 +71,11 @@ $username = $result_array[0]['username'];
         <div class="">
             <p class="text-white" id="time"></p>
         </div>
-        <div class="">
-            <img src="static/sepais_logo.png" class="sm:h-6 h-4">
-        </div>
+        <a href="portaria.php">
+            <div class="">
+                <img src="static/sepais_logo.png" class="sm:h-6 h-4">
+            </div>
+        </a>
     </header>
     <aside class="aside left-0 col-span-2 sm:col-span-1 h-full">
         <div class="h-full overflow-y-auto bg-gray-50 pt-1">
@@ -219,6 +221,6 @@ $username = $result_array[0]['username'];
         </div>
     </aside>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-    <script src="script_portaria.js"></script>
-    <script src="snackbar.js"></script>
+    <script src="scripts/script_portaria.js"></script>
+    <script src="scripts/snackbar.js"></script>
 </body>

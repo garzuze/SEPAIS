@@ -7,7 +7,7 @@
     <title>Login | SEPAIS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="removeWaterMark.js"></script>
+    <script src="scripts/removeWaterMark.js"></script>
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
 </head>
 
