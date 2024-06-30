@@ -146,7 +146,48 @@ $(document).ready(function () {
             }
         })
     })
-
+    
+    let hoverTimeout;
+        
+        $('.confirmar-liberar').hover(
+            function() {
+                    hoverTimeout = setTimeout(function(){
+                        if($("#category").val() == null){
+                            let snackbar = new SnackBar();
+                            snackbar.make("message", [
+                                "Nenhum motivo selecionado!",
+                                null,
+                                "top",
+                                "right"
+                            ], 4000);
+                        }
+                    }, 500);
+            },
+            function() {
+                clearTimeout(hoverTimeout);
+            }
+        );
+        
+        $('.btn-liberar').hover(
+            function() {
+                var len = $("input.select-item:checked:checked").length;
+                if (len === 0){
+                    hoverTimeout = setTimeout(function(){
+                        let snackbar = new SnackBar();
+                        snackbar.make("message", [
+                            "Nenhum aluno selecionado!",
+                            null,
+                            "top",
+                            "right"
+                        ], 4000);
+                    }, 500);
+                }
+            },
+            function() {
+                clearTimeout(hoverTimeout);
+            }
+        );
+    
     // Função para enviar dados para o registro das liberações
     $("#main").on("click", ".confirmar-liberar ", function () {
         id_aluno = [];
@@ -154,6 +195,20 @@ $(document).ready(function () {
         $("input.select-item:checked").each(function () {
             id_aluno.push(this.value);
         });
+        
+        $('.gmail-checkbox').prop('checked', false);
+        $(".btn-liberar").prop("disabled", true);
+        $("#category").val("regular").change();
+        $(".confirmar-liberar").prop("disabled", true);
+        
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Liberações registradas!",
+            null,
+            "top",
+            "right"
+        ], 4000);
+        
         // console.log(id_aluno);
         // console.log(motivo);
         // console.log(username);
@@ -171,7 +226,6 @@ $(document).ready(function () {
                 }
             }
         });
-        location.reload();
     });
 
     // Função para visualizar histórico de liberações pela SEPAE
@@ -525,7 +579,7 @@ $(document).ready(function () {
     $(".subclasse-historico").click(function () {
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $(this).addClass("border-[#00bf63] border-l-2");
-    })   
+    })
     
     $("#main").on("click", "#enviar-recado", function (event) {
 
@@ -538,7 +592,7 @@ $(document).ready(function () {
     if (!recado || !titulo || !username) {
         let snackbar = new SnackBar();
         snackbar.make("message", [
-            "Insira os campos necessários!",
+            "Preencha os campos necessários!",
             null,
             "top",
             "right"

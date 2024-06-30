@@ -139,11 +139,11 @@ $username = $result_array[0]['username'];
                                 <div class="col-span-2 sm:col-span-2">
                                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Motivo</label>
                                     <select required id="category" class="select-motivo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                        <option disabled selected="">Selecionar motivo</option>
+                                        <option disabled value="regular" selected="">Selecionar motivo</option>
                                     </select>
                                 </div>
                             </div>
-                            <button disabled class="confirmar-liberar text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            <button disabled class="confirmar-liberar text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center" data-modal-hide="crud-modal">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                                 </svg>
@@ -155,7 +155,6 @@ $username = $result_array[0]['username'];
                     </div>
                 </div>
             </div>
-
             <button disabled style="display:none;" data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="btn-liberar bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
                 Liberar
             </button>
