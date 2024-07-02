@@ -17,6 +17,7 @@ function updateTime() {
 setInterval(updateTime, 1000)
 
 $(document).ready(function () {
+    
     $("#main").on("click", "input.select-all", function () {
         // Coluna checkbox que seleciona ou deseleciona todos
         var checked = this.checked;
@@ -145,15 +146,69 @@ $(document).ready(function () {
             }
         })
     })
-
+    
+    let hoverTimeout;
+        
+        $('.confirmar-liberar').hover(
+            function() {
+                    hoverTimeout = setTimeout(function(){
+                        if($("#category").val() == null){
+                            let snackbar = new SnackBar();
+                            snackbar.make("message", [
+                                "Nenhum motivo selecionado!",
+                                null,
+                                "top",
+                                "right"
+                            ], 4000);
+                        }
+                    }, 500);
+            },
+            function() {
+                clearTimeout(hoverTimeout);
+            }
+        );
+        
+        $('.btn-liberar').hover(
+            function() {
+                var len = $("input.select-item:checked:checked").length;
+                if (len === 0){
+                    hoverTimeout = setTimeout(function(){
+                        let snackbar = new SnackBar();
+                        snackbar.make("message", [
+                            "Nenhum aluno selecionado!",
+                            null,
+                            "top",
+                            "right"
+                        ], 4000);
+                    }, 500);
+                }
+            },
+            function() {
+                clearTimeout(hoverTimeout);
+            }
+        );
+    
     // Função para enviar dados para o registro das liberações
     $("#main").on("click", ".confirmar-liberar ", function () {
-
         id_aluno = [];
         motivo = $(".select-motivo").children("option:selected").val();
         $("input.select-item:checked").each(function () {
             id_aluno.push(this.value);
         });
+        
+        $('.gmail-checkbox').prop('checked', false);
+        $(".btn-liberar").prop("disabled", true);
+        $("#category").val("regular").change();
+        $(".confirmar-liberar").prop("disabled", true);
+        
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Liberações registradas!",
+            null,
+            "top",
+            "right"
+        ], 4000);
+        
         // console.log(id_aluno);
         // console.log(motivo);
         // console.log(username);
@@ -171,7 +226,6 @@ $(document).ready(function () {
                 }
             }
         });
-        location.reload();
     });
 
     // Função para visualizar histórico de liberações pela SEPAE
@@ -489,9 +543,9 @@ $(document).ready(function () {
         $('.btn-liberar').hide();
         $("#main > *:not('.modal')").remove();
         $('#main').prepend(`
-                <div id="recado" class="mx-auto w-3/4 mt-4">
+                <div id="recado1" class="mx-auto w-3/4 mt-4">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
-                    <form id="form_valida" action="insert/insert_recado.php" method="post">
+                    <form id="form_valida">
                         <div>
                             <input type="hidden" id="username" name="username" value="`+username+`">
                             <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
@@ -499,7 +553,7 @@ $(document).ready(function () {
                         </div>
                         <div>
                             <p class="block my-2 text-sm font-medium text-gray-900">Recado</p>
-                            <textarea id="recado" name="recado" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!" required></textarea>
+                            <textarea id="recado" name="recado" rows="6" class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Tem cachorro, tem coruja e muitos outros animais!" required></textarea>
                         </div>
                         <div>
                             <label for="validade" class="block my-2 text-sm font-medium text-gray-900">Validade</label>
@@ -508,7 +562,7 @@ $(document).ready(function () {
                         </div>
                 `)
         $('#form_valida').append(`
-                        <input type="submit" name="submit" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                        <input type="button" id="enviar-recado" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
                         value="Enviar recado">
                         </form>
                 </div>`)
@@ -525,28 +579,54 @@ $(document).ready(function () {
     $(".subclasse-historico").click(function () {
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $(this).addClass("border-[#00bf63] border-l-2");
-    })    
+    })
+    
+    $("#main").on("click", "#enviar-recado", function (event) {
 
-    // teste
-    $("#main").on("click", ".btn-testar", function () {
-
-        id_aluno = 4;
-        console.log(id_aluno);
-        $.ajax({
+    let username = $("#username").val().trim();
+    let recado = $("#recado").val().trim();
+    let validade = $("#validade").val().trim();
+    let titulo = $("#titulo").val().trim();
+    
+    // Check if any of the required fields are empty
+    if (!recado || !titulo || !username) {
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Preencha os campos necessários!",
+            null,
+            "top",
+            "right"
+        ], 4000);
+        return;
+    }
+    
+    $.ajax({
             type: "POST",
             data: {
-                id_aluno: id_aluno,
-                data: "2024-05-12",
-                responsavel: username
+                titulo: titulo,
+                recado: recado,
+                validade: validade,
+                username: username
             },
-            url: "update/update_libera_alunos.php",
+            url: "insert/insert_recado.php",
             success: function (data) {
                 if(data==0){
                     location.reload();
                 }
             }
         });
-        // location.reload();
-    });
-
+        
+    $("#recado").val("");
+    $("#validade").val("");
+    $("#titulo").val("");
+    
+    // Notify that the operation was successful
+    let snackbar = new SnackBar();
+    snackbar.make("message", [
+        "Recado enviado!",
+        null,
+        "bottom",
+        "right"
+    ], 4000);
+});
 });

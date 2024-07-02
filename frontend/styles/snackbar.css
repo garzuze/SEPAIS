@@ -1,0 +1,181 @@
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+*:focus {
+    outline: 0 !important;
+}
+
+body {
+    margin: 0
+}
+
+
+/*
+==============================================
+Snackbar style
+==============================================
+*/
+
+.snackbar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    bottom: -10px;
+    pointer-events: none;
+}
+
+.snackbar > div {
+    width: 400px;
+    height: 60px;
+    background: #333;
+    border-radius: 5px;
+    pointer-events: auto;
+    overflow: hidden;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    max-width: 95%;
+}
+
+.snackbar button {
+    display: inline-block;
+    float: right;
+    margin: 14px;
+    height: 30px;
+    margin-top: 16px;
+    border: none;
+    background: transparent;
+    color: #ccc;
+    border-radius: 5px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.snackbar button:nth-child(2) {
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    background: #2d2d2d;
+    border-radius: 50%;
+    transition: all .5s linear 0s;
+}
+
+.snackbar button:nth-child(3) {
+    position: relative;
+    left: 20px !important;
+}
+
+.snackbar button i {
+    vertical-align: middle !important;
+    font-size: 20px !important;
+}
+
+.snackbar .text {
+    width: calc(100% - 90px);
+    height: 60px;
+    color: #fff;
+    float: left;
+    line-height: 60px;
+    text-indent: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.snackbar.action .text {
+    width: calc(100% - 160px);
+}
+
+.bottom {
+    bottom: -100px
+}
+
+
+/*.top { top: -100px }*/
+
+.left > div {
+    float: left;
+    margin-left: 25px
+}
+
+.right > div {
+    float: right;
+    margin-right: 25px
+}
+
+.center > div {
+    margin: 0px auto
+}
+
+@media screen and (max-width: 500px) {
+    .left > div,
+    .right > div {
+        margin-left: 0px;
+        margin-right: 0px;
+        float: none
+    }
+    .left > div,
+    .right > div {
+        margin: 0px auto;
+    }
+}
+
+
+/*
+==============================================
+slideUp Animation
+==============================================
+*/
+
+.slideUp {
+    -webkit-animation: slideUp ease .5s 0s forwards;
+    animation: slideUp .5s 0s ease forwards;
+}
+
+@-webkit-keyframes slideUp {
+    from {
+        bottom: -100px
+    }
+    to {
+        bottom: 20px
+    }
+}
+
+
+/*
+==============================================
+slideDown Animation 
+==============================================
+*/
+
+.slideDown {
+    -webkit-animation: slideDown .5s 0s ease forwards;
+    animation: slideDown .5s 0s ease forwards;
+}
+
+@-webkit-keyframes slideDown {
+    from {
+        bottom: 20px
+    }
+    to {
+        bottom: -100px
+    }
+}

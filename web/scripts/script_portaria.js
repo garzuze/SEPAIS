@@ -138,7 +138,7 @@ $("#main").on("click", "#confirmar-atraso ", function () {
     "Atraso Registrado!",
     null,
     "bottom",
-    "center"
+    "right"
   ], 4000);
     // location.reload();
 });
@@ -264,7 +264,7 @@ $("#main").on("click", "#valida-saida", function () {
     "Saída Validada!",
     null,
     "bottom",
-    "center"
+    "right"
   ], 4000);
   
     setTimeout(function () {

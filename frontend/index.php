@@ -32,8 +32,10 @@ $username = $result_array[0]['username'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="datatable.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/datatable.css">
+    <link rel="stylesheet" href="styles/snackbar.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -47,9 +49,10 @@ $username = $result_array[0]['username'];
     <script type="text/javascript">
         var username = "<?= $username ?>";
     </script>
+    <script src="scripts/removeWaterMark.js"></script>
 </head>
 
-<body class="grid grid-cols-12 gap-1">
+<body class="grid grid-cols-12 gap-x-1">
     <header class="ações-servidor col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
         <div class="user">
             <div class="flex items-center md:order-2">
@@ -74,12 +77,14 @@ $username = $result_array[0]['username'];
         <div class="">
             <p class="text-white" id="time"></p>
         </div>
-        <div class="">
-            <img src="static/sepais_logo.png" class="sm:h-6 h-4">
-        </div>
+        <a href="index.php">
+            <div class="">
+                <img src="static/sepais_logo.png" class="sm:h-6 h-4">
+            </div>
+        </a>
     </header>
     <aside class="aside left-0 col-span-2 sm:col-span-1 h-full">
-        <div class="h-full overflow-y-auto bg-gray-50">
+        <div class="h-full overflow-y-auto bg-gray-50 pt-1">
             <ul class="space-y-2 font-medium">
                 <li>
                     <a id="escrever-recado" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
@@ -107,6 +112,7 @@ $username = $result_array[0]['username'];
         </div>
     </aside>
     <section id="main" class="col-span-8 sm:col-span-10 overflow-x-auto">
+        <snackbar></snackbar>
         <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username); ?>!</span>
         </h1>
@@ -133,11 +139,11 @@ $username = $result_array[0]['username'];
                                 <div class="col-span-2 sm:col-span-2">
                                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900">Motivo</label>
                                     <select required id="category" class="select-motivo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                        <option disabled selected="">Selecionar motivo</option>
+                                        <option disabled value="regular" selected="">Selecionar motivo</option>
                                     </select>
                                 </div>
                             </div>
-                            <button disabled class="confirmar-liberar text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            <button disabled class="confirmar-liberar text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center" data-modal-hide="crud-modal">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                                 </svg>
@@ -149,14 +155,13 @@ $username = $result_array[0]['username'];
                     </div>
                 </div>
             </div>
-
             <button disabled style="display:none;" data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="btn-liberar bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39] mt-6 shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]">
                 Liberar
             </button>
         </div>
     </section>
     <aside class="turmas min-h-screen h-full right-t-0 col-span-2 sm:col-span-1">
-        <div class="h-full overflow-y-auto bg-gray-50">
+        <div class="h-full overflow-y-auto bg-gray-50 pt-1">
             <ul class="space-y-2 font-medium">
                 <li>
                     <a id="adm1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
@@ -202,7 +207,8 @@ $username = $result_array[0]['username'];
         </div>
     </aside>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/snackbar.js"></script>
 </body>
 
 </html>

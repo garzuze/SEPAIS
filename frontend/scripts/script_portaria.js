@@ -1,20 +1,20 @@
 function updateTime() {
-    var currentTime = new Date()
-    var hours = currentTime.getHours()
-    var minutes = currentTime.getMinutes()
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
 
     if (hours < 10) {
-        hours = "0" + hours
+        hours = "0" + hours;
     }
 
     if (minutes < 10) {
-        minutes = "0" + minutes
+        minutes = "0" + minutes;
     }
 
-    var time = hours + ":" + minutes
-    $('#time').html(time)
+    var time = hours + ":" + minutes;
+    $('#time').html(time);
 }
-setInterval(updateTime, 1000)
+setInterval(updateTime, 1000);
 
 $(document).ready(function () {
     // Função para botões ficarem em destaque quando ativos
@@ -27,7 +27,7 @@ $(document).ready(function () {
     $('.select-turma').click(function () {
         var turma = $(this).attr('id');
         //mostra o botão liberar
-        $('.btn-liberar').show()
+        $('.btn-liberar').show();
         $.ajax({
             url: 'read/read_alunos_turma.php',
             data: 'turma=' + turma,
@@ -36,7 +36,7 @@ $(document).ready(function () {
                 if(data==0){
                     location.reload();
                 } else{
-                    data = JSON.parse(data)
+                    data = JSON.parse(data);
                     console.log(data);
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
@@ -62,13 +62,13 @@ $(document).ready(function () {
                                     </tr>
                                 </thead>
                                 <tbody id="tb-alunos-resp">
-                                </tbody>`)
+                                </tbody>`);
                     for (var i = 0; i < data.length; i++) {
                         var aluno_check = "aluno"+i;
                         $('#tb-alunos-resp').append(
                             '<tr class="bg-white border-b">' +
                                 '<td id="id" scope="col" class="px-6 py-3 hidden">' +
-                                    data[i]['id_aluno'] +
+                                    data[i]['id_aluno'] + 
                                 '</td>' +
                                 '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900">' +
                                     data[i]['nome_aluno'] +
@@ -97,8 +97,8 @@ $(document).ready(function () {
             error: function (request, status, error) {
                 alert(request.responseText);
             }
-        })
-    })
+        });
+    });
 });
 
 // Função para abrir modal de atraso e preparar os dados para registrar o atraso
@@ -114,7 +114,6 @@ $("#main").on("click", ".registrar-atraso", function() {
 
 // Função para enviar os dados do registro do atraso para a inserção no banco de dados
 $("#main").on("click", "#confirmar-atraso ", function () {
-
     id_aluno = $("#modal-id").text();
     username = $("#servidor-username").text();
 
@@ -131,7 +130,17 @@ $("#main").on("click", "#confirmar-atraso ", function () {
             }
         }
     });
-    location.reload();
+    
+    // Notificar que a operação foi realizada com sucesso
+    let snackbar  = new SnackBar();
+    snackbar.make("message",
+  [
+    "Atraso Registrado!",
+    null,
+    "bottom",
+    "right"
+  ], 4000);
+    // location.reload();
 });
 
 $('#saidas').click(function () {
@@ -142,7 +151,7 @@ $('#saidas').click(function () {
             if(data==0){
                 location.reload();
             } else{
-                data = JSON.parse(data)
+                data = JSON.parse(data);
                 console.log(data);
                 // Limpando o seção principal
                 $("#main > *:not('.modal')").remove();
@@ -210,8 +219,8 @@ $('#saidas').click(function () {
                 }, 10);
             }
         }
-    })
-})
+    });
+});
 
 $("#main").on("click", ".validar-saida", function() {
     // alert($(this).attr('value'));
@@ -247,5 +256,19 @@ $("#main").on("click", "#valida-saida", function () {
             }
         }
     });
-    location.reload();
+    
+    // Notificar que a operação foi realizada com sucesso
+    let snackbar  = new SnackBar();
+    snackbar.make("message",
+  [
+    "Saída Validada!",
+    null,
+    "bottom",
+    "right"
+  ], 4000);
+  
+    setTimeout(function () {
+            $("#saidas").trigger("click");
+    }, 100);
+    // location.reload();
 });
