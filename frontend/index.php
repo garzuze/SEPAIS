@@ -32,57 +32,11 @@ $username = $result_array[0]['username'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | SEPAIS</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/datatable.css">
-    <link rel="stylesheet" href="styles/snackbar.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Datatables -->
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.8/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script type="text/javascript">
-        var username = "<?= $username ?>";
-    </script>
-    <script src="scripts/removeWaterMark.js"></script>
+    <?php include("includes.php"); ?>
 </head>
 
 <body class="grid grid-cols-12 gap-x-1">
-    <header class="ações-servidor col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
-        <div class="user">
-            <div class="flex items-center md:order-2">
-                <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-[#00bf63]" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                    <span class="sr-only">Abrir menu de usuário</span>
-                    <img class="w-8 h-8 rounded-full" src="<?php echo $foto_path; ?>" alt="user photo">
-                </button>
-                <!-- Dropdown menu -->
-                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
-                    <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-900"><?php echo $nome; ?></span>
-                        <span class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
-                    </div>
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <form method="post"><input type="submit" name="logout" class="block px-4 py-2 text-sm text-gray-700 active:hover:bg-gray-100 m-auto" value="Logout"></form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="">
-            <p class="text-white" id="time"></p>
-        </div>
-        <a href="index.php">
-            <div class="">
-                <img src="static/sepais_logo.png" class="sm:h-6 h-4">
-            </div>
-        </a>
-    </header>
+    <?php include("navbar.php"); ?>
     <aside class="aside left-0 col-span-2 sm:col-span-1 h-full">
         <div class="h-full overflow-y-auto bg-gray-50 pt-1">
             <ul class="space-y-2 font-medium">
@@ -104,6 +58,9 @@ $username = $result_array[0]['username'];
                         </a>
                         <a id="historico_atrasos" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
                             <span>Atrasos</span>
+                        </a>
+                        <a id="historico_recados" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                            <span>Recados</span>
                         </a>
                     </div>
 
