@@ -20,7 +20,6 @@ if(isset($_SESSION['email'])) {
             $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_username) VALUES (?, ?, CURDATE(), ?, ?)");
             $query->bind_param("ssss", $titulo, $recado, $validade, $username);
             $query->execute();
-            echo "Deu certo";
             header('Location: ../index.php');
         }catch (Exception $e) {
             error_log($e->getMessage());

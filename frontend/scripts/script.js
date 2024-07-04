@@ -17,7 +17,7 @@ function updateTime() {
 setInterval(updateTime, 1000)
 
 $(document).ready(function () {
-    
+
     $("#main").on("click", "input.select-all", function () {
         // Coluna checkbox que seleciona ou deseleciona todos
         var checked = this.checked;
@@ -34,9 +34,9 @@ $(document).ready(function () {
         url: 'read/read_motivos.php',
         type: 'GET',
         success: function (motivo) {
-            if(motivo==0){
+            if (motivo == 0) {
                 location.reload();
-            } else{
+            } else {
                 motivo = JSON.parse(motivo)
                 console.log(motivo);
                 for (var i = 0; i < motivo.length; i++) {
@@ -76,9 +76,9 @@ $(document).ready(function () {
             data: 'turma=' + turma,
             type: 'GET',
             success: function (data) {
-                if(data==0){
+                if (data == 0) {
                     location.reload();
-                } else{
+                } else {
                     data = JSON.parse(data)
                     console.log(data);
                     // Limpando o seção principal
@@ -113,13 +113,13 @@ $(document).ready(function () {
                                 <tbody id="tb-alunos-resp">
                                 </tbody>`)
                     for (var i = 0; i < data.length; i++) {
-                        var aluno_check = "aluno"+i;
+                        var aluno_check = "aluno" + i;
                         $('#tb-alunos-resp').append(
                             '<tr class="bg-white border-b">' +
                             '<td class="active w-4 p-4">' +
                             '<div class="flex items-center">' +
-                            '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" id="'+aluno_check+'" value="' + data[i]['id_aluno'] + '">' +
-                            '<label for="'+aluno_check+'" class="sr-only">checkbox</label>' +
+                            '<input type="checkbox" class="select-item gmail-checkbox checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" name="select-alunos[]" id="' + aluno_check + '" value="' + data[i]['id_aluno'] + '">' +
+                            '<label for="' + aluno_check + '" class="sr-only">checkbox</label>' +
                             '</div>' +
                             '</td>' +
                             '<td id="id" scope="col" class="px-6 py-3 hidden">' +
@@ -146,48 +146,48 @@ $(document).ready(function () {
             }
         })
     })
-    
+
     let hoverTimeout;
-        
-        $('.confirmar-liberar').hover(
-            function() {
-                    hoverTimeout = setTimeout(function(){
-                        if($("#category").val() == null){
-                            let snackbar = new SnackBar();
-                            snackbar.make("message", [
-                                "Nenhum motivo selecionado!",
-                                null,
-                                "top",
-                                "right"
-                            ], 4000);
-                        }
-                    }, 500);
-            },
-            function() {
-                clearTimeout(hoverTimeout);
-            }
-        );
-        
-        $('.btn-liberar').hover(
-            function() {
-                var len = $("input.select-item:checked:checked").length;
-                if (len === 0){
-                    hoverTimeout = setTimeout(function(){
-                        let snackbar = new SnackBar();
-                        snackbar.make("message", [
-                            "Nenhum aluno selecionado!",
-                            null,
-                            "top",
-                            "right"
-                        ], 4000);
-                    }, 500);
+
+    $('.confirmar-liberar').hover(
+        function () {
+            hoverTimeout = setTimeout(function () {
+                if ($("#category").val() == null) {
+                    let snackbar = new SnackBar();
+                    snackbar.make("message", [
+                        "Nenhum motivo selecionado!",
+                        null,
+                        "top",
+                        "right"
+                    ], 4000);
                 }
-            },
-            function() {
-                clearTimeout(hoverTimeout);
+            }, 500);
+        },
+        function () {
+            clearTimeout(hoverTimeout);
+        }
+    );
+
+    $('.btn-liberar').hover(
+        function () {
+            var len = $("input.select-item:checked:checked").length;
+            if (len === 0) {
+                hoverTimeout = setTimeout(function () {
+                    let snackbar = new SnackBar();
+                    snackbar.make("message", [
+                        "Nenhum aluno selecionado!",
+                        null,
+                        "top",
+                        "right"
+                    ], 4000);
+                }, 500);
             }
-        );
-    
+        },
+        function () {
+            clearTimeout(hoverTimeout);
+        }
+    );
+
     // Função para enviar dados para o registro das liberações
     $("#main").on("click", ".confirmar-liberar ", function () {
         id_aluno = [];
@@ -195,12 +195,12 @@ $(document).ready(function () {
         $("input.select-item:checked").each(function () {
             id_aluno.push(this.value);
         });
-        
+
         $('.gmail-checkbox').prop('checked', false);
         $(".btn-liberar").prop("disabled", true);
         $("#category").val("regular").change();
         $(".confirmar-liberar").prop("disabled", true);
-        
+
         let snackbar = new SnackBar();
         snackbar.make("message", [
             "Liberações registradas!",
@@ -208,7 +208,7 @@ $(document).ready(function () {
             "top",
             "right"
         ], 4000);
-        
+
         // console.log(id_aluno);
         // console.log(motivo);
         // console.log(username);
@@ -221,7 +221,7 @@ $(document).ready(function () {
             },
             url: "insert/insert_sepae_libera.php",
             success: function (data) {
-                if(data==0){
+                if (data == 0) {
                     location.reload();
                 }
             }
@@ -237,9 +237,9 @@ $(document).ready(function () {
             url: 'read/read_historico_liberado_sepae.php',
             type: 'GET',
             success: function (data) {
-                if(data==0){
+                if (data == 0) {
                     location.reload();
-                } else{
+                } else {
                     data = JSON.parse(data)
                     console.log(data);
                     // Limpando o seção principal
@@ -338,7 +338,6 @@ $(document).ready(function () {
             }
         })
     })
-
     // Função para visualizar histórico de liberações pelos responsáveis
     $('#historico_responsavel').click(function () {
         //esconde o botão liberar
@@ -348,9 +347,9 @@ $(document).ready(function () {
             url: 'read/read_historico_liberado_responsaveis.php',
             type: 'GET',
             success: function (data) {
-                if(data==0){
+                if (data == 0) {
                     location.reload();
-                } else{
+                } else {
                     data = JSON.parse(data)
                     console.log(data);
                     // Limpando o seção principal
@@ -450,23 +449,23 @@ $(document).ready(function () {
         })
     })
 
-        // Função para visualizar histórico de atrasos
-        $('#historico_atrasos').click(function () {
-            //esconde o botão liberar
-            $('.btn-liberar').hide();
-            $("#main").css('visibility', 'hidden');
-            $.ajax({
-                url: 'read/read_historico_atrasos.php',
-                type: 'GET',
-                success: function (data) {
-                    if(data==0){
-                        location.reload();
-                    } else{
-                        data = JSON.parse(data)
-                        console.log(data);
-                        // Limpando o seção principal
-                        $("#main > *:not('.modal')").remove();
-                        $('#main').prepend(`
+    // Função para visualizar histórico de atrasos
+    $('#historico_atrasos').click(function () {
+        //esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main").css('visibility', 'hidden');
+        $.ajax({
+            url: 'read/read_historico_atrasos.php',
+            type: 'GET',
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                } else {
+                    data = JSON.parse(data)
+                    console.log(data);
+                    // Limpando o seção principal
+                    $("#main > *:not('.modal')").remove();
+                    $('#main').prepend(`
                                 <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <th scope="col" class="px-6 py-3 hidden">
@@ -487,56 +486,159 @@ $(document).ready(function () {
     
                                     </tbody>
                                 </table>`);
-                        for (var i = 0; i < data.length; i++) {
-                            $('#tb-alunos-resp').append(
-                                '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
-                                data[i]['id_aluno'] +
-                                '</td>' +
-                                '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
-                                data[i]['nome_aluno'] +
-                                '</td>' +
-                                '<td class="px-6 py-4 w-1/12">' +
-                                data[i]['turma'] +
-                                '</td>' +
-                                '<td class="px-6 py-4 w-2/12">' +
-                                data[i]['data'] +
-                                '</td>'+  
-                                +'</tr>');
-                        }
-                        var tabela = $(".tabela-historico").DataTable({
-                            "bSort": false,
-                            language: {
-                                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
-                            },
-                            dom: '<"row"lBf>rtip',
-                            buttons: [
-                                'copy',
-                                {
-                                    extend: 'csv',
-                                    title: 'Histórico de atrasos'
-                                },
-                                {
-                                    extend: 'excel',
-                                    title: 'Histórico de atrasos'
-                                },
-                                {
-                                    extend: 'pdf',
-                                    title: 'Histórico de atrasos',
-                                    customize: function (doc) {
-                                        doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
-                                    }
-                                }
-                            ]
-                        });
-                        setTimeout(function () {
-                            $(".tabela-historico").show();
-                            $("#main").css('visibility', 'visible');
-                        }, 10);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#tb-alunos-resp').append(
+                            '<tr class="bg-white border-b"><td id="id" scope="col" class="px-6 py-3 hidden">' +
+                            data[i]['id_aluno'] +
+                            '</td>' +
+                            '<td id="nome_aluno" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                            data[i]['nome_aluno'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/12">' +
+                            data[i]['turma'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['data'] +
+                            '</td>' +
+                            +'</tr>');
                     }
+                    var tabela = $(".tabela-historico").DataTable({
+                        "bSort": false,
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                        },
+                        dom: '<"row"lBf>rtip',
+                        buttons: [
+                            'copy',
+                            {
+                                extend: 'csv',
+                                title: 'Histórico de atrasos'
+                            },
+                            {
+                                extend: 'excel',
+                                title: 'Histórico de atrasos'
+                            },
+                            {
+                                extend: 'pdf',
+                                title: 'Histórico de atrasos',
+                                customize: function (doc) {
+                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
+                                }
+                            }
+                        ]
+                    });
+                    setTimeout(function () {
+                        $(".tabela-historico").show();
+                        $("#main").css('visibility', 'visible');
+                    }, 10);
                 }
-            })
+            }
         })
+    })
 
+    // Função para visualizar histórico de recados
+    $("#historico_recados").click(function() {
+        //esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main").css('visibility', 'hidden');
+        $.ajax({
+            url: 'read/read_recados.php',
+            type: 'GET',
+            success: function(data) {
+                if (data == 0) {
+                    location.reload();
+                } else {
+                    data = JSON.parse(data);
+                    console.log(data);
+                    // Limpando o seção principal
+                    $("#main > *:not('.modal')").remove();
+                    $('#main').prepend(`
+                        <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <th scope="col" class="px-6 py-3 hidden">
+                                        id
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-3/12">
+                                        Título
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-1/12">
+                                        Recado
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-2/12">
+                                        Validade
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-2/12">
+                                        Servidor
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 w-2/12">
+                                        Editar
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tb-recados">
+
+                            </tbody>
+                        </table>`);
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i]['validade'] == null) {
+                            data[i]['validade'] = "Indefinida";
+                        }
+                        $('#tb-recados').append(
+                            '<tr class="bg-white border-b">' +
+                            '<td id="id" scope="col" class="px-6 py-3 hidden">' +
+                            data[i]['id'] +
+                            '</td>' +
+                            '<td id="titulo" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                            data[i]['titulo'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-1/12">' +
+                            data[i]['recado'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['validade'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['sepae_username'] +
+                            '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            '<a id="editar-recado" href="editar_recado?recado_id=' + data[i]['id'] + '" >Editar<a/>' +
+                            '</td>' +
+                            +'</tr>');
+                    }
+                    var tabela = $(".tabela-historico").DataTable({
+                        "bSort": false,
+                        language: {
+                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                        },
+                        dom: '<"row"lBf>rtip',
+                        buttons: [
+                            'copy',
+                            {
+                                extend: 'csv',
+                                title: 'Histórico de recados'
+                            },
+                            {
+                                extend: 'excel',
+                                title: 'Histórico de recados'
+                            },
+                            {
+                                extend: 'pdf',
+                                title: 'Histórico de recados',
+                                customize: function(doc) {
+                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
+                                }
+                            }
+                        ]
+                    });
+                    setTimeout(function() {
+                        $(".tabela-historico").show();
+                        $("#main").css('visibility', 'visible');
+                    }, 10);
+                }
+            }
+        })
+    })
+    
     // Função para escrever recado.
     $('#escrever-recado').click(function () {
         //esconde o botão liberar
@@ -547,7 +649,7 @@ $(document).ready(function () {
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
                     <form id="form_valida">
                         <div>
-                            <input type="hidden" id="username" name="username" value="`+username+`">
+                            <input type="hidden" id="username" name="username" value="`+ username + `">
                             <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
                             <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
                         </div>
@@ -575,32 +677,32 @@ $(document).ready(function () {
     $(".clique-desliza").click(function () {
         $(this).next().children().slideToggle("slow");
     })
-    
+
     $(".subclasse-historico").click(function () {
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $(this).addClass("border-[#00bf63] border-l-2");
     })
-    
+
     $("#main").on("click", "#enviar-recado", function (event) {
 
-    let username = $("#username").val().trim();
-    let recado = $("#recado").val().trim();
-    let validade = $("#validade").val().trim();
-    let titulo = $("#titulo").val().trim();
-    
-    // Check if any of the required fields are empty
-    if (!recado || !titulo || !username) {
-        let snackbar = new SnackBar();
-        snackbar.make("message", [
-            "Preencha os campos necessários!",
-            null,
-            "top",
-            "right"
-        ], 4000);
-        return;
-    }
-    
-    $.ajax({
+        let username = $("#username").val().trim();
+        let recado = $("#recado").val().trim();
+        let validade = $("#validade").val().trim();
+        let titulo = $("#titulo").val().trim();
+
+        // Check if any of the required fields are empty
+        if (!recado || !titulo || !username) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        }
+
+        $.ajax({
             type: "POST",
             data: {
                 titulo: titulo,
@@ -610,23 +712,23 @@ $(document).ready(function () {
             },
             url: "insert/insert_recado.php",
             success: function (data) {
-                if(data==0){
+                if (data == 0) {
                     location.reload();
                 }
             }
         });
-        
-    $("#recado").val("");
-    $("#validade").val("");
-    $("#titulo").val("");
-    
-    // Notify that the operation was successful
-    let snackbar = new SnackBar();
-    snackbar.make("message", [
-        "Recado enviado!",
-        null,
-        "bottom",
-        "right"
-    ], 4000);
-});
+
+        $("#recado").val("");
+        $("#validade").val("");
+        $("#titulo").val("");
+
+        // Notify that the operation was successful
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Recado enviado!",
+            null,
+            "bottom",
+            "right"
+        ], 4000);
+    });
 });

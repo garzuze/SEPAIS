@@ -5,8 +5,8 @@ session_start();
 if(isset($_SESSION['email'])) {
 try {
 	$mysqli = connect();
-	$consulta = $mysqli->prepare("SELECT titulo, recado, data, sepae_username from recado 
-    where (CURDATE() < validade) or (validade is null);");
+	$consulta = $mysqli->prepare("SELECT id, titulo, recado, data, validade, sepae_username from recado 
+    where (CURDATE() < validade) or (validade is null) ORDER BY id DESC;");
 	$consulta->execute();
 
 	$resultado = $consulta->get_result();
@@ -17,7 +17,7 @@ try {
 	exit('Alguma coisa estranha aconteceu...');
 }
 
-echo json_encode($resultadoFormatado);
+echo json_encode($resultadoFormatado,  JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
 $consulta->close();
 $mysqli->close();
