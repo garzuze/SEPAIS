@@ -190,6 +190,7 @@ $(document).ready(function () {
 
     // Função para enviar dados para o registro das liberações
     $("#main").on("click", ".confirmar-liberar ", function () {
+        email = $("#sepae_email").text()
         id_aluno = [];
         motivo = $(".select-motivo").children("option:selected").val();
         $("input.select-item:checked").each(function () {
@@ -217,7 +218,7 @@ $(document).ready(function () {
             data: {
                 id_aluno: id_aluno,
                 motivo: motivo,
-                username: username
+                email: email
             },
             url: "insert/insert_sepae_libera.php",
             success: function (data) {
@@ -298,7 +299,7 @@ $(document).ready(function () {
                             data[i]['saida'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-1/12">' +
-                            data[i]['servidor'] +
+                            data[i]['servidor'].split("@")[0] +
                             '</td>' +
                             '<td class="px-6 py-4 w-3/12">' +
                             data[i]['motivo'] +
@@ -408,7 +409,7 @@ $(document).ready(function () {
                             data[i]['saida'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-1/12">' +
-                            data[i]['responsavel'] +
+                            data[i]['responsavel'].split("@")[0] +
                             '</td>' +
                             '<td class="px-6 py-4 w-3/12">' +
                             data[i]['motivo'] +
@@ -598,7 +599,7 @@ $(document).ready(function () {
                             data[i]['validade'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-2/12">' +
-                            data[i]['sepae_username'] +
+                            data[i]['sepae_email'].split("@")[0] +
                             '</td>' +
                             '<td class="px-6 py-4 w-2/12">' +
                             '<a class="editar-recado underline cursor-pointer" id="'+data[i]["titulo"]+'" name="'+data[i]["recado"]+'" value="'+data[i]['validade']+'" >Editar<a/>' +
@@ -641,6 +642,7 @@ $(document).ready(function () {
     
     // Função para escrever recado.
     $('#escrever-recado').click(function () {
+        email = $("#sepae_email").text();
         //esconde o botão liberar
         $('.btn-liberar').hide();
         $("#main > *:not('.modal')").remove();
@@ -649,7 +651,7 @@ $(document).ready(function () {
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Escrever recado</h2>
                     <form id="form_valida">
                         <div>
-                            <input type="hidden" id="username" name="username" value="`+ username + `">
+                            <input type="hidden" id="email" name="email" value="`+ email + `">
                             <label for="titulo" class="block my-2 text-sm font-medium text-gray-900">Título</label>
                             <input type="text" name="titulo" id="titulo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O campus Pinhais é bom demais..." required>
                         </div>
@@ -703,13 +705,13 @@ $(document).ready(function () {
 
     $("#main").on("click", "#enviar-recado", function (event) {
 
-        let username = $("#username").val().trim();
+        let email = $("#email").val().trim();
         let recado = $("#recado").val().trim();
         let validade = $("#validade").val().trim();
         let titulo = $("#titulo").val().trim();
 
         // Check if any of the required fields are empty
-        if (!recado || !titulo || !username) {
+        if (!recado || !titulo || !email) {
             let snackbar = new SnackBar();
             snackbar.make("message", [
                 "Preencha os campos necessários!",
@@ -726,7 +728,7 @@ $(document).ready(function () {
                 titulo: titulo,
                 recado: recado,
                 validade: validade,
-                username: username
+                email: email
             },
             url: "insert/insert_recado.php",
             success: function (data) {

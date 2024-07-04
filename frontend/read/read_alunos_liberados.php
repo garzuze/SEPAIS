@@ -18,7 +18,7 @@ if(isset($_SESSION['email'])) {
         `aluno`.`nome` AS `aluno`,
         `turma`.`turma` AS `turma`,
         `motivo`.`motivo` AS `motivo`,
-        `sepae_libera_aluno`.`sepae_username` AS `liberador`,
+        `sepae_libera_aluno`.`sepae_email` AS `liberador`,
         `sepae_libera_aluno`.`data` AS `data`
     FROM
         (((`sepae_libera_aluno`
@@ -36,7 +36,7 @@ if(isset($_SESSION['email'])) {
         `aluno`.`nome` AS `aluno`,
         `turma`.`turma` AS `turma`,
         `motivo`.`motivo` AS `motivo`,
-        `responsavel`.`nome` AS `liberador`,
+        `responsavel`.`email` AS `liberador`,
         `responsavel_libera_aluno`.`data` AS `data`
     FROM
         ((((`responsavel_libera_aluno`

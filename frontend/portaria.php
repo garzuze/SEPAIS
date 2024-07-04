@@ -16,14 +16,13 @@ date_default_timezone_set('America/Sao_Paulo');
 
 # pegando nome completo do usuário e a sua foto
 $sql = connect();
-$query = $sql->prepare("SELECT * FROM sepaisdb.portaria WHERE email = ?;");
+$query = $sql->prepare("SELECT * FROM usuario WHERE email = ?;");
 $query->bind_param("s", $_SESSION['email']);
 $query->execute();
 $result_query = $query->get_result();
 $result_array = $result_query->fetch_all(MYSQLI_ASSOC);
 $nome = $result_array[0]['nome'];
 $foto_path = $result_array[0]['foto_path'];
-$username = $result_array[0]['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,9 +55,8 @@ $username = $result_array[0]['username'];
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
                     <div class="px-4 py-3">
-                        <span id="servidor-username" style="visibility: hidden; display: none;" class="block text-sm text-gray-900"><?php echo $username; ?></span>
                         <span class="block text-sm text-gray-900"><?php echo $nome; ?></span>
-                        <span class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
+                        <span id="servidor-email" class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
@@ -91,7 +89,7 @@ $username = $result_array[0]['username'];
     <section id="main" class="col-span-8 sm:col-span-10 overflow-x-auto">
         <snackbar></snackbar>
         <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
-            Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username); ?>!</span>
+            Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst(strtok($nome, ' ')); ?>!</span>
         </h1>
         <div class="modal">
         <button id="atraso-escondido" data-modal-target="modal-atraso" data-modal-toggle="modal-atraso" type="button" style="visibility: hidden; display: none;">

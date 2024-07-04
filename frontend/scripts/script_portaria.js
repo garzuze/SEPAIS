@@ -106,7 +106,7 @@ $("#main").on("click", ".registrar-atraso", function() {
     // alert($(this).attr('value'));
     $("#modal-nome").empty();
     $("#modal-id").empty();
-    $("#modal-username").empty();
+    $("#modal-email").empty();
     $("#modal-nome").append(" <b>"+$(this).attr('id')+"</b>");
     $("#modal-id").append($(this).attr('value'));
     $('#atraso-escondido').trigger("click");
@@ -115,13 +115,13 @@ $("#main").on("click", ".registrar-atraso", function() {
 // Função para enviar os dados do registro do atraso para a inserção no banco de dados
 $("#main").on("click", "#confirmar-atraso ", function () {
     id_aluno = $("#modal-id").text();
-    username = $("#servidor-username").text();
+    email = $("#servidor-email").text();
 
     $.ajax({
         type: "POST",
         data: {
             id_aluno: id_aluno,
-            username: username
+            email: email
         },
         url: "insert/insert_alunos_atrasados.php",
         success: function (data) {
@@ -191,7 +191,7 @@ $('#saidas').click(function () {
                         data[i]['turma'] +
                         '</td>' +
                         '<td class="px-6 py-4 w-1/12">' +
-                        data[i]['liberador'] +
+                        data[i]['liberador'].split("@")[0] +
                         '</td>' +
                         '<td class="active w-1/12 p-4">' +
                                 '<div class="flex items-center justify-center">' +

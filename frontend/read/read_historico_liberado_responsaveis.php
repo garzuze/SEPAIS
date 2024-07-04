@@ -8,7 +8,7 @@ if(isset($_SESSION['email'])) {
 		$consulta = $mysqli->prepare("SELECT aluno.id as id_aluno, aluno.nome as nome_aluno, 
 		turma.turma as turma, responsavel_libera_aluno.data as data, 
 		responsavel_libera_aluno.horario_saida as saida, motivo.motivo as motivo, 
-		responsavel.nome as responsavel  
+		responsavel.email as responsavel  
 		FROM responsavel_libera_aluno, aluno, turma, motivo, responsavel
 		where (aluno.id = responsavel_libera_aluno.aluno_id) 
         and (responsavel.email = responsavel_libera_aluno.responsavel_email)

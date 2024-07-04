@@ -1,13 +1,12 @@
 <?php
 $sql = connect();
-$query = $sql->prepare("SELECT * FROM sepae WHERE email = ?;");
+$query = $sql->prepare("SELECT * FROM usuario WHERE email = ?;");
 $query->bind_param("s", $_SESSION['email']);
 $query->execute();
 $result_query = $query->get_result();
 $result_array = $result_query->fetch_all(MYSQLI_ASSOC);
 $nome = $result_array[0]['nome'];
 $foto_path = $result_array[0]['foto_path'];
-$username = $result_array[0]['username'];
 ?>
 
 <header class="ações-servidor col-span-12 h-16 bg-[#040401] grid grid-cols-3 justify-items-center content-center">
@@ -21,7 +20,7 @@ $username = $result_array[0]['username'];
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
                 <div class="px-4 py-3">
                     <span class="block text-sm text-gray-900"><?php echo $nome; ?></span>
-                    <span class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
+                    <span id="sepae_email" class="block text-sm  text-gray-500 truncate"><?php echo $_SESSION['email'] ?></span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>

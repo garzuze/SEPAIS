@@ -9,7 +9,7 @@ if(isset($_SESSION['email'])) {
             $titulo = $_POST['titulo'];
             $recado = $_POST['recado'];
             $validade = $_POST['validade'];
-            $username = ucfirst($_POST['username']);
+            $email = $_POST['email'];
             $date = date('Y-m-d H:i:s');
             
             if ($validade === ''){
@@ -18,8 +18,8 @@ if(isset($_SESSION['email'])) {
             
             // Conectando ao BD e inserindo novos dados
             $sql = connect();
-            $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_username) VALUES (?, ?, ?, ?, ?)");
-            $query->bind_param("sssss", $titulo, $recado, $date, $validade, $username);
+            $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_email) VALUES (?, ?, ?, ?, ?)");
+            $query->bind_param("sssss", $titulo, $recado, $date, $validade, $email);
             $query->execute();
             header('Location: ../login.php');
         }catch (Exception $e) {

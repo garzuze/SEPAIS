@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION['email'])) {
 try {
 	$mysqli = connect();
-	$consulta = $mysqli->prepare("SELECT id, titulo, recado, data, validade, sepae_username from recado 
+	$consulta = $mysqli->prepare("SELECT id, titulo, recado, data, validade, sepae_email from recado 
     where (CURDATE() < validade) or (validade is null) ORDER BY id DESC;");
 	$consulta->execute();
 

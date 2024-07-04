@@ -6,7 +6,7 @@ if(isset($_SESSION['email'])) {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Preparando variáveis para inserção no BD
         $motivo = $_POST['motivo'];
-        $username = ucfirst($_POST['username']);
+        $email = $_POST['email'];
         $id_aluno = $_POST['id_aluno'];
         $date = date('Y-m-d H:i:s');
 
@@ -14,10 +14,10 @@ if(isset($_SESSION['email'])) {
         $sql = connect();
 
         foreach ($id_aluno as $aluno_id) {
-            $query = $sql->prepare("INSERT INTO sepae_libera_aluno (sepae_username, aluno_id, data, horario_saida, motivo_id) VALUES (?, ?, ?, NULL, ?)");
+            $query = $sql->prepare("INSERT INTO sepae_libera_aluno (sepae_email, aluno_id, data, horario_saida, motivo_id) VALUES (?, ?, ?, NULL, ?)");
 
             if ($query) {
-                $query->bind_param("ssss", $username, $aluno_id, $date, $motivo);
+                $query->bind_param("ssss", $email, $aluno_id, $date, $motivo);
                 $query->execute();
 
                 if ($query->affected_rows <= 0) {

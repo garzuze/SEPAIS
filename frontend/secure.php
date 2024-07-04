@@ -15,8 +15,12 @@ function verify_user($email, $password){
     $result_query2 = $query2->get_result();
 
     if ($result_query->num_rows === 1) {
+        $query3 = $sql->prepare("SELECT * FROM usuario WHERE email = ?");
+        $query3->bind_param('s', $email);
+        $query3->execute();
+        $result_query3 = $query3->get_result();
         // Agora, comparamos a senha inserida com a senha no banco de dados
-        $result_array = $result_query->fetch_all(MYSQLI_ASSOC);
+        $result_array = $result_query3->fetch_all(MYSQLI_ASSOC);
         $stored_password = $result_array[0]['senha'];
         if (password_verify($password, $stored_password)) {
             // As senhas coincidem, o usuário é logado
@@ -29,8 +33,12 @@ function verify_user($email, $password){
             secure_page();
         }
     } elseif ($result_query2->num_rows === 1) {
+        $query4 = $sql->prepare("SELECT * FROM usuario WHERE email = ?");
+        $query4->bind_param('s', $email);
+        $query4->execute();
+        $result_query4 = $query4->get_result();
         // Agora, comparamos a senha inserida com a senha no banco de dados
-        $result_array2 = $result_query2->fetch_all(MYSQLI_ASSOC);
+        $result_array2 = $result_query4->fetch_all(MYSQLI_ASSOC);
         $stored_password = $result_array2[0]['senha'];
         if (password_verify($password, $stored_password)) {
             // As senhas coincidem, o usuário é logado
