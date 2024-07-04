@@ -74,6 +74,9 @@ $username = $result_array[0]['username'];
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst($username); ?>!</span>
         </h1>
         <div class="modal">
+            <p id="editar-recado-titulo" style="visibility: hidden; display: none;"></p>
+            <p id="editar-recado-recado" style="visibility: hidden; display: none;"></p>
+            <p id="editar-recado-validade" style="visibility: hidden; display: none;"></p>
             <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div class="relative p-4 w-full max-w-md max-h-full">
                     <!-- Modal content -->

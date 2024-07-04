@@ -601,7 +601,7 @@ $(document).ready(function () {
                             data[i]['sepae_username'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-2/12">' +
-                            '<a id="editar-recado" href="editar_recado?recado_id=' + data[i]['id'] + '" >Editar<a/>' +
+                            '<a class="editar-recado underline cursor-pointer" id="'+data[i]["titulo"]+'" name="'+data[i]["recado"]+'" value="'+data[i]['validade']+'" >Editar<a/>' +
                             '</td>' +
                             +'</tr>');
                     }
@@ -667,7 +667,18 @@ $(document).ready(function () {
                         <input type="button" id="enviar-recado" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
                         value="Enviar recado">
                         </form>
-                </div>`)
+                </div>`);
+        if(!$("#editar-recado-titulo").text() == ''){
+            $("#titulo").val("[ERRATA] "+$("#editar-recado-titulo").text());
+            $("#recado").val($("#editar-recado-recado").text());
+            $("#validade").val($("#editar-recado-validade").text());
+            $("#titulo").prop("disabled", true);
+
+            $("#editar-recado-titulo").text("");
+            $("#editar-recado-recado").text("");
+            $("#editar-recado-validade").text("");
+        }
+                
     })
 
     $('.select-motivo').change(function () {
@@ -682,6 +693,13 @@ $(document).ready(function () {
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
         $(this).addClass("border-[#00bf63] border-l-2");
     })
+
+    $("#main").on("click", ".editar-recado", function () {
+        $("#editar-recado-titulo").append($(this).attr('id'));
+        $("#editar-recado-recado").append($(this).attr('name'));
+        $("#editar-recado-validade").append($(this).attr('value'));
+        $('#escrever-recado').trigger("click");
+    });
 
     $("#main").on("click", "#enviar-recado", function (event) {
 

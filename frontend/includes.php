@@ -15,4 +15,4 @@
 <script type="text/javascript">
     var username = "<?= $username ?>";
 </script>
-<script src="scripts/removeWaterMark.js"></script>
+<!-- <script src="scripts/removeWaterMark.js"></script> -->

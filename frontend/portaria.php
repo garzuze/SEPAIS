@@ -41,7 +41,7 @@ $username = $result_array[0]['username'];
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Datatables, vai ser usado no futuro-->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="scripts/removeWaterMark.js"></script>
+    <!-- <script src="scripts/removeWaterMark.js"></script> -->
 
 </head>
 
