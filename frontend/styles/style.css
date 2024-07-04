@@ -59,3 +59,23 @@
 span {
     display: inline-flex;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #242424;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #231f20;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #110f10;
+}
