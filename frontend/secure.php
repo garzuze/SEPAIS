@@ -4,12 +4,12 @@ include('connect.php');
 function verify_user($email, $password){
     $sql = connect();
     // Primeiro, verificamos se o e-mail existe na tabela de servidores da SEPAE.
-    $query = $sql->prepare("SELECT * FROM sepaisdb.sepae WHERE email = ?");
+    $query = $sql->prepare("SELECT * FROM sepae WHERE email = ?");
     $query->bind_param('s', $email);
     $query->execute();
     $result_query = $query->get_result();
     // Depois, verificamos se o e-mail existe na tabela de servidores da portaria.
-    $query2 = $sql->prepare("SELECT * FROM sepaisdb.portaria WHERE email = ?");
+    $query2 = $sql->prepare("SELECT * FROM portaria WHERE email = ?");
     $query2->bind_param('s', $email);
     $query2->execute();
     $result_query2 = $query2->get_result();

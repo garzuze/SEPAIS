@@ -7,9 +7,11 @@ if (ISSET($_POST['idAluno'])) {
 	$idAluno = '7';
 }
 
+date_default_timezone_set('America/Sao_Paulo');
 session_start();
 if(isset($_SESSION['email'])) {
 	try {
+	    $date = date('Y-m-d');
 		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT 
         `aluno`.`id` AS `id_aluno`,
@@ -25,7 +27,7 @@ if(isset($_SESSION['email'])) {
         JOIN `motivo`)
     WHERE
         ((`aluno`.`id` = `sepae_libera_aluno`.`aluno_id`)
-            AND (CAST(`sepae_libera_aluno`.`data` AS DATE) = CURDATE())
+            AND (CAST(`sepae_libera_aluno`.`data` AS DATE) = ?)
             AND (`sepae_libera_aluno`.`horario_saida` IS NULL)
             AND (`turma`.`id` = `aluno`.`turma_id`)
             AND (`motivo`.`id` = `sepae_libera_aluno`.`motivo_id`)) 
@@ -46,12 +48,12 @@ if(isset($_SESSION['email'])) {
         ((`aluno`.`id` = `responsavel_libera_aluno`.`aluno_id`)
             AND (`motivo`.`id` = `responsavel_libera_aluno`.`motivo_id`)
             AND (`responsavel`.`email` = `responsavel_libera_aluno`.`responsavel_email`)
-            AND (CAST(`responsavel_libera_aluno`.`data` AS DATE) = CURDATE())
+            AND (CAST(`responsavel_libera_aluno`.`data` AS DATE) = ?)
             AND (`responsavel_libera_aluno`.`horario_saida` IS NULL)
             AND (`turma`.`id` = `aluno`.`turma_id`))
     ORDER BY `data` DESC");
 		// and (aluno.id = ?);
-		// $consulta->bind_param("s", $idAluno);
+		$consulta->bind_param("ss", $date, $date);
 		$consulta->execute();
 
 		$resultado = $consulta->get_result();

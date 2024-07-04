@@ -9,7 +9,7 @@ if(isset($_SESSION['email'])) {
 		turma.turma as turma, sepae_libera_aluno.data as data, 
 		sepae_libera_aluno.horario_saida as saida, motivo.motivo as motivo, 
 		sepae_libera_aluno.sepae_username as servidor  
-		FROM sepaisdb.sepae_libera_aluno, aluno, turma, motivo 
+		FROM sepae_libera_aluno, aluno, turma, motivo 
 		where (aluno.id = sepae_libera_aluno.aluno_id) -- and (horario_saida is not null)
 		and (turma.id = aluno.turma_id) and (motivo.id = sepae_libera_aluno.motivo_id)
 		order by data desc;");

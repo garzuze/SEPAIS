@@ -16,7 +16,7 @@ date_default_timezone_set('America/Sao_Paulo');
 
 # pegando nome completo do usuário e a sua foto
 $sql = connect();
-$query = $sql->prepare("SELECT * FROM sepaisdb.sepae WHERE email = ?;");
+$query = $sql->prepare("SELECT * FROM sepae WHERE email = ?;");
 $query->bind_param("s", $_SESSION['email']);
 $query->execute();
 $result_query = $query->get_result();

@@ -10,6 +10,7 @@ if(isset($_SESSION['email'])) {
             $recado = $_POST['recado'];
             $validade = $_POST['validade'];
             $username = ucfirst($_POST['username']);
+            $date = date('Y-m-d H:i:s');
             
             if ($validade === ''){
                 $validade = null;
@@ -17,10 +18,10 @@ if(isset($_SESSION['email'])) {
             
             // Conectando ao BD e inserindo novos dados
             $sql = connect();
-            $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_username) VALUES (?, ?, CURDATE(), ?, ?)");
-            $query->bind_param("ssss", $titulo, $recado, $validade, $username);
+            $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_username) VALUES (?, ?, ?, ?, ?)");
+            $query->bind_param("sssss", $titulo, $recado, $date, $validade, $username);
             $query->execute();
-            header('Location: ../index.php');
+            header('Location: ../login.php');
         }catch (Exception $e) {
             error_log($e->getMessage());
             exit("<br>Alguma coisa estranha aconteceu");
@@ -28,6 +29,6 @@ if(isset($_SESSION['email'])) {
     }
 } else{
 	echo json_encode(0);
-    header('Location: ../index.php');
+	header('Location: ../login.php');
 }
 ?>

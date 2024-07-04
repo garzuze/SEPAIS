@@ -1,6 +1,6 @@
 <?php
 $sql = connect();
-$query = $sql->prepare("SELECT * FROM sepaisdb.sepae WHERE email = ?;");
+$query = $sql->prepare("SELECT * FROM sepae WHERE email = ?;");
 $query->bind_param("s", $_SESSION['email']);
 $query->execute();
 $result_query = $query->get_result();

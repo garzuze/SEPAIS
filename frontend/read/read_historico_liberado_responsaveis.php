@@ -9,7 +9,7 @@ if(isset($_SESSION['email'])) {
 		turma.turma as turma, responsavel_libera_aluno.data as data, 
 		responsavel_libera_aluno.horario_saida as saida, motivo.motivo as motivo, 
 		responsavel.nome as responsavel  
-		FROM sepaisdb.responsavel_libera_aluno, aluno, turma, motivo, responsavel
+		FROM responsavel_libera_aluno, aluno, turma, motivo, responsavel
 		where (aluno.id = responsavel_libera_aluno.aluno_id) 
         and (responsavel.email = responsavel_libera_aluno.responsavel_email)
 		and (turma.id = aluno.turma_id) and (motivo.id = responsavel_libera_aluno.motivo_id)
