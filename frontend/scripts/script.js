@@ -67,8 +67,7 @@ $(document).ready(function () {
     });
 
     // Função para selecionar alunos por turma
-    $('.select-turma').click(function () {
-        var turma = $(this).attr('id');
+    function selectTurma(turma) {
         //mostra o botão liberar
         $('.btn-liberar').show()
         $.ajax({
@@ -145,7 +144,25 @@ $(document).ready(function () {
                 alert(request.responseText);
             }
         })
+    }
+
+    $('.select-turma').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#turma-' + $(this).attr('id'));
+        selectTurma($(this).attr('id'));
     })
+
+    if (window.location.hash.includes("turma")) {
+        var turma = window.location.hash.split('-')[1];
+        selectTurma(turma);
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash.includes("turma")) {
+            var turma = window.location.hash.split('-')[1];
+            selectTurma(turma);
+        }
+    });
 
     let hoverTimeout;
 
