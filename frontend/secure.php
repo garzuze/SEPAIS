@@ -30,7 +30,8 @@ function verify_user($email, $password){
             header('Location: index.php');
         } else {
             // Senha não coincide, usuário redirecionado para login
-            secure_page();
+            session_destroy();
+            header('Location: login.php?encontrado=nao');
         }
     } elseif ($result_query2->num_rows === 1) {
         $query4 = $sql->prepare("SELECT * FROM usuario WHERE email = ?");
@@ -48,11 +49,12 @@ function verify_user($email, $password){
             header('Location: portaria.php');
         } else {
             // Senha não coincide, usuário redirecionado para login
-            secure_page();
+            session_destroy();
+            header('Location: login.php?encontrado=nao');
         }
     } else {
         // Usuário não encontrado no banco de dados
-        header('Location: signup.php');
+        header('Location: login.php?encontrado=nao');
     }
 }
 

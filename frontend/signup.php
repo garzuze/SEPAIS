@@ -7,13 +7,17 @@
     <title>Login | SEPAIS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="scripts/snackbar.js"></script>
     <!-- <script src="scripts/removeWaterMark.js"></script> -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico" />
+    <link rel="stylesheet" href="styles/snackbar.css">
 </head>
 
 <body>
     <form method="post" action="insert/insert_cadastro.php">
         <section class="bg-gray-50">
+        <snackbar></snackbar>
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" class="flex items-center text-2xl font-semibold text-gray-900">
                     <img class="mr-2 h-36" src="static/sepais_logo2.png" alt="logo">
@@ -60,6 +64,35 @@
         $('.select-funcao').change(function () {
             $(".confirmar-cadastro").prop("disabled", false);
         });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
+        var erro = getUrlParameter('erro');
+        if(!erro == ""){
+            let snackbar = new SnackBar();
+                    snackbar.make("message", [
+                        erro,
+                        null,
+                        "top",
+                        "right"
+                    ], 5000);
+            
+            var yourCurrentUrl = window.location.href.split('?')[0]; 
+            window.history.replaceState({}, '', yourCurrentUrl );
+        }
     </script>
 </body>
 
