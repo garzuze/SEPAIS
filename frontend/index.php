@@ -45,7 +45,7 @@ $foto_path = $result_array[0]['foto_path'];
                     </a>
                 </li>
                 <li>
-                    <p class="clique-desliza select-destaque flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
+                    <p id="historico" class="clique-desliza select-destaque flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
                         Histórico
                     </p>
                     <div class="text-sm ml-6">

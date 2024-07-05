@@ -47,6 +47,7 @@ $(document).ready(function () {
             }
         }
     })
+
     // Marca os checkbox clicados 
     $("#main").on("click", "input.select-item", function () {
         var checked = this.checked;
@@ -60,11 +61,20 @@ $(document).ready(function () {
     });
 
     // Função para botões ficarem em destaque quando ativos
-    $('.select-destaque').click(function () {
-        $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
+    function activateButton(element) {
+        $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
         $('.select-destaque').removeClass('bg-gray-100');
-        $(this).addClass('bg-gray-100');
+        if (String(element).includes("historico")) {
+            $(element).addClass("border-[#00bf63] border-l-2");
+        } else {
+            $(element).addClass('bg-gray-100');
+        }
+    }
+
+    $('.select-destaque').click(function () {
+        activateButton(this);
     });
+
 
     // Função para selecionar alunos por turma
     function selectTurma(turma) {
@@ -155,12 +165,15 @@ $(document).ready(function () {
     if (window.location.hash.includes("turma")) {
         var turma = window.location.hash.split('-')[1];
         selectTurma(turma);
+        activateButton('#' + turma);
     }
+
 
     window.addEventListener('popstate', function () {
         if (window.location.hash.includes("turma")) {
             var turma = window.location.hash.split('-')[1];
             selectTurma(turma);
+            activateButton('#' + turma);
         }
     });
 
@@ -364,11 +377,15 @@ $(document).ready(function () {
     })
 
     if (window.location.hash === '#historico-sepae') {
+        $("#historico").next().children().slideDown("slow");
+        activateButton(window.location.hash)
         loadHistoricoLSepae();
     }
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#historico-sepae') {
+            $("#historico").next().children().slideDown("slow");
+            activateButton(window.location.hash)
             loadHistoricoLSepae();
         }
     });
@@ -491,11 +508,15 @@ $(document).ready(function () {
 
     if (window.location.hash === '#historico-responsavel') {
         loadHistoricoResponsavel();
+        $("#historico").next().children().slideDown("slow");
+        activateButton(window.location.hash)
     }
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#historico-responsavel') {
             loadHistoricoResponsavel();
+            $("#historico").next().children().slideDown("slow");
+            activateButton(window.location.hash)
         }
     });
 
@@ -594,11 +615,15 @@ $(document).ready(function () {
 
     if (window.location.hash === '#historico-atrasos') {
         loadHistoricoAtrasos();
+        $("#historico").next().children().slideDown("slow");
+        activateButton(window.location.hash)
     }
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#historico-atrasos') {
             loadHistoricoAtrasos();
+            $("#historico").next().children().slideDown("slow");
+            activateButton(window.location.hash)
         }
     });
 
@@ -713,11 +738,15 @@ $(document).ready(function () {
 
     if (window.location.hash === '#historico-recados') {
         loadHistoricoRecados();
+        $("#historico").next().children().slideDown("slow");
+        activateButton(window.location.hash)
     }
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#historico-recados') {
             loadHistoricoRecados();
+            $("#historico").next().children().slideDown("slow");
+        activateButton(window.location.hash)
         }
     });
 
@@ -772,11 +801,13 @@ $(document).ready(function () {
 
     if (window.location.hash === '#escrever-recado') {
         loadEscreverRecado();
+        activateButton(window.location.hash);
     }
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#escrever-recado') {
             loadEscreverRecado();
+            activateButton(window.location.hash)
         }
     });
 
@@ -790,8 +821,7 @@ $(document).ready(function () {
     })
 
     $(".subclasse-historico").click(function () {
-        $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2");
-        $(this).addClass("border-[#00bf63] border-l-2");
+        activateButton(this);
     })
 
     $("#main").on("click", ".editar-recado", function () {
