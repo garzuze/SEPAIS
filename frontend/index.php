@@ -40,7 +40,7 @@ $foto_path = $result_array[0]['foto_path'];
         <div class="h-full overflow-y-auto bg-gray-50 pt-1">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a id="escrever-recado" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
+                    <a id="escrever-recado" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group" href="#escrever-recado">
                         <span>Recado</span>
                     </a>
                 </li>
@@ -49,16 +49,16 @@ $foto_path = $result_array[0]['foto_path'];
                         Histórico
                     </p>
                     <div class="text-sm ml-6">
-                        <a id="historico_sepae" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico-sepae" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-sepae">
                             <span>Sepae</span>
                         </a>
-                        <a id="historico_responsavel" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico-responsavel" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-responsavel">
                             <span>Responsável</span>
                         </a>
-                        <a id="historico_atrasos" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico-atrasos" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-atrasos">
                             <span>Atrasos</span>
                         </a>
-                        <a id="historico_recados" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group">
+                        <a id="historico-recados" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-recados">
                             <span>Recados</span>
                         </a>
                     </div>

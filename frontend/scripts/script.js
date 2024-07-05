@@ -230,7 +230,7 @@ $(document).ready(function () {
     });
 
     // Função para visualizar histórico de liberações pela SEPAE
-    $('#historico_sepae').click(function () {
+    function loadHistoricoLSepae() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
         $("#main").css('visibility', 'hidden');
@@ -338,9 +338,25 @@ $(document).ready(function () {
                 }
             }
         })
+    }
+
+    $('#historico-sepae').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#historico-sepae');
+        loadHistoricoLSepae();
     })
+
+    if (window.location.hash === '#historico-sepae') {
+        loadHistoricoLSepae();
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#historico-sepae') {
+            loadHistoricoLSepae();
+        }
+    });
     // Função para visualizar histórico de liberações pelos responsáveis
-    $('#historico_responsavel').click(function () {
+    function loadHistoricoResponsavel() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
         $("#main").css('visibility', 'hidden');
@@ -448,10 +464,26 @@ $(document).ready(function () {
                 }
             }
         })
+    }
+
+    $('#historico-responsavel').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#historico-responsavel');
+        loadHistoricoResponsavel();
     })
 
+    if (window.location.hash === '#historico-responsavel') {
+        loadHistoricoResponsavel();
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#historico-responsavel') {
+            loadHistoricoResponsavel();
+        }
+    });
+
     // Função para visualizar histórico de atrasos
-    $('#historico_atrasos').click(function () {
+    function loadHistoricoAtrasos() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
         $("#main").css('visibility', 'hidden');
@@ -535,17 +567,33 @@ $(document).ready(function () {
                 }
             }
         })
+    }
+
+    $('#historico-atrasos').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#historico-atrasos');
+        loadHistoricoAtrasos();
     })
 
+    if (window.location.hash === '#historico-atrasos') {
+        loadHistoricoAtrasos();
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#historico-atrasos') {
+            loadHistoricoAtrasos();
+        }
+    });
+
     // Função para visualizar histórico de recados
-    $("#historico_recados").click(function() {
+    function loadHistoricoRecados() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
         $("#main").css('visibility', 'hidden');
         $.ajax({
             url: 'read/read_recados.php',
             type: 'GET',
-            success: function(data) {
+            success: function (data) {
                 if (data == 0) {
                     location.reload();
                 } else {
@@ -602,7 +650,7 @@ $(document).ready(function () {
                             data[i]['sepae_email'].split("@")[0] +
                             '</td>' +
                             '<td class="px-6 py-4 w-2/12">' +
-                            '<a class="editar-recado underline cursor-pointer" id="'+data[i]["titulo"]+'" name="'+data[i]["recado"]+'" value="'+data[i]['validade']+'" >Editar<a/>' +
+                            '<a class="editar-recado underline cursor-pointer" id="' + data[i]["titulo"] + '" name="' + data[i]["recado"] + '" value="' + data[i]['validade'] + '" >Editar<a/>' +
                             '</td>' +
                             +'</tr>');
                     }
@@ -625,23 +673,39 @@ $(document).ready(function () {
                             {
                                 extend: 'pdf',
                                 title: 'Histórico de recados',
-                                customize: function(doc) {
+                                customize: function (doc) {
                                     doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
                                 }
                             }
                         ]
                     });
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $(".tabela-historico").show();
                         $("#main").css('visibility', 'visible');
                     }, 10);
                 }
             }
         })
+    }
+
+    $("#historico-recados").click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#historico-recados');
+        loadHistoricoRecados();
     })
-    
+
+    if (window.location.hash === '#historico-recados') {
+        loadHistoricoRecados();
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#historico-recados') {
+            loadHistoricoRecados();
+        }
+    });
+
     // Função para escrever recado.
-    $('#escrever-recado').click(function () {
+    function loadEscreverRecado() {
         email = $("#sepae_email").text();
         //esconde o botão liberar
         $('.btn-liberar').hide();
@@ -670,8 +734,8 @@ $(document).ready(function () {
                         value="Enviar recado">
                         </form>
                 </div>`);
-        if(!$("#editar-recado-titulo").text() == ''){
-            $("#titulo").val("[ERRATA] "+$("#editar-recado-titulo").text());
+        if (!$("#editar-recado-titulo").text() == '') {
+            $("#titulo").val("[ERRATA] " + $("#editar-recado-titulo").text());
             $("#recado").val($("#editar-recado-recado").text());
             $("#validade").val($("#editar-recado-validade").text());
             $("#titulo").prop("disabled", true);
@@ -680,8 +744,25 @@ $(document).ready(function () {
             $("#editar-recado-recado").text("");
             $("#editar-recado-validade").text("");
         }
-                
+
+    }
+
+    $('#escrever-recado').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#escrever-recado');
+        loadEscreverRecado();
     })
+
+    if (window.location.hash === '#escrever-recado') {
+        loadEscreverRecado();
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#escrever-recado') {
+            loadEscreverRecado();
+        }
+    });
+
 
     $('.select-motivo').change(function () {
         $(".confirmar-liberar").prop("disabled", false);
