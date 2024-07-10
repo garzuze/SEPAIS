@@ -123,23 +123,24 @@ $(document).ready(function () {
                 email: email
             },
             url: "insert/insert_alunos_atrasados.php",
-            success: function (data) {
-                if(data==0){
+            success: function (resposta) {
+                var data = JSON.parse(resposta);
+                if (data.status === 0) {
+                    // Mensagem de erro
+                    alert(data.mensagem);
                     location.reload();
+                } else {
+                    // Mensagem de sucesso
+                    let snackbar = new SnackBar();
+                    snackbar.make("menssage", 
+                    [
+                    data.mensagem, 
+                    null, 
+                    "bottom", 
+                    "right"], 4000);
                 }
             }
         });
-        
-        // Notificar que a operação foi realizada com sucesso
-        let snackbar  = new SnackBar();
-        snackbar.make("message",
-        [
-        "Atraso Registrado!",
-        null,
-        "bottom",
-        "right"
-        ], 4000);
-        // location.reload();
     });
 
     $('#saidas').click(function () {
