@@ -15,19 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user_flag->num_rows > 0) {
                 $user_data = $user_flag->fetch_all(MYSQLI_ASSOC);
                 if (password_verify($password, $user_data[0]['senha'])) {
+                    require("jwt_utils.php");
                     $user_object = array(
                         "email" => $user_data[0]["email"],
                         "name" => $user_data[0]["nome"],
                         "password" => $user_data[0]["senha"],
                     );
-                    http_response_code(200);
-                    $server_response_success = array(
-                        "code" => http_response_code(200),
-                        "status" => true,
-                        "message" => "Usuário validado!",
-                        "user_data" => $user_object,
-                    );
-                    echo json_encode($server_response_success);
+                    $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+                    $payload = array('sub' => $user_data[0]["email"], 'name' => $user_data[0]["nome"], 'iat' => time(), 'exp' => (time() + 60), 'data' => $user_object);
+                    
+                    $jwt = generate_jwt($headers, $payload);
+                    echo $jwt;
                 } else {
                     http_response_code(404);
                     $server_response_error = array(
