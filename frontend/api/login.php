@@ -1,4 +1,6 @@
 <?php
+require "../../vendor/autoload.php";
+use \Firebase\JWT\JWT;
 header('Content-type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST["email"]) && !empty($_POST["password"])) {
@@ -15,17 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user_flag->num_rows > 0) {
                 $user_data = $user_flag->fetch_all(MYSQLI_ASSOC);
                 if (password_verify($password, $user_data[0]['senha'])) {
-                    require("jwt_utils.php");
-                    $user_object = array(
-                        "email" => $user_data[0]["email"],
-                        "name" => $user_data[0]["nome"],
-                        "password" => $user_data[0]["senha"],
+                    $payload = array('sub' => $user_data[0]["email"], 'name' => $user_data[0]["nome"], 'iat' => time(), 'exp' => (time() + 60), 'pwd' => $user_data[0]["senha"],);
+
+                    $secret = "SomosOsSepinhosBananaoDoChicao";
+
+                    $jwt = JWT::encode($payload, $secret, 'HS256');
+
+                    http_response_code(200);
+                    $server_response_success = array(
+                        "code" => http_response_code(200),
+                        "status" => true,
+                        "message" => "Usuário validado!",
+                        "jwt" => $jwt,
                     );
-                    $headers = array('alg' => 'HS256', 'typ' => 'JWT');
-                    $payload = array('sub' => $user_data[0]["email"], 'name' => $user_data[0]["nome"], 'iat' => time(), 'exp' => (time() + 60), 'data' => $user_object);
-                    
-                    $jwt = generate_jwt($headers, $payload);
-                    echo $jwt;
+                    echo json_encode($server_response_success);
                 } else {
                     http_response_code(404);
                     $server_response_error = array(
