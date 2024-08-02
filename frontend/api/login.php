@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user_flag->num_rows > 0) {
                 $user_data = $user_flag->fetch_all(MYSQLI_ASSOC);
                 if (password_verify($password, $user_data[0]['senha'])) {
-                    $payload = array('sub' => $user_data[0]["email"], 'name' => $user_data[0]["nome"], 'iat' => time(), 'exp' => (time() + 60), 'pwd' => $user_data[0]["senha"],);
+                    $payload = array('sub' => $user_data[0]["email"], 'name' => $user_data[0]["nome"], 'iat' => time(), 'exp' => (time() + 86400), 'pwd' => $user_data[0]["senha"],);
 
                     $secret = "SomosOsSepinhosBananaoDoChicao";
 
