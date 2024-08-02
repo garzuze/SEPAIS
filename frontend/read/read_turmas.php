@@ -5,7 +5,7 @@ session_start();
 if(isset($_SESSION['email'])) {
 	try {
 		$mysqli = connect();
-		$consulta = $mysqli->prepare("SELECT * from turma;");
+		$consulta = $mysqli->prepare("SELECT * from turma order by turma;");
 		$consulta->execute();
 
 		$resultado = $consulta->get_result();
