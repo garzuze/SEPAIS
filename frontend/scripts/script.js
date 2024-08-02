@@ -31,13 +31,35 @@ $(document).ready(function () {
     });
 
     $.ajax({
+        url: 'read/read_turmas.php',
+        type: 'GET',
+        success: function (turma){
+            if (turma == 0){
+                location.reload();
+            } else {
+                turma = JSON.parse(turma);
+                console.log(turma);
+                for (var i = 0; i < turma.length; i++) {
+                    $('#ul-turma').append(`
+                        <li>
+                            <a id="`+turma[i]["turma"]+`" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
+                                <span>`+turma[i]["turma"]+`</span>
+                            </a>
+                        </li>
+                    `)
+                }
+            }
+        }
+    })
+
+    $.ajax({
         url: 'read/read_motivos.php',
         type: 'GET',
         success: function (motivo) {
             if (motivo == 0) {
                 location.reload();
             } else {
-                motivo = JSON.parse(motivo)
+                motivo = JSON.parse(motivo);
                 console.log(motivo);
                 for (var i = 0; i < motivo.length; i++) {
                     $('.select-motivo').append(
@@ -71,7 +93,7 @@ $(document).ready(function () {
         }
     }
 
-    $('.select-destaque').click(function () {
+    $("body").on("click", ".select-destaque", function() {
         activateButton(this);
     });
 
@@ -154,20 +176,13 @@ $(document).ready(function () {
                 alert(request.responseText);
             }
         })
-    }
+    };
 
-    $('.select-turma').click(function () {
+    $(".turmas").on("click", ".select-turma", function() {
         event.preventDefault();
         history.pushState(null, null, '#turma-' + $(this).attr('id'));
         selectTurma($(this).attr('id'));
-    })
-
-    if (window.location.hash.includes("turma")) {
-        var turma = window.location.hash.split('-')[1];
-        selectTurma(turma);
-        activateButton('#' + turma);
-    }
-
+    });
 
     window.addEventListener('popstate', function () {
         if (window.location.hash.includes("turma")) {
@@ -380,6 +395,12 @@ $(document).ready(function () {
         $("#historico").next().children().slideDown("slow");
         activateButton(window.location.hash)
         loadHistoricoLSepae();
+    }
+
+    if (window.location.hash.includes("turma")) {
+        var turma = window.location.hash.split('-')[1];
+        selectTurma(turma);
+        activateButton('#' + turma);
     }
 
     window.addEventListener('popstate', function () {

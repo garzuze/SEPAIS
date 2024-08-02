@@ -17,17 +17,39 @@ function updateTime() {
 setInterval(updateTime, 1000);
 
 $(document).ready(function () {
-    // Função para botões ficarem em destaque quando ativos
-    $('.select-destaque').click(function () {
-        $('.select-destaque').removeClass('bg-gray-100');
-        $(this).addClass('bg-gray-100');
+    $.ajax({
+        url: 'read/read_turmas.php',
+        type: 'GET',
+        success: function (turma){
+            if (turma == 0){
+                location.reload();
+            } else {
+                turma = JSON.parse(turma);
+                console.log(turma);
+                for (var i = 0; i < turma.length; i++) {
+                    $('#ul-turma').append(`
+                        <li>
+                            <a id="`+turma[i]["turma"]+`" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
+                                <span>`+turma[i]["turma"]+`</span>
+                            </a>
+                        </li>
+                    `)
+                }
+            }
+        }
+    })
+
+    $("body").on("click", ".select-destaque", function() {
+        activateButton(this);
     });
 
+    // Função para botões ficarem em destaque quando ativos
+    function activateButton(element) {
+        $('.select-destaque').removeClass('bg-gray-100');
+        $(element).addClass('bg-gray-100');
+    }
     // Função para ler os alunos por turma
-    $('.select-turma').click(function () {
-        var turma = $(this).attr('id');
-        //mostra o botão liberar
-        $('.btn-liberar').show();
+    function selectTurma(turma) {
         $.ajax({
             url: 'read/read_alunos_turma.php',
             data: 'turma=' + turma,
@@ -98,7 +120,7 @@ $(document).ready(function () {
                 alert(request.responseText);
             }
         });
-    });
+    };
 
     // Função para abrir modal de atraso e preparar os dados para registrar o atraso
     $("#main").on("click", ".registrar-atraso", function() {
@@ -143,7 +165,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#saidas').click(function () {
+    function loadValidarSaida() {
         $.ajax({
             url: 'read/read_alunos_liberados.php',
             type: 'GET',
@@ -219,6 +241,44 @@ $(document).ready(function () {
                 }
             }
         });
+    };
+
+    $('#saidas').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#saidas');
+        loadValidarSaida();
+    })
+
+    if (window.location.hash === '#saidas') {
+        loadValidarSaida();
+        activateButton(window.location.hash);
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#saidas') {
+            loadValidarSaida();
+            activateButton(window.location.hash)
+        }
+    });
+
+    $(".turmas").on("click", ".select-turma", function() {
+        event.preventDefault();
+        history.pushState(null, null, '#turma-' + $(this).attr('id'));
+        selectTurma($(this).attr('id'));
+    });
+    
+    if (window.location.hash.includes("turma")) {
+        var turma = window.location.hash.split('-')[1];
+        selectTurma(turma);
+        activateButton('#' + turma);
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash.includes("turma")) {
+            var turma = window.location.hash.split('-')[1];
+            selectTurma(turma);
+            activateButton('#' + turma);
+        }
     });
 
     $("#main").on("click", ".validar-saida", function() {
