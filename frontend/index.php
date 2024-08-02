@@ -63,6 +63,25 @@ $foto_path = $result_array[0]['foto_path'];
                         </a>
                     </div>
                 </li>
+                <li>
+                <p id="cadastrar" class="clique-desliza select-destaque flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group">
+                    Cadastrar
+                </p>
+                <div class="text-sm ml-6">
+                    <a id="cadastrar-motivo" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-motivo">
+                        <span>Motivo</span>
+                    </a>
+                    <a id="cadastrar-responsavel" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-responsavel">
+                        <span>Responsável</span>
+                    </a>
+                    <a id="cadastrar-aluno" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-atrasos">
+                        <span>Aluno</span>
+                    </a>
+                    <a id="cadastrar-turma" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-recados">
+                        <span>Turma</span>
+                    </a>
+                </div>
+            </li>
             </ul>
         </div>
     </aside>
