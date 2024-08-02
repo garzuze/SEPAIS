@@ -62,7 +62,6 @@ $foto_path = $result_array[0]['foto_path'];
                             <span>Recados</span>
                         </a>
                     </div>
-
                 </li>
             </ul>
         </div>
@@ -121,47 +120,7 @@ $foto_path = $result_array[0]['foto_path'];
     </section>
     <aside class="turmas min-h-screen h-full right-t-0 col-span-2 sm:col-span-1">
         <div class="h-full overflow-y-auto bg-gray-50 pt-1">
-            <ul class="space-y-2 font-medium">
-                <li>
-                    <a id="adm1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>ADM1</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="adm2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>ADM2</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="adm3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>ADM3</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="adm4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>ADM4</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="info1" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>INFO1</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="info2" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>INFO2</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="info3" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>INFO3</span>
-                    </a>
-                </li>
-                <li>
-                    <a id="info4" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                        <span>INFO4</span>
-                    </a>
-                </li>
+            <ul id="ul-turma" class="space-y-2 font-medium">
             </ul>
         </div>
     </aside>
