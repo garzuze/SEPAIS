@@ -108,8 +108,9 @@ $(document).ready(function () {
     // Função para botões ficarem em destaque quando ativos
     function activateButton(element) {
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
+        $(".subclasse-cadastrar").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
         $('.select-destaque').removeClass('bg-gray-100');
-        if (String(element).includes("historico")) {
+        if (String(element).includes("historico") || String(element).includes("cadastrar")) {
             $(element).addClass("border-[#00bf63] border-l-2");
         } else {
             $(element).addClass('bg-gray-100');
@@ -894,6 +895,7 @@ $(document).ready(function () {
     })
 
     if (window.location.hash === '#cadastrar-motivo') {
+        $("#cadastrar").next().children().slideDown("slow");
         loadMotivos();
         loadCadastrarMotivo();
         activateButton(window.location.hash);
@@ -901,6 +903,7 @@ $(document).ready(function () {
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#cadastrar-motivo') {
+            $("#cadastrar").next().children().slideDown("slow");
             loadMotivos();
             loadCadastrarMotivo();
             activateButton(window.location.hash)
@@ -986,6 +989,7 @@ $(document).ready(function () {
     })
 
     if (window.location.hash === '#cadastrar-turma') {
+        $("#cadastrar").next().children().slideDown("slow");
         activateButton(window.location.hash);
         loadCadastrarTurma();
         loadTurmas();
@@ -993,6 +997,7 @@ $(document).ready(function () {
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#cadastrar-turma') {
+            $("#cadastrar").next().children().slideDown("slow");
             activateButton(window.location.hash)
             loadTurmas();
             loadCadastrarTurma();
@@ -1051,6 +1056,11 @@ $(document).ready(function () {
     $(".subclasse-historico").click(function () {
         activateButton(this);
     })
+
+    $(".subclasse-cadastrar").click(function () {
+        activateButton(this);
+    })
+
 
     $("#main").on("click", ".editar-recado", function () {
         $("#editar-recado-titulo").append($(this).attr('id'));

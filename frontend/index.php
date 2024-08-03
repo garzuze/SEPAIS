@@ -68,16 +68,16 @@ $foto_path = $result_array[0]['foto_path'];
                     Cadastrar
                 </p>
                 <div class="text-sm ml-6">
-                    <a id="cadastrar-motivo" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-motivo">
+                    <a id="cadastrar-motivo" class="subclasse-cadastrar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-motivo">
                         <span>Motivo</span>
                     </a>
-                    <a id="cadastrar-responsavel" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-responsavel">
+                    <a id="cadastrar-responsavel" class="subclasse-cadastrar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-responsavel">
                         <span>Responsável</span>
                     </a>
-                    <a id="cadastrar-aluno" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-atrasos">
+                    <a id="cadastrar-aluno" class="subclasse-cadastrar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-aluno">
                         <span>Aluno</span>
                     </a>
-                    <a id="cadastrar-turma" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-turma">
+                    <a id="cadastrar-turma" class="subclasse-cadastrar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-turma">
                         <span>Turma</span>
                     </a>
                 </div>
