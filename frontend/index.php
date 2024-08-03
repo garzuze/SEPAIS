@@ -77,7 +77,7 @@ $foto_path = $result_array[0]['foto_path'];
                     <a id="cadastrar-aluno" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-atrasos">
                         <span>Aluno</span>
                     </a>
-                    <a id="cadastrar-turma" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#historico-recados">
+                    <a id="cadastrar-turma" class="subclasse-historico hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-turma">
                         <span>Turma</span>
                     </a>
                 </div>

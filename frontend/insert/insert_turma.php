@@ -3,12 +3,12 @@ require_once('../connect.php');
 
 session_start();
 if(!empty($_SESSION['email'])) {
-    if (!empty($_POST['motivo'])){
+    if (!empty($_POST['turma'])){
         try {
-            $motivo = $_POST['motivo'];
+            $turma = $_POST['turma'];
             $sql = connect();
-            $query = $sql->prepare("INSERT INTO motivo (motivo) VALUES (?)");
-            $query->bind_param("s", $motivo);
+            $query = $sql->prepare("INSERT INTO turma (turma) VALUES (?)");
+            $query->bind_param("s", $turma);
             $query->execute();
             header('Location: ../index.php');
         }catch (Exception $e) {

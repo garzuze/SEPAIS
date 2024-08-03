@@ -30,27 +30,40 @@ $(document).ready(function () {
         $(".btn-liberar").prop("disabled", len === 0);
     });
 
-    $.ajax({
-        url: 'read/read_turmas.php',
-        type: 'GET',
-        success: function (turma) {
-            if (turma == 0) {
-                location.reload();
-            } else {
-                turma = JSON.parse(turma);
-                console.log(turma);
-                for (var i = 0; i < turma.length; i++) {
-                    $('#ul-turma').append(`
-                        <li>
-                            <a id="`+ turma[i]["turma"] + `" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
-                                <span>`+ turma[i]["turma"] + `</span>
-                            </a>
-                        </li>
-                    `)
+    function loadTurmas() {
+        $.ajax({
+            url: 'read/read_turmas.php',
+            type: 'GET',
+            success: function (turma) {
+                if (turma == 0) {
+                    location.reload();
+                } else {
+                    $('#ul-turma').empty();
+                    $('#tb-turmas').empty();
+                    turma = JSON.parse(turma);
+                    console.log(turma);
+                    for (var i = 0; i < turma.length; i++) {
+                        $('#ul-turma').append(`
+                            <li>
+                                <a id="`+ turma[i]["turma"] + `" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
+                                    <span>`+ turma[i]["turma"] + `</span>
+                                </a>
+                            </li>
+                        `);
+                        $('#tb-turmas').append(
+                            '<tr class="bg-white border-b">' +
+                            '<td id="' + turma[i]['turma'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
+                            turma[i]['turma'] +
+                            '</td>'
+                        );
+                    }
                 }
             }
-        }
-    })
+        })
+
+    }
+
+    loadTurmas();
 
     function loadMotivos() {
         $.ajax({
@@ -70,7 +83,7 @@ $(document).ready(function () {
                         )
                         $('#tb-motivos').append(
                             '<tr class="bg-white border-b">' +
-                            '<td id="'+ motivo[i]['id'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
+                            '<td id="' + motivo[i]['id'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
                             motivo[i]['motivo'] +
                             '</td>'
                         )
@@ -189,6 +202,12 @@ $(document).ready(function () {
         })
     };
 
+    if (window.location.hash.includes("turma") && !window.location.hash.includes("cadastrar"))  {
+        var turma = window.location.hash.split('-')[1];
+        selectTurma(turma);
+        activateButton('#' + turma);
+    }
+
     $(".turmas").on("click", ".select-turma", function () {
         event.preventDefault();
         history.pushState(null, null, '#turma-' + $(this).attr('id'));
@@ -196,7 +215,7 @@ $(document).ready(function () {
     });
 
     window.addEventListener('popstate', function () {
-        if (window.location.hash.includes("turma")) {
+        if (window.location.hash.includes("turma") && !window.location.hash.includes("cadastrar")) {
             var turma = window.location.hash.split('-')[1];
             selectTurma(turma);
             activateButton('#' + turma);
@@ -406,12 +425,6 @@ $(document).ready(function () {
         $("#historico").next().children().slideDown("slow");
         activateButton(window.location.hash)
         loadHistoricoSepae();
-    }
-
-    if (window.location.hash.includes("turma")) {
-        var turma = window.location.hash.split('-')[1];
-        selectTurma(turma);
-        activateButton('#' + turma);
     }
 
     window.addEventListener('popstate', function () {
@@ -843,7 +856,6 @@ $(document).ready(function () {
         }
     });
 
-    // Função para cadastrar motivo.
     function loadCadastrarMotivo() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
@@ -934,6 +946,98 @@ $(document).ready(function () {
 
         $("#motivo").val("");
         loadMotivos();
+    });
+
+    function loadCadastrarTurma() {
+        //esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main > *:not('.modal')").remove();
+        $('#main').prepend(`
+                <div class="w-3/4 mt-4 mx-auto grid grid-cols-4 gap-4 grid-rows-4">
+            <div class="col-span-2 row-span-4 content-center">
+                <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl">Cadastrar nova turma</h2>
+                <form id="form_turma">
+                    <label for="turma" class="block my-2 text-sm font-medium text-gray-900">Digite a turma:</label>
+                    <input type="text" name="turma" id="turma" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Técnico em Crochet" required>
+                </form>
+            </div>
+            <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg col-span-2 row-span-4">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            turmas
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tb-turmas">
+                </tbody>
+            </table>
+        </div>`)
+        $('#form_turma').append(`
+                        <input type="button" id="btn-cadastrar-turma" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                        value="Cadastrar turma">`);
+    }
+
+    $('#cadastrar-turma').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#cadastrar-turma');
+        loadCadastrarTurma();
+        loadTurmas();
+    })
+
+    if (window.location.hash === '#cadastrar-turma') {
+        activateButton(window.location.hash);
+        loadCadastrarTurma();
+        loadTurmas();
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#cadastrar-turma') {
+            activateButton(window.location.hash)
+            loadTurmas();
+            loadCadastrarTurma();
+        }
+    });
+
+
+    $("#main").on("click", "#btn-cadastrar-turma", function (event) {
+
+        let turma = $("#turma").val().trim();
+
+        if (!turma) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        } else {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Turma criada!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+        }
+
+        $.ajax({
+            type: "POST",
+            data: {
+                turma: turma
+            },
+            url: "insert/insert_turma.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                }
+            }
+        });
+
+        $("#turma").val("");
+        loadTurmas();
     });
 
     $('.select-motivo').change(function () {
