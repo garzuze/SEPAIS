@@ -87,7 +87,7 @@ $foto_path = $result_array[0]['foto_path'];
     </aside>
     <section id="main" class="col-span-8 sm:col-span-10 overflow-x-auto">
         <snackbar></snackbar>
-        <h1 class=" boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
+        <h1 class="boas-vindas text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2">
             Seja bem vindo(a), <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00BF63] to-[#016D39] bg-[#016D39]"><?php echo ucfirst(strtok($nome, ' ')); ?>!</span>
         </h1>
         <div class="modal">

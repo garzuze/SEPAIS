@@ -70,7 +70,7 @@ $(document).ready(function () {
                         )
                         $('#tb-motivos').append(
                             '<tr class="bg-white border-b">' +
-                            '<td id="id" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
+                            '<td id="'+ motivo[i]['id'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
                             motivo[i]['motivo'] +
                             '</td>'
                         )
@@ -79,8 +79,6 @@ $(document).ready(function () {
             }
         })
     }
-    
-    loadMotivos();
 
     // Marca os checkbox clicados 
     $("#main").on("click", "input.select-item", function () {
@@ -114,6 +112,7 @@ $(document).ready(function () {
     function selectTurma(turma) {
         //mostra o botão liberar
         $('.btn-liberar').show()
+        loadMotivos();
         $.ajax({
             url: 'read/read_alunos_turma.php',
             data: 'turma=' + turma,
@@ -896,6 +895,47 @@ $(document).ready(function () {
         }
     });
 
+
+    $("#main").on("click", "#btn-cadastrar-motivo", function (event) {
+
+        let motivo = $("#motivo").val().trim();
+
+        if (!motivo) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        } else {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Motivo enviado!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+        }
+
+        $.ajax({
+            type: "POST",
+            data: {
+                motivo: motivo
+            },
+            url: "insert/insert_motivo.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                }
+            }
+        });
+
+        $("#motivo").val("");
+        loadMotivos();
+    });
+
     $('.select-motivo').change(function () {
         $(".confirmar-liberar").prop("disabled", false);
     });
@@ -922,7 +962,6 @@ $(document).ready(function () {
         let validade = $("#validade").val().trim();
         let titulo = $("#titulo").val().trim();
 
-        // Check if any of the required fields are empty
         if (!recado || !titulo || !email) {
             let snackbar = new SnackBar();
             snackbar.make("message", [
@@ -954,7 +993,6 @@ $(document).ready(function () {
         $("#validade").val("");
         $("#titulo").val("");
 
-        // Notify that the operation was successful
         let snackbar = new SnackBar();
         snackbar.make("message", [
             "Recado enviado!",
