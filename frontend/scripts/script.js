@@ -203,7 +203,7 @@ $(document).ready(function () {
         })
     };
 
-    if (window.location.hash.includes("turma") && !window.location.hash.includes("cadastrar"))  {
+    if (window.location.hash.includes("turma") && !window.location.hash.includes("cadastrar")) {
         var turma = window.location.hash.split('-')[1];
         selectTurma(turma);
         activateButton('#' + turma);
@@ -984,15 +984,15 @@ $(document).ready(function () {
     $('#cadastrar-turma').click(function () {
         event.preventDefault();
         history.pushState(null, null, '#cadastrar-turma');
-        loadCadastrarTurma();
         loadTurmas();
+        loadCadastrarTurma();
     })
 
     if (window.location.hash === '#cadastrar-turma') {
         $("#cadastrar").next().children().slideDown("slow");
         activateButton(window.location.hash);
-        loadCadastrarTurma();
         loadTurmas();
+        loadCadastrarTurma();
     }
 
     window.addEventListener('popstate', function () {
