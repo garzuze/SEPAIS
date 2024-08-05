@@ -18,6 +18,12 @@ setInterval(updateTime, 1000)
 
 $(document).ready(function () {
 
+    $(document).on("keydown", ":input:not(textarea)", function (event) {
+        if (event.key == "Enter") {
+            event.preventDefault();
+        }
+    });
+
     $("#main").on("click", "input.select-all", function () {
         // Coluna checkbox que seleciona ou deseleciona todos
         var checked = this.checked;
