@@ -83,6 +83,9 @@ $(document).ready(function () {
                     $('#tb-motivos').empty();
                     motivo = JSON.parse(motivo);
                     console.log(motivo);
+                    $('.select-motivo').append(
+                        '<option disabled value="regular" selected="">Selecionar motivo</option>'
+                    )
                     for (var i = 0; i < motivo.length; i++) {
                         $('.select-motivo').append(
                             '<option value="' + motivo[i]["id"] + '">' + motivo[i]["motivo"] + '</option>'

@@ -42,4 +42,22 @@ from responsavel_has_aluno, responsavel, aluno, turma
 where (responsavel.email = responsavel_has_aluno.responsavel_email)
 and (aluno.id = responsavel_has_aluno.aluno_id) and (turma.id = aluno.turma_id) and (turma.turma = 'adm1'); 
 
-
+-- select dependentes de um certo responsável que foram liberados pela SEPAE em um dia específico
+SELECT 
+        `sepaisdb`.`aluno`.`id` AS `id_aluno`,
+        `sepaisdb`.`aluno`.`nome` AS `nome_aluno`,
+        `sepaisdb`.`turma`.`turma` AS `turma`,
+        `sepaisdb`.`sepae_libera_aluno`.`data` AS `data`,
+        `sepaisdb`.`sepae_libera_aluno`.`horario_saida` AS `horario_saida`
+    FROM
+        (((`sepaisdb`.`aluno`
+        JOIN `sepaisdb`.`turma`)
+        JOIN `sepaisdb`.`sepae_libera_aluno`)
+        JOIN `sepaisdb`.`responsavel_has_aluno`)
+    WHERE
+        ((`sepaisdb`.`aluno`.`id` = `sepaisdb`.`sepae_libera_aluno`.`aluno_id`)
+            AND (`sepaisdb`.`sepae_libera_aluno`.`horario_saida` IS NULL)
+            AND (`sepaisdb`.`turma`.`id` = `sepaisdb`.`aluno`.`turma_id`)
+            AND (`sepaisdb`.`responsavel_has_aluno`.`aluno_id` = `sepaisdb`.`sepae_libera_aluno`.`aluno_id`)
+            AND (CAST(`sepaisdb`.`sepae_libera_aluno`.`data` AS DATE) = '2024-08-09') -- substituir data por ? para  diferentes valores (Tem que formatar a data direitinho que vc recebeu do input)
+            AND (`sepaisdb`.`responsavel_has_aluno`.`responsavel_email` = 'kratos@gmail.com')) -- substituir email por ? para  diferentes valores 
