@@ -3,8 +3,8 @@ require_once('../connect.php');
 
 function read_recados()
 {
+	$mysqli = connect();
 	try {
-		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT id, titulo, recado, data, validade, sepae_email from recado 
 		where (CURDATE() < validade) or (validade is null) ORDER BY id DESC;");
 		$consulta->execute();

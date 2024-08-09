@@ -1,19 +1,19 @@
 <?php
 require_once('../connect.php');
 
-if (ISSET($_POST['idAluno'])) {
-	$idAluno = $_POST['idAluno'];
+if (isset($_POST['idAluno'])) {
+    $idAluno = $_POST['idAluno'];
 } else {
-	$idAluno = '7';
+    $idAluno = '7';
 }
 
 date_default_timezone_set('America/Sao_Paulo');
 session_start();
-if(isset($_SESSION['email'])) {
-	try {
-	    $date = date('Y-m-d');
-		$mysqli = connect();
-		$consulta = $mysqli->prepare("SELECT 
+if (isset($_SESSION['email'])) {
+    $mysqli = connect();
+    try {
+        $date = date('Y-m-d');
+        $consulta = $mysqli->prepare("SELECT 
         `aluno`.`id` AS `id_aluno`,
         `aluno`.`nome` AS `aluno`,
         `turma`.`turma` AS `turma`,
@@ -52,23 +52,22 @@ if(isset($_SESSION['email'])) {
             AND (`responsavel_libera_aluno`.`horario_saida` IS NULL)
             AND (`turma`.`id` = `aluno`.`turma_id`))
     ORDER BY `data` DESC");
-		// and (aluno.id = ?);
-		$consulta->bind_param("ss", $date, $date);
-		$consulta->execute();
+        // and (aluno.id = ?);
+        $consulta->bind_param("ss", $date, $date);
+        $consulta->execute();
 
-		$resultado = $consulta->get_result();
-		$resultadoFormatado = $resultado->fetch_all(MYSQLI_ASSOC);
-	} catch (Exception $e) {
-		error_log($e->getMessage());
-		print_r($mysqli->error);
-		exit('Alguma coisa estranha aconteceu...');
-	}
+        $resultado = $consulta->get_result();
+        $resultadoFormatado = $resultado->fetch_all(MYSQLI_ASSOC);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        print_r($mysqli->error);
+        exit('Alguma coisa estranha aconteceu...');
+    }
 
-	echo json_encode($resultadoFormatado);
+    echo json_encode($resultadoFormatado);
 
-	$consulta->close();
-	$mysqli->close();
-} else{
-	echo json_encode(0);
+    $consulta->close();
+    $mysqli->close();
+} else {
+    echo json_encode(0);
 }
-?>

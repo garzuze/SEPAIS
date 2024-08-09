@@ -2,9 +2,9 @@
 require_once('../connect.php');
 
 session_start();
-if(isset($_SESSION['email'])) {
+if (isset($_SESSION['email'])) {
+	$mysqli = connect();
 	try {
-		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT aluno.id as id_aluno, aluno.nome as nome_aluno, 
 		turma.turma as turma, aluno_atrasado.data as data,  
 		aluno_atrasado.portaria_email as servidor  
@@ -26,7 +26,6 @@ if(isset($_SESSION['email'])) {
 
 	$consulta->close();
 	$mysqli->close();
-} else{
+} else {
 	echo json_encode(0);
 }
-?>

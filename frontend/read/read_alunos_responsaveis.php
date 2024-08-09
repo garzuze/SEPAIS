@@ -3,8 +3,8 @@ require_once('../connect.php');
 
 function read_dependentes($email_responsavel)
 { {
+	$mysqli = connect();
 		try {
-			$mysqli = connect();
 			$consulta = $mysqli->prepare("SELECT responsavel.email as email_responsavel,
 			aluno.id as id_aluno, aluno.nome as nome_aluno, turma.turma as turma
 			from responsavel_has_aluno, responsavel, aluno, turma

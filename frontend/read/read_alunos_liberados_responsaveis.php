@@ -1,16 +1,16 @@
 <?php
 require_once('../connect.php');
 
-if (ISSET($_POST['idAluno'])) {
+if (isset($_POST['idAluno'])) {
 	$idAluno = $_POST['idAluno'];
 } else {
 	$idAluno = '7';
 }
 
 session_start();
-if(isset($_SESSION['email'])) {
+if (isset($_SESSION['email'])) {
+	$mysqli = connect();
 	try {
-		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT 
 		`aluno`.`id` AS `id_aluno`,
         `aluno`.`nome` AS `aluno`,
@@ -47,7 +47,6 @@ if(isset($_SESSION['email'])) {
 
 	$consulta->close();
 	$mysqli->close();
-} else{
+} else {
 	echo json_encode(0);
 }
-?>
