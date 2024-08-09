@@ -1,22 +1,22 @@
 <?php
 require_once('../connect.php');
 
-if (ISSET($_POST['idAluno'])) {
+if (isset($_POST['idAluno'])) {
 	$idAluno = $_POST['idAluno'];
 } else {
 	$idAluno = '7';
 }
 
 session_start();
-if(isset($_SESSION['email'])) {
+if (isset($_SESSION['email'])) {
+	$mysqli = connect();
 	try {
-		$mysqli = connect();
 		$consulta = $mysqli->prepare("SELECT 
 		aluno.id AS id_aluno,
         aluno.nome AS aluno,
         turma.turma AS turma,
         motivo.motivo AS motivo,
-        sepae_libera_aluno.sepae_username AS servidor,
+        sepae_libera_aluno.sepae_email AS servidor,
 		sepae_libera_aluno.data as data
     FROM
         (((sepae_libera_aluno
@@ -29,8 +29,6 @@ if(isset($_SESSION['email'])) {
             AND (sepae_libera_aluno.horario_saida IS NULL)
             AND (turma.id = aluno.turma_id)
             AND (motivo.id = sepae_libera_aluno.motivo_id));");
-		// and (aluno.id = ?);
-		// $consulta->bind_param("s", $idAluno);
 		$consulta->execute();
 
 		$resultado = $consulta->get_result();
@@ -45,7 +43,6 @@ if(isset($_SESSION['email'])) {
 
 	$consulta->close();
 	$mysqli->close();
-} else{
+} else {
 	echo json_encode(0);
 }
-?>
