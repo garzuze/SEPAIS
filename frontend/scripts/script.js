@@ -741,19 +741,19 @@ $(document).ready(function () {
                             '<td id="id" scope="col" class="px-6 py-3 hidden">' +
                             data[i]['id'] +
                             '</td>' +
-                            '<td id="titulo" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
+                            '<td id="titulo" scope="row" class="px-6 py-4 font-medium text-gray-900 w-2/12">' +
                             data[i]['titulo'] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-1/12">' +
+                            '<td class="px-6 py-4 w-5/12">' +
                             data[i]['recado'] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-2/12">' +
+                            '<td class="px-6 py-4 w-1/12">' +
                             data[i]['validade'] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-2/12">' +
+                            '<td class="px-6 py-4 w-1/12">' +
                             data[i]['sepae_email'].split("@")[0] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-2/12">' +
+                            '<td class="px-6 py-4 w-1/12">' +
                             '<a class="editar-recado underline cursor-pointer" id="' + data[i]["titulo"] + '" name="' + data[i]["recado"] + '" value="' + data[i]['validade'] + '" >Editar<a/>' +
                             '</td>' +
                             +'</tr>');
