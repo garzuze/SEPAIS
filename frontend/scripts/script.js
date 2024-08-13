@@ -18,7 +18,7 @@ setInterval(updateTime, 1000)
 
 $(document).ready(function () {
 
-    $(document).on("keydown", ":input:not(textarea)", function (event) {
+    $(document).on("keydown", ":input:not(textarea)", function () {
         if (event.key == "Enter") {
             event.preventDefault();
         }
@@ -46,8 +46,12 @@ $(document).ready(function () {
                 } else {
                     $('#ul-turma').empty();
                     $('#tb-turmas').empty();
+                    $('.select-turmas').empty();
                     turma = JSON.parse(turma);
                     console.log(turma);
+                    $('.select-turmas').append(
+                        '<option disabled value="regular" selected="">Selecionar turma</option>'
+                    );
                     for (var i = 0; i < turma.length; i++) {
                         $('#ul-turma').append(`
                             <li>
@@ -61,6 +65,9 @@ $(document).ready(function () {
                             '<td id="' + turma[i]['turma'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
                             turma[i]['turma'] +
                             '</td>'
+                        );
+                        $('.select-turmas').append(
+                            '<option value="' + turma[i]["id"] + '">' + turma[i]["turma"] + '</option>'
                         );
                     }
                 }
@@ -734,19 +741,19 @@ $(document).ready(function () {
                             '<td id="id" scope="col" class="px-6 py-3 hidden">' +
                             data[i]['id'] +
                             '</td>' +
-                            '<td id="titulo" scope="row" class="px-6 py-4 font-medium text-gray-900 w-2/12">' +
+                            '<td id="titulo" scope="row" class="px-6 py-4 font-medium text-gray-900 w-3/12">' +
                             data[i]['titulo'] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-5/12">' +
+                            '<td class="px-6 py-4 w-1/12">' +
                             data[i]['recado'] +
                             '</td>' +
-                            '<td class="px-4 py-4 w-1/12">' +
+                            '<td class="px-6 py-4 w-2/12">' +
                             data[i]['validade'] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-1/12">' +
+                            '<td class="px-6 py-4 w-2/12">' +
                             data[i]['sepae_email'].split("@")[0] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-1/12">' +
+                            '<td class="px-6 py-4 w-2/12">' +
                             '<a class="editar-recado underline cursor-pointer" id="' + data[i]["titulo"] + '" name="' + data[i]["recado"] + '" value="' + data[i]['validade'] + '" >Editar<a/>' +
                             '</td>' +
                             +'</tr>');
@@ -866,6 +873,74 @@ $(document).ready(function () {
         }
     });
 
+    function loadCadastrarAluno() {
+        //esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main > *:not('.modal')").remove();
+        $('#main').prepend(`
+                <div>
+                    <form id="form_aluno" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
+                    <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Cadastrar aluno</h2>
+                        <div class="col-span-3">
+                            <label for="nome_aluno" class="block my-2 text-sm font-medium text-gray-900">Nome do aluno</label>
+                            <input type="text" name="nome_aluno" id="nome_aluno" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
+                        </div>
+                        <div class="col-span-1">
+                            <label for="turma" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+                            <select required name="turma" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <option disabled value="regular" selected="">Selecionar turma</option>
+                            </select>
+                        </div>
+                        <div class="add-aluno justify-self-end col-span-4">
+                            <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
+                        </div>
+                `)
+        $('#form_aluno').append(`
+                        <input type="button" id="cadastrar-turma" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                        value="Cadastrar alunos">
+                        </form>
+                </div>`);
+    }
+
+
+    $('#cadastrar-aluno').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#cadastrar-aluno');
+        loadCadastrarAluno();
+    })
+
+    if (window.location.hash === '#cadastrar-aluno') {
+        $("#cadastrar").next().children().slideDown("slow");
+        loadCadastrarAluno();
+        activateButton(window.location.hash);
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#cadastrar-aluno') {
+            $("#cadastrar").next().children().slideDown("slow");
+            loadCadastrarAluno();
+            activateButton(window.location.hash);
+        }
+    });
+
+    $("#main").on("click", "#btn-add-aluno", function () {
+        loadTurmas();
+        $('.add-aluno').empty();
+        $('#form_aluno').append(
+            `<div class="col-span-3">
+            <input type="text" name="nome_aluno" id="nome_aluno" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
+        </div>
+        <div class="col-span-1">
+            <select required name="turma" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+            <option disabled value="regular" selected="">Selecionar turma</option>
+            </select>
+        </div>
+        <div class="add-aluno justify-self-end col-span-4">
+            <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
+        </div>`
+        );
+    })
+
     function loadCadastrarMotivo() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
@@ -920,7 +995,7 @@ $(document).ready(function () {
     });
 
 
-    $("#main").on("click", "#btn-cadastrar-motivo", function (event) {
+    $("#main").on("click", "#btn-cadastrar-motivo", function () {
 
         let motivo = $("#motivo").val().trim();
 
@@ -1014,7 +1089,7 @@ $(document).ready(function () {
     });
 
 
-    $("#main").on("click", "#btn-cadastrar-turma", function (event) {
+    $("#main").on("click", "#btn-cadastrar-turma", function () {
 
         let turma = $("#turma").val().trim();
 
@@ -1078,7 +1153,7 @@ $(document).ready(function () {
         $('#escrever-recado').trigger("click");
     });
 
-    $("#main").on("click", "#enviar-recado", function (event) {
+    $("#main").on("click", "#enviar-recado", function () {
 
         let email = $("#email").val().trim();
         let recado = $("#recado").val().trim();
