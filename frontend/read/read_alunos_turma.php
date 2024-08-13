@@ -11,12 +11,25 @@ session_start();
 if (isset($_SESSION['email'])) {
 	$mysqli = connect();
 	try {
-		$consulta = $mysqli->prepare("SELECT aluno.id as 'id_aluno', aluno.nome as 'nome_aluno', usuario.nome as 'nome_responsavel', responsavel.email as 'email_responsavel', turma.turma as 'turma'
-		from responsavel_has_aluno, usuario, responsavel, aluno, turma
-		where (responsavel.email = responsavel_has_aluno.responsavel_email) and
-		(responsavel.email = usuario.email) and
-		(aluno.id = responsavel_has_aluno.aluno_id) and (turma.id = aluno.turma_id) and (turma.turma = ?)
-		order by aluno.nome;");
+		$consulta = $mysqli->prepare("SELECT 
+        `aluno`.`id` AS `id_aluno`,
+        `aluno`.`nome` AS `nome_aluno`,
+        GROUP_CONCAT(`usuario`.`nome`
+            SEPARATOR ', ') AS `nome_responsavel`,
+        GROUP_CONCAT(`responsavel`.`email`
+            SEPARATOR ', ') AS `email_responsavel`,
+        `turma`.`turma` AS `turma`
+    FROM
+        (`usuario`
+        JOIN (((`aluno`
+        JOIN `responsavel_has_aluno` ON ((`aluno`.`id` = `responsavel_has_aluno`.`aluno_id`)))
+        JOIN `responsavel` ON ((`responsavel_has_aluno`.`responsavel_email` = `responsavel`.`email`)))
+        JOIN `turma` ON ((`aluno`.`turma_id` = `turma`.`id`))))
+    WHERE
+        ((`turma`.`turma` = ?)
+            AND (`responsavel`.`email` = `usuario`.`email`))
+    GROUP BY `aluno`.`id` , `aluno`.`nome` , `turma`.`turma`
+    ORDER BY `aluno`.`nome`");
 		$consulta->bind_param("s", $turma);
 		$consulta->execute();
 
