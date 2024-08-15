@@ -717,7 +717,7 @@ $(document).ready(function () {
                                     <th scope="col" class="px-6 py-3 w-5/12">
                                         Recado
                                     </th>
-                                    <th scope="col" class="px-6 py-3 w-1/12">
+                                    <th scope="col" class="py-3 w-1/12">
                                         Validade
                                     </th>
                                     <th scope="col" class="px-6 py-3 w-1/12">
@@ -747,7 +747,7 @@ $(document).ready(function () {
                             '<td class="px-6 py-4 w-5/12">' +
                             data[i]['recado'] +
                             '</td>' +
-                            '<td class="px-6 py-4 w-1/12">' +
+                            '<td class="py-4 w-1/12">' +
                             data[i]['validade'] +
                             '</td>' +
                             '<td class="px-6 py-4 w-1/12">' +
@@ -882,12 +882,12 @@ $(document).ready(function () {
                     <form id="form_aluno" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Cadastrar aluno</h2>
                         <div class="col-span-3">
-                            <label for="nome_aluno" class="block my-2 text-sm font-medium text-gray-900">Nome do aluno</label>
-                            <input type="text" name="nome_aluno" id="nome_aluno" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
+                            <label for="nome_aluno0" class="block my-2 text-sm font-medium text-gray-900">Nome do aluno</label>
+                            <input type="text" id="nome_aluno0" name="nome_aluno" class="nome_aluno shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
                         </div>
                         <div class="col-span-1">
-                            <label for="turma" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
-                            <select required name="turma" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+                            <select required name="turma" id="select-turma0" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <option disabled value="regular" selected="">Selecionar turma</option>
                             </select>
                         </div>
@@ -896,7 +896,7 @@ $(document).ready(function () {
                         </div>
                 `)
         $('#form_aluno').append(`
-                        <input type="button" id="cadastrar-turma" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                        <input type="button" id="btn-cadastrar-aluno" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
                         value="Cadastrar alunos">
                         </form>
                 </div>`);
@@ -923,15 +923,71 @@ $(document).ready(function () {
         }
     });
 
+    $("#main").on("click", "#btn-cadastrar-aluno", function () {
+        var nomes_preenchidos = true;
+        $(".nome_aluno").each(function() {
+            if ($(this).val() === null || $(this).val() === '') {
+                nomes_preenchidos = false;
+                return false; // Break the loop early
+            }
+        });
+        if (!nomes_preenchidos || $(".select-turmas option:selected[value='regular']").length > 0) {
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Preencha os campos necessários!",
+            null,
+            "top",
+            "right"
+        ], 4000);
+        return;
+        } else{
+            var nomes = [];
+            $(".nome_aluno").each(function() {
+                nomes.push($(this).val());
+            });
+            var turmas = [];
+            $(".select-turmas").each(function() {
+                turmas.push($(this).val());
+            });
+
+            console.log(nomes);
+            console.log(turmas);
+            $.ajax({
+                type: "POST",
+                data: {
+                    alunos: nomes,
+                    turmas: turmas
+                },
+                url: "insert/insert_aluno.php",
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload();
+                    }
+                }
+            });
+            $(".nome_aluno").val("");
+            $(".select-turmas").val("regular").change();
+            
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Aluno(s) cadastrado(s)!",
+                null,
+                "bottom",
+                "right"
+            ], 4000);
+        }
+    });
+
     $("#main").on("click", "#btn-add-aluno", function () {
         loadTurmas();
         $('.add-aluno').empty();
+        var alunos = $(".nome_aluno").length;
         $('#form_aluno').append(
             `<div class="col-span-3">
-            <input type="text" name="nome_aluno" id="nome_aluno" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
+            <input type="text" name="nome_aluno" id="nome_aluno`+alunos+`" class="nome_aluno shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
         </div>
         <div class="col-span-1">
-            <select required name="turma" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+            <select required name="turma" id="select-turma`+alunos+`"class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
             <option disabled value="regular" selected="">Selecionar turma</option>
             </select>
         </div>
