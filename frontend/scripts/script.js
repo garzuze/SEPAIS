@@ -900,6 +900,44 @@ $(document).ready(function () {
                         value="Cadastrar alunos">
                         </form>
                 </div>`);
+            loadTurmas();
+    }
+
+    function CadastrarAluno() {
+        var nomes = [];
+        $(".nome_aluno").each(function() {
+            nomes.push($(this).val());
+        });
+        var turmas = [];
+        $(".select-turmas").each(function() {
+            turmas.push($(this).val());
+        });
+
+        console.log(nomes);
+        console.log(turmas);
+        $.ajax({
+            type: "POST",
+            data: {
+                alunos: nomes,
+                turmas: turmas
+            },
+            url: "insert/insert_aluno.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                }
+            }
+        });
+        $(".nome_aluno").val("");
+        $(".select-turmas").val("regular").change();
+        
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Aluno(s) cadastrado(s)!",
+            null,
+            "bottom",
+            "right"
+        ], 4000);
     }
 
 
@@ -941,40 +979,15 @@ $(document).ready(function () {
         ], 4000);
         return;
         } else{
-            var nomes = [];
-            $(".nome_aluno").each(function() {
-                nomes.push($(this).val());
-            });
-            var turmas = [];
-            $(".select-turmas").each(function() {
-                turmas.push($(this).val());
-            });
-
-            console.log(nomes);
-            console.log(turmas);
-            $.ajax({
-                type: "POST",
-                data: {
-                    alunos: nomes,
-                    turmas: turmas
-                },
-                url: "insert/insert_aluno.php",
-                success: function (data) {
-                    if (data == 0) {
-                        location.reload();
-                    }
-                }
-            });
-            $(".nome_aluno").val("");
-            $(".select-turmas").val("regular").change();
-            
-            let snackbar = new SnackBar();
-            snackbar.make("message", [
-                "Aluno(s) cadastrado(s)!",
-                null,
-                "bottom",
-                "right"
-            ], 4000);
+            $("#modal-cad-titulo").empty();
+            $("#modal-cad-body").empty();
+            $("#modal-btncad-texto").empty();
+            $("#modal-cad-titulo").append("Confirmar cadastro");
+            $("#modal-cad-body").append(
+                `Tem certeza de que todos dados dos alunos estão corretos?
+                <p id="modal-cad-opcao" value="aluno" style="visibility: hidden; display: none;"></p>`);
+            $("#modal-btncad-texto").append("Confirmar cadastro");
+            $('#cadastro-escondido').trigger("click");
         }
     });
 
@@ -1027,6 +1040,33 @@ $(document).ready(function () {
                         value="Cadastrar motivo">`);
     }
 
+    function CadastrarMotivo() {
+        let motivo = $("#motivo").val().trim();
+        let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Motivo enviado!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+
+        $.ajax({
+            type: "POST",
+            data: {
+                motivo: motivo
+            },
+            url: "insert/insert_motivo.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                }
+            }
+        });
+
+        $("#motivo").val("");
+        loadMotivos();
+    }
+
     $('#cadastrar-motivo').click(function () {
         event.preventDefault();
         history.pushState(null, null, '#cadastrar-motivo');
@@ -1065,30 +1105,18 @@ $(document).ready(function () {
             ], 4000);
             return;
         } else {
-            let snackbar = new SnackBar();
-            snackbar.make("message", [
-                "Motivo enviado!",
-                null,
-                "top",
-                "right"
-            ], 4000);
+            $("#modal-cad-titulo").empty();
+            $("#modal-cad-body").empty();
+            $("#modal-btncad-texto").empty();
+            $("#modal-cad-titulo").append("Confirmar cadastro");
+            $("#modal-cad-body").append(
+                `Deseja cadastrar o seguinte motivo?<br>
+                <span class="font-semibold text-green-700" id="modal-nome"></span>
+                <p id="modal-cad-opcao" value="motivo" style="visibility: hidden; display: none;"></p>`);
+            $("#modal-nome").append(" <b>"+motivo +"</b>");
+            $("#modal-btncad-texto").append("Confirmar cadastro");
+            $('#cadastro-escondido').trigger("click");
         }
-
-        $.ajax({
-            type: "POST",
-            data: {
-                motivo: motivo
-            },
-            url: "insert/insert_motivo.php",
-            success: function (data) {
-                if (data == 0) {
-                    location.reload();
-                }
-            }
-        });
-
-        $("#motivo").val("");
-        loadMotivos();
     });
 
     function loadCadastrarTurma() {
@@ -1119,6 +1147,33 @@ $(document).ready(function () {
         $('#form_turma').append(`
                         <input type="button" id="btn-cadastrar-turma" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
                         value="Cadastrar turma">`);
+    }
+
+    function CadastrarTurma(){
+        let turma = $("#turma").val().trim();
+        let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Turma criada!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+
+            $.ajax({
+                type: "POST",
+                data: {
+                    turma: turma
+                },
+                url: "insert/insert_turma.php",
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload();
+                    }
+                }
+            });
+    
+            $("#turma").val("");
+            loadTurmas();
     }
 
     $('#cadastrar-turma').click(function () {
@@ -1159,30 +1214,29 @@ $(document).ready(function () {
             ], 4000);
             return;
         } else {
-            let snackbar = new SnackBar();
-            snackbar.make("message", [
-                "Turma criada!",
-                null,
-                "top",
-                "right"
-            ], 4000);
+            $("#modal-cad-titulo").empty();
+            $("#modal-cad-body").empty();
+            $("#modal-btncad-texto").empty();
+            $("#modal-cad-titulo").append("Confirmar cadastro");
+            $("#modal-cad-body").append(
+                `Deseja cadastrar a seguinte turma?<br>
+                <span class="font-semibold text-green-700" id="modal-nome"></span>
+                <p id="modal-cad-opcao" value="turma" style="visibility: hidden; display: none;"></p>`);
+            $("#modal-nome").append(" <b>"+turma +"</b>");
+            $("#modal-btncad-texto").append("Confirmar cadastro");
+            $('#cadastro-escondido').trigger("click");
         }
+    });
 
-        $.ajax({
-            type: "POST",
-            data: {
-                turma: turma
-            },
-            url: "insert/insert_turma.php",
-            success: function (data) {
-                if (data == 0) {
-                    location.reload();
-                }
-            }
-        });
-
-        $("#turma").val("");
-        loadTurmas();
+    $("#main").on("click", "#confirmar-cadastro", function () {
+        opcao = $("#modal-cad-opcao").attr('value')
+        if(opcao == "aluno"){
+            CadastrarAluno();
+        } else if(opcao == "motivo"){
+            CadastrarMotivo();
+        } else if(opcao == "turma"){
+            CadastrarTurma();
+        }
     });
 
     $('.select-motivo').change(function () {
