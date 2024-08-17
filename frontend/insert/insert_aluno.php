@@ -11,11 +11,15 @@ if(!empty($_SESSION['email'])) {
             $sql = connect();
             foreach ($registros["alunos"] as $index => $aluno) {
                 $turma = $registros["turmas"][$index];
-                echo "$aluno, $turma \n";
+                // echo "$aluno, $turma \n";
                 $foto_path = "nenhum";
                 $query = $sql->prepare("INSERT INTO aluno (nome, foto_path, turma_id) VALUES (?, ?, ?);");
                 $query->bind_param("ssi", $aluno, $foto_path, $turma);
                 $query->execute();
+
+                $log_msg = "Servidor(a) ".$_SESSION['email']." cadastrou um aluno: Nome = $aluno, Turma = $turma";
+                // echo($log_msg ."</br>");
+                write_log($log_msg, 0);
                 header('Location: ../index.php');
             }
         }catch (Exception $e) {

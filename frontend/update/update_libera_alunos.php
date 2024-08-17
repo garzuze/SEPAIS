@@ -6,6 +6,7 @@ date_default_timezone_set('America/Sao_Paulo');
 if(isset($_SESSION['email'])) {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Preparando variáveis para inserção no BD
+        $email = $_SESSION['email'];
         $id_aluno = intval($_POST['id_aluno']);
         $data = $_POST['date']."%";
         $saida = date('Y-m-d H:i:s');
@@ -30,6 +31,10 @@ if(isset($_SESSION['email'])) {
             $query2->execute();
             $query1->close();
             $query2->close();
+
+            $log_msg = "Servidor(a) $email validou uma saída: IDaluno = $id_aluno";
+            // echo($log_msg ."</br>");
+            write_log($log_msg, 1);
         } else {
             echo "Error preparing statement: " . $sql->error;
         }

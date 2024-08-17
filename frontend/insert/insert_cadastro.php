@@ -20,6 +20,11 @@ if (isset($_POST['submit'])) {
         $insert_child_user_query = $sql->prepare($insert_child_user_stmt);
         $insert_child_user_query->bind_param("s", $email);
         $insert_child_user_query->execute();
+
+        $log_msg = "O usuário $email da $funcao foi cadastrado com sucesso";
+        // echo($log_msg ."</br>");
+        write_log($log_msg, 0);
+
         header('Location: ../login.php');
     } catch (mysqli_sql_exception $e) {
         if ($e->getCode() == 1062) {

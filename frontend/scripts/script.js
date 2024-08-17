@@ -881,17 +881,17 @@ $(document).ready(function () {
                 <div>
                     <form id="form_aluno" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
                     <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Cadastrar aluno</h2>
-                        <div class="col-span-3">
+                        <div class="col-span-3 adicionado">
                             <label for="nome_aluno0" class="block my-2 text-sm font-medium text-gray-900">Nome do aluno</label>
                             <input type="text" id="nome_aluno0" name="nome_aluno" class="nome_aluno shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
                         </div>
-                        <div class="col-span-1">
+                        <div class="col-span-1 adicionado">
                             <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
                             <select required name="turma" id="select-turma0" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                             <option disabled value="regular" selected="">Selecionar turma</option>
                             </select>
                         </div>
-                        <div class="add-aluno justify-self-end col-span-4">
+                        <div class="add-aluno justify-self-end adicionado col-span-4">
                             <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
                         </div>
                 `)
@@ -928,8 +928,24 @@ $(document).ready(function () {
                 }
             }
         });
-        $(".nome_aluno").val("");
-        $(".select-turmas").val("regular").change();
+        $(".nome_aluno").remove();
+        $(".select-turmas").remove();
+        $('.adicionado').remove();
+
+        $('#form_aluno').append(`
+        <div class="adicionado col-span-3">
+            <label for="nome_aluno0" class="block my-2 text-sm font-medium text-gray-900">Nome do aluno</label>
+            <input type="text" id="nome_aluno0" name="nome_aluno" class="nome_aluno shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
+        </div>
+        <div class="adicionado col-span-1">
+            <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+            <select required name="turma" id="select-turma0" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+            <option disabled value="regular" selected="">Selecionar turma</option>
+            </select>
+        </div>
+        <div class="add-aluno adicionado justify-self-end col-span-4">
+            <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
+        </div>`);
         
         let snackbar = new SnackBar();
         snackbar.make("message", [
@@ -991,24 +1007,40 @@ $(document).ready(function () {
         }
     });
 
+    let alunoCounter = 0;
+
     $("#main").on("click", "#btn-add-aluno", function () {
         loadTurmas();
-        $('.add-aluno').empty();
-        var alunos = $(".nome_aluno").length;
+        $('.add-aluno').empty(); 
+    
+        alunoCounter++; 
         $('#form_aluno').append(
-            `<div class="col-span-3">
-            <input type="text" name="nome_aluno" id="nome_aluno`+alunos+`" class="nome_aluno shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
-        </div>
-        <div class="col-span-1">
-            <select required name="turma" id="select-turma`+alunos+`"class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-            <option disabled value="regular" selected="">Selecionar turma</option>
-            </select>
-        </div>
-        <div class="add-aluno justify-self-end col-span-4">
-            <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
-        </div>`
+            `<div class="row${alunoCounter} adicionado col-span-3">
+                <input type="text" name="nome_aluno" id="nome_aluno${alunoCounter}" class="nome_aluno row${alunoCounter} shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
+            </div>
+            <div class="row${alunoCounter} adicionado col-span-1">
+                <select required name="turma" id="select-turma${alunoCounter}" class="select-turmas row${alunoCounter} row bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 w-10/12 p-2.5">
+                    <option disabled value="regular" selected="">Selecionar turma</option>
+                </select>
+                <span value="row${alunoCounter}" class="btn-remove-aluno ml-1 text-red-600 row${alunoCounter} cursor-pointer hover:underline">
+                    <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>
+                </span>
+            </div>
+            <div class="add-aluno row${alunoCounter} adicionado justify-self-end col-span-4">
+                <p id="btn-add-aluno" class="text-green-600 row${alunoCounter} cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
+            </div>`
         );
-    })
+    });
+    
+    $("#main").on("click", ".btn-remove-aluno", function () {
+        $("." +  $(this).attr('value')).remove();
+        $('.add-aluno').remove(); 
+
+        $('#form_aluno').append(`<div class="add-aluno adicionado justify-self-end col-span-4">
+            <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
+        </div>`);
+    });
+    
 
     function loadCadastrarMotivo() {
         //esconde o botão liberar
@@ -1044,7 +1076,7 @@ $(document).ready(function () {
         let motivo = $("#motivo").val().trim();
         let snackbar = new SnackBar();
             snackbar.make("message", [
-                "Motivo enviado!",
+                "Motivo criado!",
                 null,
                 "top",
                 "right"
@@ -1229,7 +1261,7 @@ $(document).ready(function () {
     });
 
     $("#main").on("click", "#confirmar-cadastro", function () {
-        opcao = $("#modal-cad-opcao").attr('value')
+        opcao = $("#modal-cad-opcao").attr('value');
         if(opcao == "aluno"){
             CadastrarAluno();
         } else if(opcao == "motivo"){
