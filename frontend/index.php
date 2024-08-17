@@ -103,7 +103,7 @@ $foto_path = $result_array[0]['foto_path'];
                     <div class="relative bg-white rounded-lg shadow">
                         <!-- Modal header -->
                         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-                            <h3 id="modal-cad-titulo" class="text-xl font-medium text-gray-900">
+                            <h3 id="modal-cad-titulo" class="text-xl font-medium text-gray-900">Confirmar cadastro
                             </h3>
                             <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="modal-cadastro">
                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -122,7 +122,7 @@ $foto_path = $result_array[0]['foto_path'];
                         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
                             <button id="confirmar-cadastro" type="button" class="text-white inline-flex items-center bg-gradient-to-r from-[#00BF63] to-[#016D39] font-medium rounded-lg text-sm px-5 py-2.5 text-center" data-modal-hide="modal-cadastro">
                                 <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                <span id="modal-btncad-texto"></span>
+                                <span id="modal-btncad-texto">Confirmar cadastro</span>
                             </button>
                             <button data-modal-hide="modal-cadastro" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Cancelar</button>
                         </div>
