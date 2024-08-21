@@ -321,6 +321,10 @@ $(document).ready(function () {
         });
     });
 
+    var logo_histSepae;
+    $.get("static/header_histSepae.txt", function(data) {
+        logo_histSepae = data;
+    });
     // Função para visualizar histórico de liberações pela SEPAE
     function loadHistoricoSepae() {
         //esconde o botão liberar
@@ -401,7 +405,7 @@ $(document).ready(function () {
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
                         language: {
-                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
                         dom: '<"row"lBf>rtip',
                         buttons: [
@@ -416,10 +420,45 @@ $(document).ready(function () {
                             },
                             {
                                 extend: 'pdf',
-                                title: 'Histórico de liberação por SEPAE',
+					            pageSize: 'A4',
                                 customize: function (doc) {
-                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
-                                }
+                                    for (var row = 0; row < doc.content[1].table.headerRows; row++) {
+                                        var header = doc.content[1].table.body[row];
+                                        for (var col = 0; col < header.length; col++) {
+                                            header[col].fillColor = '#0c3b15';
+                                        }
+                                    }
+                                    doc.content.splice(0,1);
+                                    var now = new Date();
+                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                                    doc.pageMargins = [50,80,50,30];
+                                    // Set the font size fot the entire document
+                                    doc.defaultStyle.fontSize = 11;
+                                    // Set the fontsize for the table header
+                                    doc.styles.tableHeader.fontSize = 12;
+                                    doc['header']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    image: logo_histSepae,
+                                                    width: 570
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
+                                    // To use predefined layouts uncomment the line below and comment the custom lines below
+                                    // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
+                                    var objLayout = {};
+                                    objLayout['hLineWidth'] = function(i) { return .5; };
+                                    objLayout['vLineWidth'] = function(i) { return .5; };
+                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function(i) { return 4; };
+                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    doc.content[0].layout = objLayout;
+                                },
+                                title: 'Histórico de liberação por SEPAE'
                             }
                         ]
                     });
@@ -451,6 +490,12 @@ $(document).ready(function () {
             loadHistoricoSepae();
         }
     });
+
+    var logo_histResp;
+    $.get("static/header_histResp.txt", function(data) {
+        logo_histResp = data;
+    });
+
     // Função para visualizar histórico de liberações pelos responsáveis
     function loadHistoricoResponsavel() {
         //esconde o botão liberar
@@ -531,7 +576,7 @@ $(document).ready(function () {
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
                         language: {
-                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
                         dom: '<"row"lBf>rtip',
                         buttons: [
@@ -547,8 +592,43 @@ $(document).ready(function () {
                             {
                                 extend: 'pdf',
                                 title: 'Histórico de liberação por responsáveis',
+                                pageSize: 'A4',
                                 customize: function (doc) {
-                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
+                                    for (var row = 0; row < doc.content[1].table.headerRows; row++) {
+                                        var header = doc.content[1].table.body[row];
+                                        for (var col = 0; col < header.length; col++) {
+                                            header[col].fillColor = '#0c3b15';
+                                        }
+                                    }
+                                    doc.content.splice(0,1);
+                                    var now = new Date();
+                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                                    doc.pageMargins = [50,80,50,30];
+                                    // Set the font size fot the entire document
+                                    doc.defaultStyle.fontSize = 11;
+                                    // Set the fontsize for the table header
+                                    doc.styles.tableHeader.fontSize = 12;
+                                    doc['header']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    image: logo_histResp,
+                                                    width: 570
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
+                                    // To use predefined layouts uncomment the line below and comment the custom lines below
+                                    // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
+                                    var objLayout = {};
+                                    objLayout['hLineWidth'] = function(i) { return .5; };
+                                    objLayout['vLineWidth'] = function(i) { return .5; };
+                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function(i) { return 4; };
+                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    doc.content[0].layout = objLayout;
                                 }
                             }
                         ]
@@ -582,6 +662,10 @@ $(document).ready(function () {
         }
     });
 
+    var logo_histAtraso;
+    $.get("static/header_histAtraso.txt", function(data) {
+        logo_histAtraso = data;
+    });
     // Função para visualizar histórico de atrasos
     function loadHistoricoAtrasos() {
         //esconde o botão liberar
@@ -613,6 +697,9 @@ $(document).ready(function () {
                                             <th scope="col" class="px-6 py-3 w-2/12">
                                                 Data
                                             </th>
+                                            <th scope="col" class="px-6 py-3 w-2/12">
+                                                Servidor
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody id="tb-alunos-resp">
@@ -633,12 +720,15 @@ $(document).ready(function () {
                             '<td class="px-6 py-4 w-2/12">' +
                             data[i]['data'] +
                             '</td>' +
+                            '<td class="px-6 py-4 w-2/12">' +
+                            data[i]['servidor'] +
+                            '</td>'
                             +'</tr>');
                     }
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
                         language: {
-                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
                         dom: '<"row"lBf>rtip',
                         buttons: [
@@ -654,9 +744,44 @@ $(document).ready(function () {
                             {
                                 extend: 'pdf',
                                 title: 'Histórico de atrasos',
+                                pageSize: 'A4',
                                 customize: function (doc) {
-                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
-                                }
+                                    for (var row = 0; row < doc.content[1].table.headerRows; row++) {
+                                        var header = doc.content[1].table.body[row];
+                                        for (var col = 0; col < header.length; col++) {
+                                            header[col].fillColor = '#0c3b15';
+                                        }
+                                    }
+                                    doc.content.splice(0,1);
+                                    var now = new Date();
+                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                                    doc.pageMargins = [50,80,50,30];
+                                    // Set the font size fot the entire document
+                                    doc.defaultStyle.fontSize = 11;
+                                    // Set the fontsize for the table header
+                                    doc.styles.tableHeader.fontSize = 12;
+                                    doc['header']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    image: logo_histAtraso,
+                                                    width: 570
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
+                                    // To use predefined layouts uncomment the line below and comment the custom lines below
+                                    // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
+                                    var objLayout = {};
+                                    objLayout['hLineWidth'] = function(i) { return .5; };
+                                    objLayout['vLineWidth'] = function(i) { return .5; };
+                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function(i) { return 4; };
+                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    doc.content[0].layout = objLayout;
+                                },
                             }
                         ]
                     });
@@ -689,6 +814,10 @@ $(document).ready(function () {
         }
     });
 
+    var logo_histRecado;
+    $.get("static/header_histRecado.txt", function(data) {
+        logo_histRecado = data;
+    });
     // Função para visualizar histórico de recados
     function loadHistoricoRecados() {
         //esconde o botão liberar
@@ -761,7 +890,7 @@ $(document).ready(function () {
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
                         language: {
-                            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
+                            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
                         dom: '<"row"lBf>rtip',
                         buttons: [
@@ -777,9 +906,44 @@ $(document).ready(function () {
                             {
                                 extend: 'pdf',
                                 title: 'Histórico de recados',
+                                pageSize: 'A4',
                                 customize: function (doc) {
-                                    doc.content[1].margin = [30, 0, 30, 0] //left, top, right, bottom
-                                }
+                                    for (var row = 0; row < doc.content[1].table.headerRows; row++) {
+                                        var header = doc.content[1].table.body[row];
+                                        for (var col = 0; col < header.length; col++) {
+                                            header[col].fillColor = '#0c3b15';
+                                        }
+                                    }
+                                    doc.content.splice(0,1);
+                                    var now = new Date();
+                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
+                                    doc.pageMargins = [50,80,50,30];
+                                    // Set the font size fot the entire document
+                                    doc.defaultStyle.fontSize = 11;
+                                    // Set the fontsize for the table header
+                                    doc.styles.tableHeader.fontSize = 12;
+                                    doc['header']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    image: logo_histRecado,
+                                                    width: 570
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
+                                    // To use predefined layouts uncomment the line below and comment the custom lines below
+                                    // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
+                                    var objLayout = {};
+                                    objLayout['hLineWidth'] = function(i) { return .5; };
+                                    objLayout['vLineWidth'] = function(i) { return .5; };
+                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function(i) { return 4; };
+                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    doc.content[0].layout = objLayout;
+                                },
                             }
                         ]
                     });
