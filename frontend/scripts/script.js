@@ -430,12 +430,26 @@ $(document).ready(function () {
                                     }
                                     doc.content.splice(0,1);
                                     var now = new Date();
-                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
-                                    doc.pageMargins = [50,80,50,30];
+                                    var day = now.getDate().toString().padStart(2, '0');
+                                    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                    var year = now.getFullYear();
+                                    var jsDate = day + '/' + month + '/' + year;
+                                    doc.pageMargins = [50,80,50,40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
+                                    doc['footer']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    alignment: 'right',
+                                                    text: ['Emitido em: ', { text: jsDate.toString() }]
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
                                     doc['header']=(function() {
                                         return {
                                             columns: [
@@ -602,12 +616,26 @@ $(document).ready(function () {
                                     }
                                     doc.content.splice(0,1);
                                     var now = new Date();
-                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
-                                    doc.pageMargins = [50,80,50,30];
+                                    var day = now.getDate().toString().padStart(2, '0');
+                                    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                    var year = now.getFullYear();
+                                    var jsDate = day + '/' + month + '/' + year;
+                                    doc.pageMargins = [50,80,50,40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
+                                    doc['footer']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    alignment: 'right',
+                                                    text: ['Emitido em: ', { text: jsDate.toString() }]
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
                                     doc['header']=(function() {
                                         return {
                                             columns: [
@@ -754,12 +782,26 @@ $(document).ready(function () {
                                     }
                                     doc.content.splice(0,1);
                                     var now = new Date();
-                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
-                                    doc.pageMargins = [50,80,50,30];
+                                    var day = now.getDate().toString().padStart(2, '0');
+                                    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                    var year = now.getFullYear();
+                                    var jsDate = day + '/' + month + '/' + year;
+                                    doc.pageMargins = [50,80,50,40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
+                                    doc['footer']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    alignment: 'right',
+                                                    text: ['Emitido em: ', { text: jsDate.toString() }]
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
                                     doc['header']=(function() {
                                         return {
                                             columns: [
@@ -916,12 +958,26 @@ $(document).ready(function () {
                                     }
                                     doc.content.splice(0,1);
                                     var now = new Date();
-                                    var jsDate = now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear();
-                                    doc.pageMargins = [50,80,50,30];
+                                    var day = now.getDate().toString().padStart(2, '0');
+                                    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                    var year = now.getFullYear();
+                                    var jsDate = day + '/' + month + '/' + year;
+                                    doc.pageMargins = [50,80,50,40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
+                                    doc['footer']=(function() {
+                                        return {
+                                            columns: [
+                                                {
+                                                    alignment: 'right',
+                                                    text: ['Emitido em: ', { text: jsDate.toString() }]
+                                                }
+                                            ],
+                                            margin: 20
+                                        }
+                                    });
                                     doc['header']=(function() {
                                         return {
                                             columns: [
