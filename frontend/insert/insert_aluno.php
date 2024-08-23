@@ -10,9 +10,10 @@ if(!empty($_SESSION['email'])) {
             $registros = ["alunos" => $alunos, "turmas" => $turmas];
             $sql = connect();
             foreach ($registros["alunos"] as $index => $aluno) {
+                $aluno = ucwords(strtolower($aluno));
                 $turma = $registros["turmas"][$index];
                 // echo "$aluno, $turma \n";
-                $foto_path = "nenhum";
+                $foto_path = "static/default_user_icon.jpg";
                 $query = $sql->prepare("INSERT INTO aluno (nome, foto_path, turma_id) VALUES (?, ?, ?);");
                 $query->bind_param("ssi", $aluno, $foto_path, $turma);
                 $query->execute();

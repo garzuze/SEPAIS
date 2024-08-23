@@ -41,7 +41,7 @@ include('secure.php');
                 </div>
                     <button type="submit" name="submit" class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login</button>
                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Não tem uma conta ainda? <a href="signup.php" class="font-medium text-green-700 hover:underline">Fazer cadastro</a>
+                        Não tem uma conta ainda? <a href="signup.php"  class="font-medium focus:underline text-green-700 hover:underline">Fazer cadastro</a>
                     </p>
             </form>
         </div>

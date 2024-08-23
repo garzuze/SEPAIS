@@ -321,6 +321,16 @@ $(document).ready(function () {
         });
     });
 
+    function validateEmail (email) {
+        var emailExp = new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i); 
+        return emailExp.test(email);
+    }
+
+    function validateTelefone (telefone){
+        var telefoneExp = new RegExp(/[(][0-9]{2}[)] [0-9]{4,5}[-][0-9]{4}/i)
+        return telefoneExp.test(telefone);
+    }
+    
     var logo_histSepae;
     $.get("static/header_histSepae.txt", function(data) {
         logo_histSepae = data;
@@ -1146,6 +1156,13 @@ $(document).ready(function () {
                 if (data == 0) {
                     location.reload();
                 }
+                let snackbar = new SnackBar();
+                snackbar.make("message", [
+                    "Aluno(s) cadastrado(s)!",
+                    null,
+                    "bottom",
+                    "right"
+                ], 4000);
             }
         });
         $(".nome_aluno").remove();
@@ -1166,14 +1183,6 @@ $(document).ready(function () {
         <div class="add-aluno adicionado justify-self-end col-span-4">
             <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
         </div>`);
-        
-        let snackbar = new SnackBar();
-        snackbar.make("message", [
-            "Aluno(s) cadastrado(s)!",
-            null,
-            "bottom",
-            "right"
-        ], 4000);
     }
 
 
@@ -1260,7 +1269,221 @@ $(document).ready(function () {
             <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
         </div>`);
     });
+
+    function loadCadastrarResponsavel() {
+        //esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main > *:not('.modal')").remove();
+        $('#main').prepend(`
+                <div>
+                    <form id="form_responsavel" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
+                    <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Cadastrar responsável</h2>
+                        <div class="col-span-4 adicionado">
+                            <div class="flex flex-row">
+                                <div class="flex w-5/12 flex-col mr-4">
+                                    <label for="nome_responsavel0" class="block my-2 text-sm font-medium text-gray-900">Nome do responsável</label>
+                                    <input type="text" id="nome_responsavel0" name="nome_responsavel0" class="nome_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder="Nereu Pai" required>
+                                </div>
+                                <div class="flex w-5/12 flex-col mr-4">
+                                    <label for="email_responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
+                                    <input type="email" id="email_responsavel0" name="email_responsavel0" class="email_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder="nereu.pai@email.com" required>
+                                </div>
+                                <div class="flex w-2/12 flex-col">
+                                    <label for="telefone_responsavel0" class="block my-2 text-sm font-medium text-gray-900">Telefone</label>
+                                    <input type="text" id="telefone_responsavel0" name="telefone_responsavel0" class="telefone_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder='(XX) XXXXX-XXXX' required>
+                                </div>
+                            </div>
+                        </div><div class="add-responsavel adicionado justify-self-end col-span-4">
+                            <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
+                        </div>`);                      
+        $('#form_responsavel').append(`
+                        <input type="button" id="btn-cadastrar-responsavel" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                        value="Cadastrar responsáveis">
+                        </form>
+                </div>`);
+                var maskBehavior = function (val) {
+                    return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+                },
+                options = {onKeyPress: function(val, e, field, options) {
+                        field.mask(maskBehavior.apply({}, arguments), options);
+                    }
+                };
+                $('.telefone_responsavel').mask(maskBehavior, options);
+    }
+
+    function CadastrarResponsavel() {
+        var nomes = [];
+        $(".nome_responsavel").each(function() {
+            nomes.push($(this).val());
+        });
+        var emails = [];
+        $(".email_responsavel").each(function() {
+            emails.push($(this).val());
+        });
+        var telefones = [];
+        $(".telefone_responsavel").each(function() {
+            telefones.push($(this).val());
+        });
+
+        console.log(nomes);
+        console.log(emails);
+        console.log(telefones);
+
+        $.ajax({
+            type: "POST",
+            data: {
+                responsaveis: nomes,
+                emails: emails,
+                telefones: telefones
+            },
+            url: "insert/insert_responsavel.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                }
+                let snackbar = new SnackBar();
+                snackbar.make("message", [
+                    "Responsável(is) cadastrado(s)!",
+                    null,
+                    "bottom",
+                    "right"
+                ], 4000);
+            }
+        });
+
+        $(".nome_responsavel").remove();
+        $(".email_responsavel").remove();
+        $(".telefone_responsavel").remove();
+        $('.adicionado').remove();
+
+        $('#form_responsavel').append(`
+        <div class="col-span-4 adicionado">
+            <div class="flex flex-row">
+                <div class="flex w-5/12 flex-col mr-4">
+                    <label for="nome_responsavel0" class="block my-2 text-sm font-medium text-gray-900">Nome do responsável</label>
+                    <input type="text" id="nome_responsavel0" name="nome_responsavel0" class="nome_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder="Nereu Pai" required>
+                </div>
+                <div class="flex w-5/12 flex-col mr-4">
+                    <label for="email_responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
+                    <input type="email" id="email_responsavel0" name="email_responsavel0" class="email_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder="nereu.pai@email.com" required>
+                </div>
+                <div class="flex w-2/12 flex-col">
+                    <label for="telefone_responsavel0" class="block my-2 text-sm font-medium text-gray-900">Telefone</label>
+                    <input type="text" id="telefone_responsavel0" name="telefone_responsavel0" class="telefone_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder='(XX) XXXXX-XXXX' required>
+                </div>
+            </div>
+        </div>
+        <div class="add-responsavel adicionado justify-self-end col-span-4">
+            <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
+        </div>`);    
+    }
     
+    $('#cadastrar-responsavel').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#cadastrar-responsavel');
+        loadCadastrarResponsavel();
+    })
+
+    if (window.location.hash === '#cadastrar-responsavel') {
+        $("#cadastrar").next().children().slideDown("slow");
+        loadCadastrarResponsavel();
+        activateButton(window.location.hash);
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#cadastrar-responsavel') {
+            $("#cadastrar").next().children().slideDown("slow");
+            loadCadastrarResponsavel();
+            activateButton(window.location.hash);
+        }
+    });
+
+    $("#main").on("click", "#btn-cadastrar-responsavel", function () {
+        var nomes_preenchidos = true;
+        $(".responsavel").each(function() {
+            if ($(this).val() === null || $(this).val() === '') {
+                nomes_preenchidos = false;
+                return false; // Break the loop early
+            }  
+        });
+        $(".email_responsavel").each(function() {
+            if (validateEmail($(this).val()) == false) {
+                nomes_preenchidos = false;
+                return false; // Break the loop early
+            }  
+        });
+        $(".telefone_responsavel").each(function() {
+            if (validateTelefone($(this).val()) == false) {
+                nomes_preenchidos = false;
+                return false; // Break the loop early
+            }  
+        });
+        if (!nomes_preenchidos) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        } else{
+            $("#modal-cad-titulo").empty();
+            $("#modal-cad-body").empty();
+            $("#modal-btncad-texto").empty();
+            $("#modal-cad-titulo").append("Confirmar cadastro");
+            $("#modal-cad-body").append(
+                `Tem certeza de que todos dados dos responsáveis estão corretos?
+                <p id="modal-cad-opcao" value="responsavel" style="visibility: hidden; display: none;"></p>`);
+            $("#modal-btncad-texto").append("Confirmar cadastro");
+            $('#cadastro-escondido').trigger("click");
+        }
+    });
+
+    let responsavelCounter = 0;
+
+    $("#main").on("click", "#btn-add-responsavel", function () {
+        $('.add-responsavel').empty(); 
+    
+        responsavelCounter++; 
+        $('#form_responsavel').append(
+            `<div class="col-span-4 row${responsavelCounter} adicionado">
+                <div class="flex flex-row">
+                    <div class="flex w-5/12 flex-col mr-4">
+                        <input type="text" id="nome_responsavel${responsavelCounter}" name="nome_responsavel${responsavelCounter}" class="nome_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder="Nereu Pai" required>
+                    </div>
+                    <div class="flex w-5/12 flex-col mr-4">
+                        <input type="email" id="email_responsavel${responsavelCounter}" name="email_responsavel${responsavelCounter}" class="email_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-full" placeholder="nereu.pai@email.com" required>
+                    </div>
+                    <div class="flex items-center justify-between w-2/12">
+                        <input type="text" id="telefone_responsavel${responsavelCounter}" name="telefone_responsavel${responsavelCounter}" class="telefone_responsavel responsavel shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 w-10/12" placeholder='(XX) XXXXX-XXXX' required>
+                        <span value="row${responsavelCounter}" class="btn-remove-responsavel ml-1 text-red-600 row${responsavelCounter} cursor-pointer hover:underline">
+                            <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="add-responsavel adicionado justify-end flex col-span-4">
+                    <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
+                </div>`
+        );
+        var maskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+        options = {onKeyPress: function(val, e, field, options) {
+                field.mask(maskBehavior.apply({}, arguments), options);
+            }
+        };
+        $('.telefone_responsavel').mask(maskBehavior, options);
+    });
+    
+    $("#main").on("click", ".btn-remove-responsavel", function () {
+        $("." +  $(this).attr('value')).remove();
+        $('.add-responsavel').remove(); 
+
+        $('#form_responsavel').append(`<div class="add-responsavel adicionado justify-self-end col-span-4">
+            <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
+        </div>`);
+    });
 
     function loadCadastrarMotivo() {
         //esconde o botão liberar
@@ -1488,6 +1711,8 @@ $(document).ready(function () {
             CadastrarMotivo();
         } else if(opcao == "turma"){
             CadastrarTurma();
+        } else if(opcao == "responsavel"){
+            CadastrarResponsavel();
         }
     });
 
