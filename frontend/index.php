@@ -80,6 +80,9 @@ $foto_path = $result_array[0]['foto_path'];
                     <a id="cadastrar-turma" class="subclasse-cadastrar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-turma">
                         <span>Turma</span>
                     </a>
+                    <a id="cadastrar-vinculo" class="subclasse-cadastrar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#cadastrar-vinculo">
+                        <span>Vínculo</span>
+                    </a>
                 </div>
             </li>
             </ul>

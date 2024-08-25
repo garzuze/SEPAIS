@@ -109,6 +109,26 @@ $(document).ready(function () {
         })
     }
 
+    function loadResponsavel(){
+        $.ajax({
+            url: 'read/read_responsaveis.php',
+            type: 'GET',
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                } else {
+                    data = JSON.parse(data)
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('.datalist-responsavel').append(
+                            '<option value="' + data[i]["email"] + '">' + data[i]["nome"] + '</option>'
+                        );
+                    }
+                }
+            }
+        });
+    }
+
     // Marca os checkbox clicados 
     $("#main").on("click", "input.select-item", function () {
         var checked = this.checked;
@@ -1133,7 +1153,7 @@ $(document).ready(function () {
             loadTurmas();
     }
 
-    function CadastrarAluno() {
+    function cadastrarAluno() {
         var nomes = [];
         $(".nome_aluno").each(function() {
             nomes.push($(this).val());
@@ -1311,7 +1331,7 @@ $(document).ready(function () {
                 $('.telefone_responsavel').mask(maskBehavior, options);
     }
 
-    function CadastrarResponsavel() {
+    function cadastrarResponsavel() {
         var nomes = [];
         $(".nome_responsavel").each(function() {
             nomes.push($(this).val());
@@ -1515,7 +1535,7 @@ $(document).ready(function () {
                         value="Cadastrar motivo">`);
     }
 
-    function CadastrarMotivo() {
+    function cadastrarMotivo() {
         let motivo = $("#motivo").val().trim();
         let snackbar = new SnackBar();
             snackbar.make("message", [
@@ -1624,7 +1644,7 @@ $(document).ready(function () {
                         value="Cadastrar turma">`);
     }
 
-    function CadastrarTurma(){
+    function cadastrarTurma(){
         let turma = $("#turma").val().trim();
         let snackbar = new SnackBar();
             snackbar.make("message", [
@@ -1703,17 +1723,300 @@ $(document).ready(function () {
         }
     });
 
+    function loadCadastrarVinculo() {
+        $('.btn-liberar').hide();
+        $("#main > *:not('.modal')").remove();
+        $('#main').prepend(`
+                <form id="form_vinculo" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
+                <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Vincular aluno e responsável</h2>
+                <div class="col-span-4 adicionado">
+                    <div class="flex flex-row">
+                        <div class="flex w-2/12 flex-col mr-4">
+                            <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+                            <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                '<option disabled value="regular" selected="">Selecionar turma</option>'
+                            </select>
+                        </div>
+                        <div class="flex w-5/12 flex-col mr-4">
+                            <label for="browser-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
+                            <input id="browser-aluno0" name="datalist-aluno" list="datalist-aluno0" placeholder="Selecione o aluno" disabled class="bg-gray-50 browser-aluno border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <datalist class="datalist-aluno" id="datalist-aluno0">
+                            </datalist>
+                        </div>
+                        <div class="flex w-5/12 flex-col mr-4">
+                            <label for="browser-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
+                            <input id="browser-responsavel0" list="datalist-responsavel0" placeholder="Selecione o responsável" class="bg-gray-50 border browser-responsavel border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <datalist class="datalist-responsavel" id="datalist-responsavel0">
+                            </datalist>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-vinculo adicionado justify-self-end col-span-4">
+                    <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+                </div>
+            `)
+            $('#form_vinculo').append(`
+                <input type="button" id="btn-cadastrar-vinculo" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                value="Cadastrar vínculos">
+                </form>
+            </div>`);
+        loadResponsavel();
+        loadTurmas();
+    }
+
+    function cadastrarVinculo(){
+        var alunos = [];
+        $(".browser-aluno").each(function() {
+            // alert($(this).val());
+            alunos.push($(this).attr("id_aluno"));
+        });
+            
+        var responsaveis = [];
+        $(".browser-responsavel").each(function() {
+            // alert($(this).val());
+            responsaveis.push($(this).val());
+        });
+
+        console.log(alunos);
+        console.log(responsaveis);
+
+        $.ajax({
+            type: "POST",
+            data: {
+                alunos: alunos,
+                responsaveis: responsaveis
+            },
+            url: "insert/insert_vinculo.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                }
+                let snackbar = new SnackBar();
+                snackbar.make("message", [
+                    "Vínculo(s) cadastrado(s)!",
+                    null,
+                    "bottom",
+                    "right"
+                ], 4000);
+            }
+        });
+
+        $('.adicionado').remove();
+
+        $('#form_vinculo').append(`
+                <div class="col-span-4 adicionado">
+                    <div class="flex flex-row">
+                        <div class="flex w-2/12 flex-col mr-4">
+                            <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+                            <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                '<option disabled value="regular" selected="">Selecionar turma</option>'
+                            </select>
+                        </div>
+                        <div class="flex w-5/12 flex-col mr-4">
+                            <label for="browser-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
+                            <input id="browser-aluno0" name="datalist-aluno" list="datalist-aluno0" placeholder="Selecione o aluno" disabled class="bg-gray-50 browser-aluno border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <datalist class="datalist-aluno" id="datalist-aluno0">
+                            </datalist>
+                        </div>
+                        <div class="flex w-5/12 flex-col mr-4">
+                            <label for="browser-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
+                            <input id="browser-responsavel0" list="datalist-responsavel0" placeholder="Selecione o responsável" class="bg-gray-50 border browser-responsavel border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <datalist class="datalist-responsavel" id="datalist-responsavel0">
+                            </datalist>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-vinculo adicionado justify-self-end col-span-4">
+                    <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+                </div>`
+        );
+        loadTurmas();
+        loadResponsavel()
+    }
+
+    $("#main").on("change", ".turma-vinculo", function () {
+        datalist_aluno = '#datalist-aluno'+ $(this).attr('name');
+        browser_aluno = '#browser-aluno'+ $(this).attr('name');
+        turma = $(this).find('option:selected').text();
+        
+        $.ajax({
+            url: 'read/read_alunos_vinculo.php',
+            data: 'turma=' + turma,
+            type: 'GET',
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                } else {
+                    data = JSON.parse(data)
+                    console.log(data);
+                    $(browser_aluno).prop('disabled', false);
+                    $(browser_aluno).val('');
+                    $(datalist_aluno).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $(datalist_aluno).append(
+                            '<option data-id="'+data[i]["id_aluno"]+'">'+data[i]["nome_aluno"]+'</option>'
+                        );
+                    }
+                }
+            }
+        });
+    });
+    $('#cadastrar-vinculo').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#cadastrar-vinculo');
+        loadCadastrarVinculo();
+    })
+
+    if (window.location.hash === '#cadastrar-vinculo') {
+        $("#cadastrar").next().children().slideDown("slow");
+        loadCadastrarVinculo();
+        activateButton(window.location.hash);
+    }
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#cadastrar-vinculo') {
+            $("#cadastrar").next().children().slideDown("slow");
+            loadCadastrarVinculo();
+            activateButton(window.location.hash);
+        }
+    });
+
+    $("#main").on("click", "#btn-cadastrar-vinculo", function () {
+        var datalists_alunos = $('[class^="datalist-aluno"]');
+        var datalists_responsaveis = $('[class^="datalist-responsavel"]');
+    
+        var allFound = true;
+    
+        datalists_alunos.each(function () {
+            var inputId = $(this).attr('id').replace('datalist-', 'browser-');
+            var val = $('#' + inputId).val();
+            var options = $(this).find('option');
+    
+            var selectedOption = options.filter(function () {
+                return this.value === val;
+            });
+    
+            if (selectedOption.length > 0) {
+                $('#' + inputId).attr("id_aluno", selectedOption.data('id'));
+            } else {
+                allFound = false;
+                return false; 
+            }
+        });
+    
+        datalists_responsaveis.each(function () {
+            var inputId = $(this).attr('id').replace('datalist-', 'browser-');
+            var val = $('#' + inputId).val();
+            var options = $(this).find('option');
+    
+            if (!options.filter(function () {
+                return this.value === val;
+            }).length) {
+                allFound = false;
+                return false; // Break the loop if a datalist-responsavel is invalid
+            }
+        });
+    
+        if (allFound) {
+            $("#modal-cad-titulo").empty();
+            $("#modal-cad-body").empty();
+            $("#modal-btncad-texto").empty();
+            $("#modal-cad-titulo").append("Confirmar cadastro");
+            $("#modal-cad-body").append(
+                `Tem certeza de que os dados dos responsáveis e alunos estão corretos?
+                <p id="modal-cad-opcao" value="vinculo" style="visibility: hidden; display: none;"></p>`);
+            $("#modal-btncad-texto").append("Confirmar cadastro");
+            $('#cadastro-escondido').trigger("click");
+        } else {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        }
+    });
+    
+
+    let vinculoCounter = 0;
+
+    $("#main").on("click", "#btn-add-vinculo", function () {
+        $('.add-vinculo').empty(); 
+    
+        vinculoCounter++; 
+        $('#form_vinculo').append(
+            `<div class="col-span-4 row${vinculoCounter} adicionado">
+                    <div class="flex flex-row">
+                        <div class="flex w-2/12 flex-col mr-4">
+                            <select required name="${vinculoCounter}" id="select-turma${vinculoCounter}" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                '<option disabled value="regular" selected="">Selecionar turma</option>'
+                            </select>
+                        </div>
+                        <div class="flex w-5/12 flex-col mr-4">
+                            <input id="browser-aluno${vinculoCounter}" name="datalist-aluno" list="datalist-aluno${vinculoCounter}" placeholder="Selecione o aluno" disabled class="bg-gray-50 browser-aluno border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <datalist class="datalist-aluno" id="datalist-aluno${vinculoCounter}">
+                            </datalist>
+                        </div>
+                        <div class="flex w-5/12 flex-row items-center justify-between mr-4">  
+                            <input id="browser-responsavel${vinculoCounter}" list="datalist-responsavel${vinculoCounter}" placeholder="Selecione o responsável" class="bg-gray-50 browser-responsavel border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 w-10/12 p-2.5 flex-grow">  
+                                <datalist class="datalist-responsavel " id="datalist-responsavel${vinculoCounter}">
+                                </datalist>
+                            <span value="row${vinculoCounter}" class="btn-remove-vinculo ml-1 mt-3 text-red-600 row${vinculoCounter} cursor-pointer hover:underline">
+                                <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>   
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-vinculo adicionado justify-self-end col-span-4">
+                    <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+                </div>`
+        );
+        $.ajax({
+            url: 'read/read_responsaveis.php',
+            type: 'GET',
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
+                } else {
+                    data = JSON.parse(data)
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('.datalist-responsavel').append(
+                            '<option value="' + data[i]["email"] + '">' + data[i]["nome"] + '</option>'
+                        );
+                    }
+                }
+            }
+        });
+        loadTurmas();
+    });
+
+    $("#main").on("click", ".btn-remove-vinculo", function () {
+        $("." +  $(this).attr('value')).remove();
+        $('.add-vinculo').remove(); 
+
+        $('#form_vinculo').append(`
+        <div class="add-vinculo adicionado justify-self-end col-span-4">
+            <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+        </div>`);
+    });
+
     $("#main").on("click", "#confirmar-cadastro", function () {
         opcao = $("#modal-cad-opcao").attr('value');
         if(opcao == "aluno"){
-            CadastrarAluno();
+            cadastrarAluno();
         } else if(opcao == "motivo"){
-            CadastrarMotivo();
+            cadastrarMotivo();
         } else if(opcao == "turma"){
-            CadastrarTurma();
+            cadastrarTurma();
         } else if(opcao == "responsavel"){
-            CadastrarResponsavel();
-        }
+            cadastrarResponsavel();
+        } else if(opcao == "vinculo"){
+            cadastrarVinculo();
+        } 
     });
 
     $('.select-motivo').change(function () {

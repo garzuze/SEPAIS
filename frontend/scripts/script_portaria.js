@@ -144,7 +144,7 @@ $(document).ready(function () {
                 id_aluno: id_aluno,
                 email: email
             },
-            url: "insert/insert_alunos_atrasados.php",
+            url: "insert/insert_aluno_atrasado.php",
             success: function (resposta) {
                 var data = JSON.parse(resposta);
                 if (data.status === 0) {
