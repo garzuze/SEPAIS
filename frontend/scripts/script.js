@@ -109,26 +109,6 @@ $(document).ready(function () {
         })
     }
 
-    function loadResponsavel(){
-        $.ajax({
-            url: 'read/read_responsaveis.php',
-            type: 'GET',
-            success: function (data) {
-                if (data == 0) {
-                    location.reload();
-                } else {
-                    data = JSON.parse(data)
-                    console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        $('.datalist-responsavel').append(
-                            '<option value="' + data[i]["email"] + '">' + data[i]["nome"] + '</option>'
-                        );
-                    }
-                }
-            }
-        });
-    }
-
     // Marca os checkbox clicados 
     $("#main").on("click", "input.select-item", function () {
         var checked = this.checked;
@@ -350,6 +330,7 @@ $(document).ready(function () {
         var telefoneExp = new RegExp(/[(][0-9]{2}[)] [0-9]{4,5}[-][0-9]{4}/i)
         return telefoneExp.test(telefone);
     }
+    
     
     var logo_histSepae;
     $.get("static/header_histSepae.txt", function(data) {
@@ -1723,56 +1704,177 @@ $(document).ready(function () {
         }
     });
 
+    function sugerirAlunos(inputElement, query = '') {
+        $.ajax({
+            url: 'read/read_alunos_vinculo.php',
+            method: 'GET',
+            data: { query: query,
+                    turma: $(inputElement).attr("turma")
+            },
+            success: function(response) {
+                let alunos = JSON.parse(response);
+                let suggestionList = '';
+    
+                alunos.forEach(function(aluno) {
+                    suggestionList += `<li class="px-4 py-2 cursor-pointer hover:bg-blue-100" aluno_id="${aluno.id_aluno}">${aluno.nome_aluno}</li>`;
+                });
+    
+                let suggestionsList = $(inputElement).siblings('.aluno-suggestions');
+                if (alunos.length > 0) {
+                    suggestionsList.html(suggestionList).removeClass('hidden');
+                } else {
+                    suggestionsList.addClass('hidden');
+                }
+            }
+        });
+    }
+
+    // Event delegation for dynamically added email input elements
+    $(document).on('focus click', '.aluno-input', function() {
+        let query = $(this).val().toLowerCase();
+        sugerirAlunos(this, query);
+    });
+
+    $(document).on('input', '.aluno-input', function() {
+        let query = $(this).val().toLowerCase();
+        sugerirAlunos(this, query);
+    });
+
+    // Event delegation for suggestion selection
+    $(document).on('click', '.aluno-suggestions li', function() {
+        let selectedEmail = $(this).text();
+        $(this).closest('.div-aluno').find('.aluno-input').val(selectedEmail);
+        $(this).closest('.div-aluno').find('.aluno-input').attr("id_aluno", $(this).attr("aluno_id"));
+        $(this).closest('.aluno-suggestions').addClass('hidden');
+    });
+
+    $(document).on('blur', '.aluno-input', function() {
+        let inputValue = $(this).val();
+        let validEmails = $(this).siblings('.aluno-suggestions').find('li').map(function() {
+            return $(this).text();
+        }).get();
+
+        if (!validEmails.includes(inputValue)) {
+            $(this).val(''); // Clear input if the value is not in the valid emails list
+        }
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.aluno-input, .aluno-suggestions').length) {
+            $('.aluno-suggestions').addClass('hidden');
+        }
+    });
+
+    function sugerirEmails(inputElement, query = '') {
+        $.ajax({
+            url: 'read/read_responsaveis.php',
+            method: 'GET',
+            data: { query: query },
+            success: function(response) {
+                let validEmails = JSON.parse(response);
+                let suggestionList = '';
+    
+                validEmails.forEach(function(email) {
+                    suggestionList += `<li class="px-4 py-2 cursor-pointer hover:bg-blue-100">${email}</li>`;
+                });
+    
+                let suggestionsList = $(inputElement).siblings('.email-suggestions');
+                if (validEmails.length > 0) {
+                    suggestionsList.html(suggestionList).removeClass('hidden');
+                } else {
+                    suggestionsList.addClass('hidden');
+                }
+            }
+        });
+    }
+
+    // Event delegation for dynamically added email input elements
+    $(document).on('focus click', '.email-input', function() {
+        let query = $(this).val().toLowerCase();
+        sugerirEmails(this, query);
+    });
+
+    $(document).on('input', '.email-input', function() {
+        let query = $(this).val().toLowerCase();
+        sugerirEmails(this, query);
+    });
+
+    // Event delegation for suggestion selection
+    $(document).on('click', '.email-suggestions li', function() {
+        let selectedEmail = $(this).text();
+        $(this).closest('.div-email').find('.email-input').val(selectedEmail);
+        $(this).closest('.email-suggestions').addClass('hidden');
+    });
+
+    $(document).on('blur', '.email-input', function() {
+        let inputValue = $(this).val();
+        let validEmails = $(this).siblings('.email-suggestions').find('li').map(function() {
+            return $(this).text();
+        }).get();
+
+        if (!validEmails.includes(inputValue)) {
+            $(this).val(''); // Clear input if the value is not in the valid emails list
+        }
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.email-input, .email-suggestions').length) {
+            $('.email-suggestions').addClass('hidden');
+        }
+    });
+
     function loadCadastrarVinculo() {
         $('.btn-liberar').hide();
         $("#main > *:not('.modal')").remove();
         $('#main').prepend(`
-                <form id="form_vinculo" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
-                <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Vincular aluno e responsável</h2>
-                <div class="col-span-4 adicionado">
-                    <div class="flex flex-row">
-                        <div class="flex w-2/12 flex-col mr-4">
-                            <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
-                            <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                '<option disabled value="regular" selected="">Selecionar turma</option>'
-                            </select>
-                        </div>
-                        <div class="flex w-5/12 flex-col mr-4">
-                            <label for="browser-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
-                            <input id="browser-aluno0" name="datalist-aluno" list="datalist-aluno0" placeholder="Selecione o aluno" disabled class="bg-gray-50 browser-aluno border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <datalist class="datalist-aluno" id="datalist-aluno0">
-                            </datalist>
-                        </div>
-                        <div class="flex w-5/12 flex-col mr-4">
-                            <label for="browser-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
-                            <input id="browser-responsavel0" list="datalist-responsavel0" placeholder="Selecione o responsável" class="bg-gray-50 border browser-responsavel border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <datalist class="datalist-responsavel" id="datalist-responsavel0">
-                            </datalist>
-                        </div>
+        <form id="form-vinculo" class="mt-4 mx-auto grid grid-cols-4 w-3/4 gap-2 mb-24">
+            <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl col-span-4">Vincular aluno e responsável</h2>
+            <div class="col-span-4 adicionado">
+                <div class="flex flex-row">
+                    <div class="flex w-2/12 flex-col mr-4">
+                        <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+                        <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <option disabled value="regular" selected>Selecionar turma</option>
+                        </select>
+                    </div>
+                    <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
+                        <label for="nome-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
+                        <input type="text" id="nome-aluno0" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
+
+                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        </ul>
+                    </div>
+                    <div class="relative flex w-5/12 flex-col mr-4 div-email">
+                        <label for="email-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
+                        <input type="email" id="email-responsavel0" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="nereu.vo@gmail.com">
+
+                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        </ul>
                     </div>
                 </div>
-                <div class="add-vinculo adicionado justify-self-end col-span-4">
-                    <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
-                </div>
-            `)
-            $('#form_vinculo').append(`
-                <input type="button" id="btn-cadastrar-vinculo" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
-                value="Cadastrar vínculos">
-                </form>
-            </div>`);
-        loadResponsavel();
+            </div>
+            <div class="add-vinculo adicionado justify-self-end col-span-4">
+                <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+            </div>
+        </form>
+        `);
+        $('#form-vinculo').append(`
+            <input type="button" id="btn-cadastrar-vinculo" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+            value="Cadastrar vínculos">
+        `);
         loadTurmas();
-    }
+    } 
 
     function cadastrarVinculo(){
         var alunos = [];
-        $(".browser-aluno").each(function() {
+        $(".aluno-input").each(function() {
+            // alert($(this).attr("id_aluno"));
             // alert($(this).val());
             alunos.push($(this).attr("id_aluno"));
         });
             
         var responsaveis = [];
-        $(".browser-responsavel").each(function() {
+        $(".email-input").each(function() {
             // alert($(this).val());
             responsaveis.push($(this).val());
         });
@@ -1803,63 +1905,43 @@ $(document).ready(function () {
 
         $('.adicionado').remove();
 
-        $('#form_vinculo').append(`
-                <div class="col-span-4 adicionado">
-                    <div class="flex flex-row">
-                        <div class="flex w-2/12 flex-col mr-4">
-                            <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
-                            <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                '<option disabled value="regular" selected="">Selecionar turma</option>'
-                            </select>
-                        </div>
-                        <div class="flex w-5/12 flex-col mr-4">
-                            <label for="browser-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
-                            <input id="browser-aluno0" name="datalist-aluno" list="datalist-aluno0" placeholder="Selecione o aluno" disabled class="bg-gray-50 browser-aluno border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <datalist class="datalist-aluno" id="datalist-aluno0">
-                            </datalist>
-                        </div>
-                        <div class="flex w-5/12 flex-col mr-4">
-                            <label for="browser-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
-                            <input id="browser-responsavel0" list="datalist-responsavel0" placeholder="Selecione o responsável" class="bg-gray-50 border browser-responsavel border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <datalist class="datalist-responsavel" id="datalist-responsavel0">
-                            </datalist>
-                        </div>
+        $('#form-vinculo').append(`
+            <div class="col-span-4 adicionado">
+                <div class="flex flex-row">
+                    <div class="flex w-2/12 flex-col mr-4">
+                        <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
+                        <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                            <option disabled value="regular" selected>Selecionar turma</option>
+                        </select>
+                    </div>
+                    <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
+                        <label for="nome-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
+                        <input type="text" id="nome-aluno0" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
+
+                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        </ul>
+                    </div>
+                    <div class="relative flex w-5/12 flex-col mr-4 div-email">
+                        <label for="email-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
+                        <input type="email" id="email-responsavel0" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="nereu.vo@gmail.com">
+
+                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        </ul>
                     </div>
                 </div>
-                <div class="add-vinculo adicionado justify-self-end col-span-4">
-                    <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
-                </div>`
-        );
-        loadTurmas();
-        loadResponsavel()
+            </div>
+            <div class="add-vinculo adicionado justify-self-end col-span-4">
+                <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+            </div>
+        `);
     }
 
     $("#main").on("change", ".turma-vinculo", function () {
-        datalist_aluno = '#datalist-aluno'+ $(this).attr('name');
-        browser_aluno = '#browser-aluno'+ $(this).attr('name');
+        nome_aluno = '#nome-aluno'+ $(this).attr('name');
         turma = $(this).find('option:selected').text();
-        
-        $.ajax({
-            url: 'read/read_alunos_vinculo.php',
-            data: 'turma=' + turma,
-            type: 'GET',
-            success: function (data) {
-                if (data == 0) {
-                    location.reload();
-                } else {
-                    data = JSON.parse(data)
-                    console.log(data);
-                    $(browser_aluno).prop('disabled', false);
-                    $(browser_aluno).val('');
-                    $(datalist_aluno).empty();
-                    for (var i = 0; i < data.length; i++) {
-                        $(datalist_aluno).append(
-                            '<option data-id="'+data[i]["id_aluno"]+'">'+data[i]["nome_aluno"]+'</option>'
-                        );
-                    }
-                }
-            }
-        });
+        $(nome_aluno).prop('disabled', false);
+        $(nome_aluno).val('');
+        $(nome_aluno).attr("turma", $(this).find('option:selected').text());
     });
     $('#cadastrar-vinculo').click(function () {
         event.preventDefault();
@@ -1882,42 +1964,29 @@ $(document).ready(function () {
     });
 
     $("#main").on("click", "#btn-cadastrar-vinculo", function () {
-        var datalists_alunos = $('[class^="datalist-aluno"]');
-        var datalists_responsaveis = $('[class^="datalist-responsavel"]');
-    
-        var allFound = true;
-    
-        datalists_alunos.each(function () {
-            var inputId = $(this).attr('id').replace('datalist-', 'browser-');
-            var val = $('#' + inputId).val();
-            var options = $(this).find('option');
-    
-            var selectedOption = options.filter(function () {
-                return this.value === val;
-            });
-    
-            if (selectedOption.length > 0) {
-                $('#' + inputId).attr("id_aluno", selectedOption.data('id'));
-            } else {
-                allFound = false;
-                return false; 
-            }
+        nomes_preenchidos = true;
+        $(".aluno-input").each(function() {
+            if ($(this).val() === null || $(this).val() === '') {
+                nomes_preenchidos = false;
+                return false; // Break the loop early
+            } 
         });
-    
-        datalists_responsaveis.each(function () {
-            var inputId = $(this).attr('id').replace('datalist-', 'browser-');
-            var val = $('#' + inputId).val();
-            var options = $(this).find('option');
-    
-            if (!options.filter(function () {
-                return this.value === val;
-            }).length) {
-                allFound = false;
-                return false; // Break the loop if a datalist-responsavel is invalid
-            }
+        $(".email-input").each(function() {
+            if ($(this).val() === null || $(this).val() === '') {
+                nomes_preenchidos = false;
+                return false; // Break the loop early
+            } 
         });
-    
-        if (allFound) {
+        if (!nomes_preenchidos) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        } else {
             $("#modal-cad-titulo").empty();
             $("#modal-cad-body").empty();
             $("#modal-btncad-texto").empty();
@@ -1927,15 +1996,6 @@ $(document).ready(function () {
                 <p id="modal-cad-opcao" value="vinculo" style="visibility: hidden; display: none;"></p>`);
             $("#modal-btncad-texto").append("Confirmar cadastro");
             $('#cadastro-escondido').trigger("click");
-        } else {
-            let snackbar = new SnackBar();
-            snackbar.make("message", [
-                "Preencha os campos necessários!",
-                null,
-                "top",
-                "right"
-            ], 4000);
-            return;
         }
     });
     
@@ -1946,51 +2006,34 @@ $(document).ready(function () {
         $('.add-vinculo').empty(); 
     
         vinculoCounter++; 
-        $('#form_vinculo').append(
-            `<div class="col-span-4 row${vinculoCounter} adicionado">
-                    <div class="flex flex-row">
-                        <div class="flex w-2/12 flex-col mr-4">
-                            <select required name="${vinculoCounter}" id="select-turma${vinculoCounter}" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                '<option disabled value="regular" selected="">Selecionar turma</option>'
-                            </select>
-                        </div>
-                        <div class="flex w-5/12 flex-col mr-4">
-                            <input id="browser-aluno${vinculoCounter}" name="datalist-aluno" list="datalist-aluno${vinculoCounter}" placeholder="Selecione o aluno" disabled class="bg-gray-50 browser-aluno border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <datalist class="datalist-aluno" id="datalist-aluno${vinculoCounter}">
-                            </datalist>
-                        </div>
-                        <div class="flex w-5/12 flex-row items-center justify-between mr-4">  
-                            <input id="browser-responsavel${vinculoCounter}" list="datalist-responsavel${vinculoCounter}" placeholder="Selecione o responsável" class="bg-gray-50 browser-responsavel border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 w-10/12 p-2.5 flex-grow">  
-                                <datalist class="datalist-responsavel " id="datalist-responsavel${vinculoCounter}">
-                                </datalist>
-                            <span value="row${vinculoCounter}" class="btn-remove-vinculo ml-1 mt-3 text-red-600 row${vinculoCounter} cursor-pointer hover:underline">
-                                <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>   
+        $('#form-vinculo').append(`
+            <div class="col-span-4 row${vinculoCounter} adicionado">
+            <div class="flex flex-row">
+                <div class="flex w-2/12 flex-col mr-4">
+                    <select required name="${vinculoCounter}" id="select-turma${vinculoCounter}" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                        <option disabled value="regular" selected>Selecionar turma</option>
+                    </select>
+                </div>
+                <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
+                    <input type="text" id="nome-aluno${vinculoCounter}" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
+                    <ul class="aluno-suggestions overflow-x-auto  absolute top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                    </ul>
+                </div>
+                 <div class="div-email relative flex items-center w-5/12 mr-4 space-x-2">
+                            <input type="email" id="email-responsavel${vinculoCounter}" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select w-11/12 focus:ring-primary-500 focus:border-primary-500 p-2.5" placeholder="nereu.vo@gmail.com">
+                            <ul class="email-suggestions overflow-x-auto  w-11/12 absolute top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden absolute z-10">
+                            </ul>
+                            <span value="row${vinculoCounter}" class="btn-remove-vinculo text-red-600 mt-5 cursor-pointer">
+                                <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>   
                             </span>
                         </div>
-                    </div>
-                </div>
-                <div class="add-vinculo adicionado justify-self-end col-span-4">
-                    <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
-                </div>`
-        );
-        $.ajax({
-            url: 'read/read_responsaveis.php',
-            type: 'GET',
-            success: function (data) {
-                if (data == 0) {
-                    location.reload();
-                } else {
-                    data = JSON.parse(data)
-                    console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        $('.datalist-responsavel').append(
-                            '<option value="' + data[i]["email"] + '">' + data[i]["nome"] + '</option>'
-                        );
-                    }
-                }
-            }
-        });
+            </div>
+        </div>
+        <div class="add-vinculo adicionado justify-self-end col-span-4">
+            <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
+        </div>
+            `);
         loadTurmas();
     });
 
@@ -1998,7 +2041,7 @@ $(document).ready(function () {
         $("." +  $(this).attr('value')).remove();
         $('.add-vinculo').remove(); 
 
-        $('#form_vinculo').append(`
+        $('#form-vinculo').append(`
         <div class="add-vinculo adicionado justify-self-end col-span-4">
             <p id="btn-add-vinculo" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um vínculo</small></p>
         </div>`);
