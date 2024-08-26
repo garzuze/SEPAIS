@@ -1,15 +1,13 @@
 <?php
 require_once('../connect.php');
 
-if (isset($_GET['turma'])) {
-	$turma = $_GET['turma'];
-} else {
-	$turma = 'adm1';
-}
-
 session_start();
 if (isset($_SESSION['email'])) {
 	$mysqli = connect();
+	
+	$turma = isset($_GET['turma']) ? $_GET['turma'] : 'adm1';
+	$query = isset($_GET['query']) ? $_GET['query'] : '';
+
 	try {
 		$consulta = $mysqli->prepare("SELECT 
             aluno.id AS id_aluno,
@@ -20,10 +18,12 @@ if (isset($_SESSION['email'])) {
         JOIN 
             turma ON aluno.turma_id = turma.id
         WHERE 
-            turma.turma = ?
+            turma.turma = ? AND aluno.nome LIKE ?
         ORDER BY 
-            aluno.nome;");
-		$consulta->bind_param("s", $turma);
+            aluno.nome
+		LIMIT 5;");
+		$likeQuery = '%' . $query . '%';
+		$consulta->bind_param("ss", $turma, $likeQuery);
 		$consulta->execute();
 
 		$resultado = $consulta->get_result();

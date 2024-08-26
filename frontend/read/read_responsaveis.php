@@ -3,32 +3,48 @@ require_once('../connect.php');
 
 session_start();
 if (isset($_SESSION['email'])) {
-	$mysqli = connect();
-	try {
-		$consulta = $mysqli->prepare("SELECT 
-        `responsavel`.`email` AS `email`,
-        `usuario`.`nome` AS `nome`,
-        `responsavel`.`telefone` AS `telefone`
-    FROM
-        (`usuario`
-        JOIN `responsavel`)
-    WHERE
-        (`usuario`.`email` = `responsavel`.`email`)
-    ORDER BY `responsavel`.`email`");
-		$consulta->execute();
-
-		$resultado = $consulta->get_result();
-		$resultadoFormatado = $resultado->fetch_all(MYSQLI_ASSOC);
-	} catch (Exception $e) {
-		error_log($e->getMessage());
-		print_r($mysqli->error);
-		exit('Alguma coisa estranha aconteceu...');
+	if (isset($_GET['query'])) {
+		$query = $_GET['query'];
+	
+		// Connect to the database
+		$mysqli = connect();
+		
+		try {
+			// Prepare the SQL statement with a WHERE clause to filter emails
+			$consulta = $mysqli->prepare("
+				SELECT `responsavel`.`email` AS `email`,
+				`usuario`.`nome` as nome
+				FROM `usuario`
+				JOIN `responsavel` ON `usuario`.`email` = `responsavel`.`email`
+				WHERE `responsavel`.`email` LIKE ?
+				or `usuario`.`nome` LIKE ?
+				ORDER BY `responsavel`.`email`
+				LIMIT 5
+			");
+	
+			// Use parameterized queries to prevent SQL injection
+			$searchQuery = "%$query%";
+			$consulta->bind_param('ss', $searchQuery, $searchQuery);
+			$consulta->execute();
+	
+			$resultado = $consulta->get_result();
+			$emails = [];
+	
+			while ($row = $resultado->fetch_assoc()) {
+				$emails[] = $row['email'];
+			}
+	
+			echo json_encode($emails);
+			
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+			print_r($mysqli->error);
+			exit('Alguma coisa estranha aconteceu...');
+		}
+	
+		$consulta->close();
+		$mysqli->close();
 	}
-
-	echo json_encode($resultadoFormatado);
-
-	$consulta->close();
-	$mysqli->close();
 } else {
 	echo json_encode(0);
 }
