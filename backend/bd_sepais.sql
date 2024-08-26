@@ -1,8 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `sepaisdb` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `sepaisdb`;
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: localhost    Database: sepaisdb
+-- Host: 127.0.0.1    Database: sepaisdb
 -- ------------------------------------------------------
 -- Server version	8.0.31
 
@@ -32,7 +32,7 @@ CREATE TABLE `aluno` (
   PRIMARY KEY (`id`),
   KEY `fk_aluno_turma1_idx` (`turma_id`),
   CONSTRAINT `fk_aluno_turma1` FOREIGN KEY (`turma_id`) REFERENCES `turma` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `aluno` (
 
 LOCK TABLES `aluno` WRITE;
 /*!40000 ALTER TABLE `aluno` DISABLE KEYS */;
-INSERT INTO `aluno` VALUES (1,'Mateus','nenhum',1),(2,'Mariana','nenhum',4),(3,'Paulo','nenhum',5),(4,'Luan','nenhum',6),(5,'Mario','nenhum',2),(6,'Luigi','nenhum',2),(7,'Wario','nenhum',3),(8,'Waluigi','nenhum',7),(10,'Sonic','nenhum',8),(11,'Bart Simpson','nenhum',2),(12,'Homer Simpson','nenhum',5),(13,'Marge Simpson','nenhum',1),(14,'Lisa Simpson','nenhum',3),(15,'Maggie Simpson','nenhum',7),(16,'Ned Flanders','nenhum',4),(17,'Moe Szyslak','nenhum',6),(18,'Apu Nahasapeemapetilon','nenhum',3),(19,'Krusty the Clown','nenhum',8),(20,'Barney Gumble','nenhum',5),(21,'Chief Wiggum','nenhum',2),(22,'Mr. Burns','nenhum',1),(23,'Ned Flanders','nenhum',6),(24,'Sideshow Bob','nenhum',7),(25,'Groundskeeper Willie','nenhum',4),(26,'Professor Frink','nenhum',2),(27,'Waylon Smithers','nenhum',3),(28,'Selma Bouvier','nenhum',8),(29,'Squeaky-Voiced Teen','nenhum',1),(30,'Kang and Kodos','nenhum',5);
+INSERT INTO `aluno` VALUES (1,'Mateus','nenhum',1),(2,'Mariana','nenhum',4),(3,'Paulo','nenhum',5),(4,'Luan','nenhum',6),(5,'Mario','nenhum',2),(6,'Luigi','nenhum',2),(7,'Wario','nenhum',3),(8,'Waluigi','nenhum',7),(10,'Sonic','nenhum',8),(11,'Bart Simpson','nenhum',2),(12,'Homer Simpson','nenhum',5),(13,'Marge Simpson','nenhum',1),(14,'Lisa Simpson','nenhum',3),(15,'Maggie Simpson','nenhum',7),(16,'Ned Flanders','nenhum',4),(17,'Moe Szyslak','nenhum',6),(18,'Apu Nahasapeemapetilon','nenhum',3),(19,'Krusty the Clown','nenhum',8),(20,'Barney Gumble','nenhum',5),(21,'Chief Wiggum','nenhum',2),(22,'Mr. Burns','nenhum',1),(23,'Ned Flanders','nenhum',6),(24,'Sideshow Bob','nenhum',7),(25,'Groundskeeper Willie','nenhum',4),(26,'Professor Frink','nenhum',2),(27,'Waylon Smithers','nenhum',3),(28,'Selma Bouvier','nenhum',8),(29,'Squeaky-Voiced Teen','nenhum',1),(30,'Kang and Kodos','nenhum',5),(31,'Lara Croft','static/default_user_icon.jpg',4),(32,'Sherlock Holmes','static/default_user_icon.jpg',1);
 /*!40000 ALTER TABLE `aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `recado` (
   PRIMARY KEY (`id`),
   KEY `fk_recado_sepae1_idx` (`sepae_email`),
   CONSTRAINT `fk_recado_sepae1` FOREIGN KEY (`sepae_email`) REFERENCES `sepae` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +148,7 @@ CREATE TABLE `recado` (
 
 LOCK TABLES `recado` WRITE;
 /*!40000 ALTER TABLE `recado` DISABLE KEYS */;
-INSERT INTO `recado` VALUES (47,'Bom dia','Boa tarde e \nBoa noite','2024-07-04','2024-07-05','nereu.filho@ifpr.edu.br'),(48,'[ERRATA] Bom dia','Boa Tarde e \nBoa Noite','2024-07-04','2024-07-05','nereu.filho@ifpr.edu.br');
+INSERT INTO `recado` VALUES (47,'Bom dia','Boa tarde e \nBoa noite','2024-07-04','2024-07-05','nereu.filho@ifpr.edu.br'),(48,'[ERRATA] Bom dia','Boa Tarde e \nBoa Noite','2024-07-04','2024-07-05','nereu.filho@ifpr.edu.br'),(49,'Time','All we have to decide is what to do with the time that is given to us.','2024-08-21','2024-08-30','tatiana.niwa@ifpr.edu.br'),(50,'A wizard is never late','A wizard is never late, nor is he early, he arrives precisely when he means to.','2024-08-21',NULL,'tatiana.niwa@ifpr.edu.br'),(51,'Judgment','Many that live deserve death. And some that die deserve life. Can you give it to them? Then do not be too eager to deal out death in judgment.','2024-08-21',NULL,'tatiana.niwa@ifpr.edu.br');
 /*!40000 ALTER TABLE `recado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +161,7 @@ DROP TABLE IF EXISTS `responsavel`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `responsavel` (
   `email` varchar(144) NOT NULL,
-  `cpf` varchar(11) NOT NULL,
+  `telefone` varchar(11) NOT NULL,
   PRIMARY KEY (`email`),
   CONSTRAINT `fk_responsavel_usuario1` FOREIGN KEY (`email`) REFERENCES `usuario` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -173,7 +173,7 @@ CREATE TABLE `responsavel` (
 
 LOCK TABLES `responsavel` WRITE;
 /*!40000 ALTER TABLE `responsavel` DISABLE KEYS */;
-INSERT INTO `responsavel` VALUES ('charliebrown@gmail.com','98765432100'),('eggman.robotnik@gmail.com','12345678912'),('francesco.bernoulli@gmail.com','12345678935'),('franklin@gmail.com','45612398700'),('king.boo@gmail.com','12345678944'),('kratos@gmail.com','12345678933'),('linus@gmail.com','55555555501'),('lucy@gmail.com','12345678901'),('marcie@gmail.com','12398745600'),('neymar.junior@gmail.com','56345678977'),('peppermint@gmail.com','24681357900'),('peppermintfriend@gmail.com','98712398700'),('pigpen@gmail.com','45698712300'),('rerun@gmail.com','98745612300'),('sallybrown@gmail.com','12398712300'),('schroeder@gmail.com','13579246801'),('snoopy@gmail.com','13136465468'),('woodstock@gmail.com','98712345600');
+INSERT INTO `responsavel` VALUES ('bonnie@hotmail.com','11321312313'),('charliebrown@gmail.com','98765432100'),('chica@yahoo.com','33333333333'),('eggman.robotnik@gmail.com','12345678912'),('foxy@gmail.com','41777777777'),('francesco.bernoulli@gmail.com','12345678935'),('franklin@gmail.com','45612398700'),('king.boo@gmail.com','12345678944'),('kratos@gmail.com','12345678933'),('linus@gmail.com','55555555501'),('lucy@gmail.com','12345678901'),('marcie@gmail.com','12398745600'),('neymar.junior@gmail.com','56345678977'),('peppermint@gmail.com','24681357900'),('peppermintfriend@gmail.com','98712398700'),('pigpen@gmail.com','45698712300'),('rerun@gmail.com','98745612300'),('sallybrown@gmail.com','12398712300'),('schroeder@gmail.com','13579246801'),('snoopy@gmail.com','13136465468'),('woodstock@gmail.com','98712345600');
 /*!40000 ALTER TABLE `responsavel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ CREATE TABLE `responsavel_has_aluno` (
 
 LOCK TABLES `responsavel_has_aluno` WRITE;
 /*!40000 ALTER TABLE `responsavel_has_aluno` DISABLE KEYS */;
-INSERT INTO `responsavel_has_aluno` VALUES (1,'kratos@gmail.com'),(2,'eggman.robotnik@gmail.com'),(3,'neymar.junior@gmail.com'),(4,'king.boo@gmail.com'),(5,'francesco.bernoulli@gmail.com'),(6,'francesco.bernoulli@gmail.com'),(7,'kratos@gmail.com'),(8,'eggman.robotnik@gmail.com'),(10,'neymar.junior@gmail.com'),(11,'snoopy@gmail.com'),(12,'lucy@gmail.com'),(13,'marcie@gmail.com'),(14,'peppermint@gmail.com'),(15,'peppermintfriend@gmail.com'),(16,'pigpen@gmail.com'),(17,'rerun@gmail.com'),(18,'sallybrown@gmail.com'),(19,'schroeder@gmail.com'),(20,'linus@gmail.com'),(21,'woodstock@gmail.com'),(22,'neymar.junior@gmail.com'),(23,'lucy@gmail.com'),(24,'marcie@gmail.com'),(25,'peppermint@gmail.com'),(26,'peppermintfriend@gmail.com'),(27,'pigpen@gmail.com'),(28,'rerun@gmail.com'),(29,'sallybrown@gmail.com'),(30,'schroeder@gmail.com');
+INSERT INTO `responsavel_has_aluno` VALUES (1,'kratos@gmail.com'),(2,'eggman.robotnik@gmail.com'),(3,'neymar.junior@gmail.com'),(4,'king.boo@gmail.com'),(5,'francesco.bernoulli@gmail.com'),(6,'francesco.bernoulli@gmail.com'),(7,'kratos@gmail.com'),(8,'eggman.robotnik@gmail.com'),(8,'kratos@gmail.com'),(10,'neymar.junior@gmail.com'),(11,'snoopy@gmail.com'),(12,'lucy@gmail.com'),(13,'marcie@gmail.com'),(14,'peppermint@gmail.com'),(15,'peppermintfriend@gmail.com'),(16,'pigpen@gmail.com'),(17,'rerun@gmail.com'),(18,'sallybrown@gmail.com'),(19,'schroeder@gmail.com'),(20,'linus@gmail.com'),(21,'woodstock@gmail.com'),(22,'neymar.junior@gmail.com'),(23,'lucy@gmail.com'),(24,'marcie@gmail.com'),(25,'peppermint@gmail.com'),(26,'peppermintfriend@gmail.com'),(27,'pigpen@gmail.com'),(28,'rerun@gmail.com'),(29,'sallybrown@gmail.com'),(30,'schroeder@gmail.com');
 /*!40000 ALTER TABLE `responsavel_has_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +234,7 @@ CREATE TABLE `responsavel_libera_aluno` (
 
 LOCK TABLES `responsavel_libera_aluno` WRITE;
 /*!40000 ALTER TABLE `responsavel_libera_aluno` DISABLE KEYS */;
-INSERT INTO `responsavel_libera_aluno` VALUES (4,'2024-07-04 00:00:00','2024-07-04 12:33:48',6,'kratos@gmail.com');
+INSERT INTO `responsavel_libera_aluno` VALUES (4,'2024-07-04 00:00:00','2024-07-04 12:33:48',6,'kratos@gmail.com'),(28,'2024-08-21 00:00:00','2024-08-21 19:19:51',3,'neymar.junior@gmail.com'),(30,'2024-08-21 00:00:00','2024-08-21 19:19:53',4,'neymar.junior@gmail.com');
 /*!40000 ALTER TABLE `responsavel_libera_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +291,7 @@ CREATE TABLE `sepae_libera_aluno` (
 
 LOCK TABLES `sepae_libera_aluno` WRITE;
 /*!40000 ALTER TABLE `sepae_libera_aluno` DISABLE KEYS */;
-INSERT INTO `sepae_libera_aluno` VALUES (2,'2024-07-04 12:24:26','2024-07-04 12:33:42',1,'nereu.filho@ifpr.edu.br'),(8,'2024-07-04 12:24:32','2024-07-04 12:33:35',1,'nereu.filho@ifpr.edu.br'),(10,'2024-07-04 12:24:38','2024-07-04 12:33:23',1,'nereu.filho@ifpr.edu.br'),(15,'2024-07-04 12:24:32','2024-07-04 12:33:37',1,'nereu.filho@ifpr.edu.br'),(16,'2024-07-04 12:24:26','2024-07-04 12:33:44',1,'nereu.filho@ifpr.edu.br'),(19,'2024-07-04 12:24:38','2024-07-04 12:33:31',1,'nereu.filho@ifpr.edu.br'),(24,'2024-07-04 12:24:32','2024-07-04 12:33:40',1,'nereu.filho@ifpr.edu.br'),(25,'2024-07-04 12:24:26','2024-07-04 12:33:46',1,'nereu.filho@ifpr.edu.br'),(28,'2024-07-04 12:24:38','2024-07-04 12:33:33',1,'nereu.filho@ifpr.edu.br');
+INSERT INTO `sepae_libera_aluno` VALUES (1,'2024-08-22 20:26:54',NULL,6,'tatiana.niwa@ifpr.edu.br'),(2,'2024-07-04 12:24:26','2024-07-04 12:33:42',1,'nereu.filho@ifpr.edu.br'),(2,'2024-08-22 20:27:12',NULL,6,'tatiana.niwa@ifpr.edu.br'),(3,'2024-08-21 15:49:06','2024-08-21 19:16:39',7,'tatiana.niwa@ifpr.edu.br'),(3,'2024-08-22 20:27:17',NULL,6,'tatiana.niwa@ifpr.edu.br'),(4,'2024-08-21 15:49:00','2024-08-21 19:16:47',7,'tatiana.niwa@ifpr.edu.br'),(4,'2024-08-22 20:27:21',NULL,7,'tatiana.niwa@ifpr.edu.br'),(5,'2024-08-22 20:26:45',NULL,3,'tatiana.niwa@ifpr.edu.br'),(6,'2024-08-22 20:26:45',NULL,3,'tatiana.niwa@ifpr.edu.br'),(7,'2024-08-21 15:48:50','2024-08-21 19:16:55',7,'tatiana.niwa@ifpr.edu.br'),(7,'2024-08-22 20:27:08',NULL,7,'tatiana.niwa@ifpr.edu.br'),(8,'2024-07-04 12:24:32','2024-07-04 12:33:35',1,'nereu.filho@ifpr.edu.br'),(8,'2024-08-21 15:48:55','2024-08-21 19:16:50',7,'tatiana.niwa@ifpr.edu.br'),(8,'2024-08-22 20:27:25',NULL,7,'tatiana.niwa@ifpr.edu.br'),(10,'2024-07-04 12:24:38','2024-07-04 12:33:23',1,'nereu.filho@ifpr.edu.br'),(10,'2024-08-22 20:26:49',NULL,4,'tatiana.niwa@ifpr.edu.br'),(11,'2024-08-22 20:26:45',NULL,3,'tatiana.niwa@ifpr.edu.br'),(12,'2024-08-21 15:49:06','2024-08-21 19:16:41',7,'tatiana.niwa@ifpr.edu.br'),(12,'2024-08-22 20:27:17',NULL,6,'tatiana.niwa@ifpr.edu.br'),(13,'2024-08-22 20:26:54',NULL,6,'tatiana.niwa@ifpr.edu.br'),(14,'2024-08-21 15:48:50','2024-08-21 19:16:58',7,'tatiana.niwa@ifpr.edu.br'),(14,'2024-08-22 20:27:08',NULL,7,'tatiana.niwa@ifpr.edu.br'),(15,'2024-07-04 12:24:32','2024-07-04 12:33:37',1,'nereu.filho@ifpr.edu.br'),(15,'2024-08-21 15:48:55','2024-08-21 19:16:52',7,'tatiana.niwa@ifpr.edu.br'),(15,'2024-08-22 20:27:25',NULL,7,'tatiana.niwa@ifpr.edu.br'),(16,'2024-07-04 12:24:26','2024-07-04 12:33:44',1,'nereu.filho@ifpr.edu.br'),(16,'2024-08-22 20:27:12',NULL,6,'tatiana.niwa@ifpr.edu.br'),(17,'2024-08-21 15:49:00','2024-08-21 19:16:46',7,'tatiana.niwa@ifpr.edu.br'),(17,'2024-08-22 20:27:21',NULL,7,'tatiana.niwa@ifpr.edu.br'),(18,'2024-08-21 15:48:50','2024-08-21 19:16:56',7,'tatiana.niwa@ifpr.edu.br'),(18,'2024-08-22 20:27:08',NULL,7,'tatiana.niwa@ifpr.edu.br'),(19,'2024-07-04 12:24:38','2024-07-04 12:33:31',1,'nereu.filho@ifpr.edu.br'),(19,'2024-08-22 20:26:49',NULL,4,'tatiana.niwa@ifpr.edu.br'),(20,'2024-08-21 15:49:06','2024-08-21 19:16:43',7,'tatiana.niwa@ifpr.edu.br'),(20,'2024-08-22 20:27:17',NULL,6,'tatiana.niwa@ifpr.edu.br'),(21,'2024-08-22 20:26:45',NULL,3,'tatiana.niwa@ifpr.edu.br'),(22,'2024-08-22 20:26:54',NULL,6,'tatiana.niwa@ifpr.edu.br'),(23,'2024-08-21 15:49:00','2024-08-21 19:16:49',7,'tatiana.niwa@ifpr.edu.br'),(23,'2024-08-22 20:27:21',NULL,7,'tatiana.niwa@ifpr.edu.br'),(24,'2024-07-04 12:24:32','2024-07-04 12:33:40',1,'nereu.filho@ifpr.edu.br'),(24,'2024-08-21 15:48:55','2024-08-21 19:16:53',7,'tatiana.niwa@ifpr.edu.br'),(24,'2024-08-22 20:27:25',NULL,7,'tatiana.niwa@ifpr.edu.br'),(25,'2024-07-04 12:24:26','2024-07-04 12:33:46',1,'nereu.filho@ifpr.edu.br'),(25,'2024-08-22 20:27:12',NULL,6,'tatiana.niwa@ifpr.edu.br'),(26,'2024-08-22 20:26:45',NULL,3,'tatiana.niwa@ifpr.edu.br'),(27,'2024-08-21 15:48:50','2024-08-21 19:17:00',7,'tatiana.niwa@ifpr.edu.br'),(27,'2024-08-22 20:27:08',NULL,7,'tatiana.niwa@ifpr.edu.br'),(28,'2024-07-04 12:24:38','2024-07-04 12:33:33',1,'nereu.filho@ifpr.edu.br'),(28,'2024-08-22 20:26:49',NULL,4,'tatiana.niwa@ifpr.edu.br'),(29,'2024-08-22 20:26:54',NULL,6,'tatiana.niwa@ifpr.edu.br'),(30,'2024-08-21 15:49:06','2024-08-21 19:19:53',7,'tatiana.niwa@ifpr.edu.br'),(30,'2024-08-22 20:27:17',NULL,6,'tatiana.niwa@ifpr.edu.br');
 /*!40000 ALTER TABLE `sepae_libera_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,7 +329,7 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `email` varchar(144) NOT NULL,
   `nome` varchar(144) NOT NULL,
-  `senha` varchar(144) NOT NULL,
+  `senha` varchar(144) DEFAULT NULL,
   `foto_path` varchar(144) NOT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -341,7 +341,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES ('cerberus@ifpr.edu.br','Cérbero Hades','$2y$10$SoQnabBBJNLzjJJW4AC3Ke4qBTq1u/6pWK7CwJKHo5gpC..7qB3BO','static/cerberus.jpg'),('charliebrown@gmail.com','Charlie Brown','#hash','nenhum'),('direcao.ensino.pinhais@ifpr.edu.br','Andrius Felipe Roque','$2y$10$k5DHEoynkqFJPa1lBi2SdeZleWE1xsahGj4ye/9qFY8csdOdJ1bMa','static/andrius.jpg'),('eduardo.tieppo@ifpr.edu.br','Eduardo Tieppo','$2y$10$wF4GS2MC/DxZ8HMh0nZzH.VUQH5kl38/Z8g/hCKXioF8E.B7Ryxlq','static/tieppo.png'),('eggman.robotnik@gmail.com','Dr. Eggman','#hash','nenhum'),('francesco.bernoulli@gmail.com','Francesco Bernoulli','#hash','nenhum'),('francisco.kuhn@ifpr.edu.br','Francisco Fernando Kühn','$2y$10$71NRrFV9nkfZudK8ypXdVefiAUgbVjMlKlxjeZ392Rax2HY.5nwOi','static/chicao.jpg'),('franklin@gmail.com','Franklin','#hash','nenhum'),('gandalf@ifpr.edu.br','Gandalf Cinza','$2y$10$u.SkNK.GVVC9LUvuTja7WeI0mrNCsYh7XWCNu.BU7lTE7pOJZnFze','static/gandalf.jpg'),('king.boo@gmail.com','King Boo','#hash','nenhum'),('kratos@gmail.com','Bom de Guerra','#hash','nenhum'),('linus@gmail.com','Linus van Pelt','#hash','nenhum'),('lucy@gmail.com','Lucy van Pelt','#hash','nenhum'),('marcie@gmail.com','Marcie','#hash','nenhum'),('nereu.filho@ifpr.edu.br','Nereu da Silva Filho','$2y$10$mSuU.LpMxc9yU/NBD9VP9ejSs236lr0jBKMROOHNs6V.AzxaDlg1G','static/nereu.jpg'),('neymar.junior@gmail.com','Neymar Jr.','$hash','nenhum'),('peppermint@gmail.com','Peppermint Patty','#hash','nenhum'),('peppermintfriend@gmail.com','Peppermint Patty\'s Friend','#hash','nenhum'),('pigpen@gmail.com','Pig-Pen','#hash','nenhum'),('rerun@gmail.com','Rerun','#hash','nenhum'),('sallybrown@gmail.com','Sally Brown','#hash','nenhum'),('schroeder@gmail.com','Schroeder','#hash','nenhum'),('snoopy@gmail.com','Snoopy','#hash','nenhum'),('tatiana.niwa@ifpr.edu.br','Tatiana Mayumi Niwa','$2y$10$rtNhkl2aaKL4v/ab8JtiA.sy8.3yEkuC4eqJC6QyxCt4UmrISSU1u','static/tati.jpg'),('woodstock@gmail.com','Woodstock','#hash','nenhum');
+INSERT INTO `usuario` VALUES ('bonnie@hotmail.com','Bonnie Bunnie',NULL,'static/default_user_icon.jpg'),('cerberus@ifpr.edu.br','Cérbero Hades','$2y$10$SoQnabBBJNLzjJJW4AC3Ke4qBTq1u/6pWK7CwJKHo5gpC..7qB3BO','static/cerberus.jpg'),('charliebrown@gmail.com','Charlie Brown','#hash','nenhum'),('chica@yahoo.com','Chica Chicken',NULL,'static/default_user_icon.jpg'),('direcao.ensino.pinhais@ifpr.edu.br','Andrius Felipe Roque','$2y$10$k5DHEoynkqFJPa1lBi2SdeZleWE1xsahGj4ye/9qFY8csdOdJ1bMa','static/andrius.jpg'),('eduardo.tieppo@ifpr.edu.br','Eduardo Tieppo','$2y$10$wF4GS2MC/DxZ8HMh0nZzH.VUQH5kl38/Z8g/hCKXioF8E.B7Ryxlq','static/tieppo.png'),('eggman.robotnik@gmail.com','Dr. Eggman','#hash','nenhum'),('foxy@gmail.com','Foxy Pirate',NULL,'static/default_user_icon.jpg'),('francesco.bernoulli@gmail.com','Francesco Bernoulli','#hash','nenhum'),('francisco.kuhn@ifpr.edu.br','Francisco Fernando Kühn','$2y$10$71NRrFV9nkfZudK8ypXdVefiAUgbVjMlKlxjeZ392Rax2HY.5nwOi','static/chicao.jpg'),('franklin@gmail.com','Franklin','#hash','nenhum'),('gandalf@ifpr.edu.br','Gandalf Cinza','$2y$10$u.SkNK.GVVC9LUvuTja7WeI0mrNCsYh7XWCNu.BU7lTE7pOJZnFze','static/gandalf.jpg'),('king.boo@gmail.com','King Boo','#hash','nenhum'),('kratos@gmail.com','Bom de Guerra','#hash','nenhum'),('linus@gmail.com','Linus van Pelt','#hash','nenhum'),('lucy@gmail.com','Lucy van Pelt','#hash','nenhum'),('marcie@gmail.com','Marcie','#hash','nenhum'),('nereu.filho@ifpr.edu.br','Nereu da Silva Filho','$2y$10$mSuU.LpMxc9yU/NBD9VP9ejSs236lr0jBKMROOHNs6V.AzxaDlg1G','static/nereu.jpg'),('neymar.junior@gmail.com','Neymar Jr.','$hash','nenhum'),('peppermint@gmail.com','Peppermint Patty','#hash','nenhum'),('peppermintfriend@gmail.com','Peppermint Patty\'s Friend','#hash','nenhum'),('pigpen@gmail.com','Pig-Pen','#hash','nenhum'),('rerun@gmail.com','Rerun','#hash','nenhum'),('sallybrown@gmail.com','Sally Brown','#hash','nenhum'),('schroeder@gmail.com','Schroeder','#hash','nenhum'),('snoopy@gmail.com','Snoopy','#hash','nenhum'),('tatiana.niwa@ifpr.edu.br','Tatiana Mayumi Niwa','$2y$10$rtNhkl2aaKL4v/ab8JtiA.sy8.3yEkuC4eqJC6QyxCt4UmrISSU1u','static/tati.jpg'),('woodstock@gmail.com','Woodstock','#hash','nenhum');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,4 +362,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-04 12:35:45
+-- Dump completed on 2024-08-23 17:32:32
