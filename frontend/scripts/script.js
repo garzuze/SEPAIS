@@ -1731,6 +1731,8 @@ $(document).ready(function () {
 
     // Event delegation for dynamically added email input elements
     $(document).on('focus click', '.aluno-input', function() {
+        $('.aluno-suggestions').addClass('hidden');
+        $(this).next().removeClass('hidden');
         let query = $(this).val().toLowerCase();
         sugerirAlunos(this, query);
     });
@@ -1790,6 +1792,8 @@ $(document).ready(function () {
 
     // Event delegation for dynamically added email input elements
     $(document).on('focus click', '.email-input', function() {
+        $('.email-suggestions').addClass('hidden');
+        $(this).next().removeClass('hidden');
         let query = $(this).val().toLowerCase();
         sugerirEmails(this, query);
     });

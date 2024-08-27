@@ -12,17 +12,19 @@ if (isset($_SESSION['email'])) {
 		try {
 			// Prepare the SQL statement with a WHERE clause to filter emails
 			$consulta = $mysqli->prepare("
-				SELECT `responsavel`.`email` AS `email`
+				SELECT `responsavel`.`email` AS `email`,
+				`usuario`.`nome` as nome
 				FROM `usuario`
 				JOIN `responsavel` ON `usuario`.`email` = `responsavel`.`email`
 				WHERE `responsavel`.`email` LIKE ?
+				or `usuario`.`nome` LIKE ?
 				ORDER BY `responsavel`.`email`
 				LIMIT 5
 			");
 	
 			// Use parameterized queries to prevent SQL injection
 			$searchQuery = "%$query%";
-			$consulta->bind_param('s', $searchQuery);
+			$consulta->bind_param('ss', $searchQuery, $searchQuery);
 			$consulta->execute();
 	
 			$resultado = $consulta->get_result();
