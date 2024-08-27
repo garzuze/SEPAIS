@@ -44,14 +44,22 @@ $(document).ready(function () {
                 if (turma == 0) {
                     location.reload();
                 } else {
+                    turma = JSON.parse(turma);
+                    $('.select-turmas').each(function () {
+                        if ($.trim($(this).html()) == '') {
+                            $(this).append(
+                                '<option disabled value="regular" selected="">Selecionar turma</option>'
+                            );
+                            for (var i = 0; i < turma.length; i++) {
+                                $(this).append(
+                                    '<option value="' + turma[i]["id"] + '">' + turma[i]["turma"] + '</option>'
+                                );
+                            }
+                        }
+                    }
+                    )
                     $('#ul-turma').empty();
                     $('#tb-turmas').empty();
-                    $('.select-turmas').empty();
-                    turma = JSON.parse(turma);
-                    console.log(turma);
-                    $('.select-turmas').append(
-                        '<option disabled value="regular" selected="">Selecionar turma</option>'
-                    );
                     for (var i = 0; i < turma.length; i++) {
                         $('#ul-turma').append(`
                             <li>
@@ -65,9 +73,6 @@ $(document).ready(function () {
                             '<td id="' + turma[i]['turma'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
                             turma[i]['turma'] +
                             '</td>'
-                        );
-                        $('.select-turmas').append(
-                            '<option value="' + turma[i]["id"] + '">' + turma[i]["turma"] + '</option>'
                         );
                     }
                 }
@@ -321,19 +326,19 @@ $(document).ready(function () {
         });
     });
 
-    function validateEmail (email) {
-        var emailExp = new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i); 
+    function validateEmail(email) {
+        var emailExp = new RegExp(/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i);
         return emailExp.test(email);
     }
 
-    function validateTelefone (telefone){
+    function validateTelefone(telefone) {
         var telefoneExp = new RegExp(/[(][0-9]{2}[)] [0-9]{4,5}[-][0-9]{4}/i)
         return telefoneExp.test(telefone);
     }
-    
-    
+
+
     var logo_histSepae;
-    $.get("static/header_histSepae.txt", function(data) {
+    $.get("static/header_histSepae.txt", function (data) {
         logo_histSepae = data;
     });
     // Função para visualizar histórico de liberações pela SEPAE
@@ -431,7 +436,7 @@ $(document).ready(function () {
                             },
                             {
                                 extend: 'pdf',
-					            pageSize: 'A4',
+                                pageSize: 'A4',
                                 customize: function (doc) {
                                     for (var row = 0; row < doc.content[1].table.headerRows; row++) {
                                         var header = doc.content[1].table.body[row];
@@ -439,18 +444,18 @@ $(document).ready(function () {
                                             header[col].fillColor = '#0c3b15';
                                         }
                                     }
-                                    doc.content.splice(0,1);
+                                    doc.content.splice(0, 1);
                                     var now = new Date();
                                     var day = now.getDate().toString().padStart(2, '0');
                                     var month = (now.getMonth() + 1).toString().padStart(2, '0');
                                     var year = now.getFullYear();
                                     var jsDate = day + '/' + month + '/' + year;
-                                    doc.pageMargins = [50,80,50,40];
+                                    doc.pageMargins = [50, 80, 50, 40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
-                                    doc['footer']=(function() {
+                                    doc['footer'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -461,7 +466,7 @@ $(document).ready(function () {
                                             margin: 20
                                         }
                                     });
-                                    doc['header']=(function() {
+                                    doc['header'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -475,12 +480,12 @@ $(document).ready(function () {
                                     // To use predefined layouts uncomment the line below and comment the custom lines below
                                     // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
                                     var objLayout = {};
-                                    objLayout['hLineWidth'] = function(i) { return .5; };
-                                    objLayout['vLineWidth'] = function(i) { return .5; };
-                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['paddingLeft'] = function(i) { return 4; };
-                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    objLayout['hLineWidth'] = function (i) { return .5; };
+                                    objLayout['vLineWidth'] = function (i) { return .5; };
+                                    objLayout['hLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function (i) { return 4; };
+                                    objLayout['paddingRight'] = function (i) { return 4; };
                                     doc.content[0].layout = objLayout;
                                 },
                                 title: 'Histórico de liberação por SEPAE'
@@ -517,7 +522,7 @@ $(document).ready(function () {
     });
 
     var logo_histResp;
-    $.get("static/header_histResp.txt", function(data) {
+    $.get("static/header_histResp.txt", function (data) {
         logo_histResp = data;
     });
 
@@ -625,18 +630,18 @@ $(document).ready(function () {
                                             header[col].fillColor = '#0c3b15';
                                         }
                                     }
-                                    doc.content.splice(0,1);
+                                    doc.content.splice(0, 1);
                                     var now = new Date();
                                     var day = now.getDate().toString().padStart(2, '0');
                                     var month = (now.getMonth() + 1).toString().padStart(2, '0');
                                     var year = now.getFullYear();
                                     var jsDate = day + '/' + month + '/' + year;
-                                    doc.pageMargins = [50,80,50,40];
+                                    doc.pageMargins = [50, 80, 50, 40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
-                                    doc['footer']=(function() {
+                                    doc['footer'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -647,7 +652,7 @@ $(document).ready(function () {
                                             margin: 20
                                         }
                                     });
-                                    doc['header']=(function() {
+                                    doc['header'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -661,12 +666,12 @@ $(document).ready(function () {
                                     // To use predefined layouts uncomment the line below and comment the custom lines below
                                     // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
                                     var objLayout = {};
-                                    objLayout['hLineWidth'] = function(i) { return .5; };
-                                    objLayout['vLineWidth'] = function(i) { return .5; };
-                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['paddingLeft'] = function(i) { return 4; };
-                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    objLayout['hLineWidth'] = function (i) { return .5; };
+                                    objLayout['vLineWidth'] = function (i) { return .5; };
+                                    objLayout['hLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function (i) { return 4; };
+                                    objLayout['paddingRight'] = function (i) { return 4; };
                                     doc.content[0].layout = objLayout;
                                 }
                             }
@@ -702,7 +707,7 @@ $(document).ready(function () {
     });
 
     var logo_histAtraso;
-    $.get("static/header_histAtraso.txt", function(data) {
+    $.get("static/header_histAtraso.txt", function (data) {
         logo_histAtraso = data;
     });
     // Função para visualizar histórico de atrasos
@@ -762,7 +767,7 @@ $(document).ready(function () {
                             '<td class="px-6 py-4 w-2/12">' +
                             data[i]['servidor'] +
                             '</td>'
-                            +'</tr>');
+                            + '</tr>');
                     }
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
@@ -791,18 +796,18 @@ $(document).ready(function () {
                                             header[col].fillColor = '#0c3b15';
                                         }
                                     }
-                                    doc.content.splice(0,1);
+                                    doc.content.splice(0, 1);
                                     var now = new Date();
                                     var day = now.getDate().toString().padStart(2, '0');
                                     var month = (now.getMonth() + 1).toString().padStart(2, '0');
                                     var year = now.getFullYear();
                                     var jsDate = day + '/' + month + '/' + year;
-                                    doc.pageMargins = [50,80,50,40];
+                                    doc.pageMargins = [50, 80, 50, 40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
-                                    doc['footer']=(function() {
+                                    doc['footer'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -813,7 +818,7 @@ $(document).ready(function () {
                                             margin: 20
                                         }
                                     });
-                                    doc['header']=(function() {
+                                    doc['header'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -827,12 +832,12 @@ $(document).ready(function () {
                                     // To use predefined layouts uncomment the line below and comment the custom lines below
                                     // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
                                     var objLayout = {};
-                                    objLayout['hLineWidth'] = function(i) { return .5; };
-                                    objLayout['vLineWidth'] = function(i) { return .5; };
-                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['paddingLeft'] = function(i) { return 4; };
-                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    objLayout['hLineWidth'] = function (i) { return .5; };
+                                    objLayout['vLineWidth'] = function (i) { return .5; };
+                                    objLayout['hLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function (i) { return 4; };
+                                    objLayout['paddingRight'] = function (i) { return 4; };
                                     doc.content[0].layout = objLayout;
                                 },
                             }
@@ -868,7 +873,7 @@ $(document).ready(function () {
     });
 
     var logo_histRecado;
-    $.get("static/header_histRecado.txt", function(data) {
+    $.get("static/header_histRecado.txt", function (data) {
         logo_histRecado = data;
     });
     // Função para visualizar histórico de recados
@@ -967,18 +972,18 @@ $(document).ready(function () {
                                             header[col].fillColor = '#0c3b15';
                                         }
                                     }
-                                    doc.content.splice(0,1);
+                                    doc.content.splice(0, 1);
                                     var now = new Date();
                                     var day = now.getDate().toString().padStart(2, '0');
                                     var month = (now.getMonth() + 1).toString().padStart(2, '0');
                                     var year = now.getFullYear();
                                     var jsDate = day + '/' + month + '/' + year;
-                                    doc.pageMargins = [50,80,50,40];
+                                    doc.pageMargins = [50, 80, 50, 40];
                                     // Set the font size fot the entire document
                                     doc.defaultStyle.fontSize = 11;
                                     // Set the fontsize for the table header
                                     doc.styles.tableHeader.fontSize = 12;
-                                    doc['footer']=(function() {
+                                    doc['footer'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -989,7 +994,7 @@ $(document).ready(function () {
                                             margin: 20
                                         }
                                     });
-                                    doc['header']=(function() {
+                                    doc['header'] = (function () {
                                         return {
                                             columns: [
                                                 {
@@ -1003,12 +1008,12 @@ $(document).ready(function () {
                                     // To use predefined layouts uncomment the line below and comment the custom lines below
                                     // doc.content[0].layout = 'lightHorizontalLines'; // noBorders , headerLineOnly
                                     var objLayout = {};
-                                    objLayout['hLineWidth'] = function(i) { return .5; };
-                                    objLayout['vLineWidth'] = function(i) { return .5; };
-                                    objLayout['hLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['vLineColor'] = function(i) { return '#aaa'; };
-                                    objLayout['paddingLeft'] = function(i) { return 4; };
-                                    objLayout['paddingRight'] = function(i) { return 4; };
+                                    objLayout['hLineWidth'] = function (i) { return .5; };
+                                    objLayout['vLineWidth'] = function (i) { return .5; };
+                                    objLayout['hLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['vLineColor'] = function (i) { return '#aaa'; };
+                                    objLayout['paddingLeft'] = function (i) { return 4; };
+                                    objLayout['paddingRight'] = function (i) { return 4; };
                                     doc.content[0].layout = objLayout;
                                 },
                             }
@@ -1119,7 +1124,6 @@ $(document).ready(function () {
                         <div class="col-span-1 adicionado">
                             <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
                             <select required name="turma" id="select-turma0" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <option disabled value="regular" selected="">Selecionar turma</option>
                             </select>
                         </div>
                         <div class="add-aluno justify-self-end adicionado col-span-4">
@@ -1131,16 +1135,16 @@ $(document).ready(function () {
                         value="Cadastrar alunos">
                         </form>
                 </div>`);
-            loadTurmas();
+        loadTurmas();
     }
 
     function cadastrarAluno() {
         var nomes = [];
-        $(".nome_aluno").each(function() {
+        $(".nome_aluno").each(function () {
             nomes.push($(this).val());
         });
         var turmas = [];
-        $(".select-turmas").each(function() {
+        $(".select-turmas").each(function () {
             turmas.push($(this).val());
         });
 
@@ -1178,7 +1182,6 @@ $(document).ready(function () {
         <div class="adicionado col-span-1">
             <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
             <select required name="turma" id="select-turma0" class="select-turmas bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-            <option disabled value="regular" selected="">Selecionar turma</option>
             </select>
         </div>
         <div class="add-aluno adicionado justify-self-end col-span-4">
@@ -1209,22 +1212,22 @@ $(document).ready(function () {
 
     $("#main").on("click", "#btn-cadastrar-aluno", function () {
         var nomes_preenchidos = true;
-        $(".nome_aluno").each(function() {
+        $(".nome_aluno").each(function () {
             if ($(this).val() === null || $(this).val() === '') {
                 nomes_preenchidos = false;
                 return false; // Break the loop early
             }
         });
         if (!nomes_preenchidos || $(".select-turmas option:selected[value='regular']").length > 0) {
-        let snackbar = new SnackBar();
-        snackbar.make("message", [
-            "Preencha os campos necessários!",
-            null,
-            "top",
-            "right"
-        ], 4000);
-        return;
-        } else{
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Preencha os campos necessários!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+            return;
+        } else {
             $("#modal-cad-titulo").empty();
             $("#modal-cad-body").empty();
             $("#modal-btncad-texto").empty();
@@ -1241,16 +1244,15 @@ $(document).ready(function () {
 
     $("#main").on("click", "#btn-add-aluno", function () {
         loadTurmas();
-        $('.add-aluno').empty(); 
-    
-        alunoCounter++; 
+        $('.add-aluno').empty();
+
+        alunoCounter++;
         $('#form_aluno').append(
             `<div class="row${alunoCounter} adicionado col-span-3">
                 <input type="text" name="nome_aluno" id="nome_aluno${alunoCounter}" class="nome_aluno row${alunoCounter} shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 w-full" placeholder="Nereu Jr." required>
             </div>
             <div class="row${alunoCounter} adicionado col-span-1">
                 <select required name="turma" id="select-turma${alunoCounter}" class="select-turmas row${alunoCounter} row bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 w-10/12 p-2.5">
-                    <option disabled value="regular" selected="">Selecionar turma</option>
                 </select>
                 <span value="row${alunoCounter}" class="btn-remove-aluno ml-1 text-red-600 row${alunoCounter} cursor-pointer hover:underline">
                     <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>
@@ -1261,10 +1263,10 @@ $(document).ready(function () {
             </div>`
         );
     });
-    
+
     $("#main").on("click", ".btn-remove-aluno", function () {
-        $("." +  $(this).attr('value')).remove();
-        $('.add-aluno').remove(); 
+        $("." + $(this).attr('value')).remove();
+        $('.add-aluno').remove();
 
         $('#form_aluno').append(`<div class="add-aluno adicionado justify-self-end col-span-4">
             <p id="btn-add-aluno" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um aluno</small></p>
@@ -1296,33 +1298,34 @@ $(document).ready(function () {
                             </div>
                         </div><div class="add-responsavel adicionado justify-self-end col-span-4">
                             <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
-                        </div>`);                      
+                        </div>`);
         $('#form_responsavel').append(`
                         <input type="button" id="btn-cadastrar-responsavel" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
                         value="Cadastrar responsáveis">
                         </form>
                 </div>`);
-                var maskBehavior = function (val) {
-                    return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
-                },
-                options = {onKeyPress: function(val, e, field, options) {
-                        field.mask(maskBehavior.apply({}, arguments), options);
-                    }
-                };
-                $('.telefone_responsavel').mask(maskBehavior, options);
+        var maskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+        },
+            options = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(maskBehavior.apply({}, arguments), options);
+                }
+            };
+        $('.telefone_responsavel').mask(maskBehavior, options);
     }
 
     function cadastrarResponsavel() {
         var nomes = [];
-        $(".nome_responsavel").each(function() {
+        $(".nome_responsavel").each(function () {
             nomes.push($(this).val());
         });
         var emails = [];
-        $(".email_responsavel").each(function() {
+        $(".email_responsavel").each(function () {
             emails.push($(this).val());
         });
         var telefones = [];
-        $(".telefone_responsavel").each(function() {
+        $(".telefone_responsavel").each(function () {
             telefones.push($(this).val());
         });
 
@@ -1376,9 +1379,9 @@ $(document).ready(function () {
         </div>
         <div class="add-responsavel adicionado justify-self-end col-span-4">
             <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
-        </div>`);    
+        </div>`);
     }
-    
+
     $('#cadastrar-responsavel').click(function () {
         event.preventDefault();
         history.pushState(null, null, '#cadastrar-responsavel');
@@ -1401,23 +1404,23 @@ $(document).ready(function () {
 
     $("#main").on("click", "#btn-cadastrar-responsavel", function () {
         var nomes_preenchidos = true;
-        $(".responsavel").each(function() {
+        $(".responsavel").each(function () {
             if ($(this).val() === null || $(this).val() === '') {
                 nomes_preenchidos = false;
                 return false; // Break the loop early
-            }  
+            }
         });
-        $(".email_responsavel").each(function() {
+        $(".email_responsavel").each(function () {
             if (validateEmail($(this).val()) == false) {
                 nomes_preenchidos = false;
                 return false; // Break the loop early
-            }  
+            }
         });
-        $(".telefone_responsavel").each(function() {
+        $(".telefone_responsavel").each(function () {
             if (validateTelefone($(this).val()) == false) {
                 nomes_preenchidos = false;
                 return false; // Break the loop early
-            }  
+            }
         });
         if (!nomes_preenchidos) {
             let snackbar = new SnackBar();
@@ -1428,7 +1431,7 @@ $(document).ready(function () {
                 "right"
             ], 4000);
             return;
-        } else{
+        } else {
             $("#modal-cad-titulo").empty();
             $("#modal-cad-body").empty();
             $("#modal-btncad-texto").empty();
@@ -1444,9 +1447,9 @@ $(document).ready(function () {
     let responsavelCounter = 0;
 
     $("#main").on("click", "#btn-add-responsavel", function () {
-        $('.add-responsavel').empty(); 
-    
-        responsavelCounter++; 
+        $('.add-responsavel').empty();
+
+        responsavelCounter++;
         $('#form_responsavel').append(
             `<div class="col-span-4 row${responsavelCounter} adicionado">
                 <div class="flex flex-row">
@@ -1470,16 +1473,17 @@ $(document).ready(function () {
         var maskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
         },
-        options = {onKeyPress: function(val, e, field, options) {
-                field.mask(maskBehavior.apply({}, arguments), options);
-            }
-        };
+            options = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(maskBehavior.apply({}, arguments), options);
+                }
+            };
         $('.telefone_responsavel').mask(maskBehavior, options);
     });
-    
+
     $("#main").on("click", ".btn-remove-responsavel", function () {
-        $("." +  $(this).attr('value')).remove();
-        $('.add-responsavel').remove(); 
+        $("." + $(this).attr('value')).remove();
+        $('.add-responsavel').remove();
 
         $('#form_responsavel').append(`<div class="add-responsavel adicionado justify-self-end col-span-4">
             <p id="btn-add-responsavel" class="text-green-600 cursor-pointer hover:underline"><small>Adicionar mais um responsável</small></p>
@@ -1519,12 +1523,12 @@ $(document).ready(function () {
     function cadastrarMotivo() {
         let motivo = $("#motivo").val().trim();
         let snackbar = new SnackBar();
-            snackbar.make("message", [
-                "Motivo criado!",
-                null,
-                "top",
-                "right"
-            ], 4000);
+        snackbar.make("message", [
+            "Motivo criado!",
+            null,
+            "top",
+            "right"
+        ], 4000);
 
         $.ajax({
             type: "POST",
@@ -1589,7 +1593,7 @@ $(document).ready(function () {
                 `Deseja cadastrar o seguinte motivo?<br>
                 <span class="font-semibold text-green-700" id="modal-nome"></span>
                 <p id="modal-cad-opcao" value="motivo" style="visibility: hidden; display: none;"></p>`);
-            $("#modal-nome").append(" <b>"+motivo +"</b>");
+            $("#modal-nome").append(" <b>" + motivo + "</b>");
             $("#modal-btncad-texto").append("Confirmar cadastro");
             $('#cadastro-escondido').trigger("click");
         }
@@ -1625,31 +1629,31 @@ $(document).ready(function () {
                         value="Cadastrar turma">`);
     }
 
-    function cadastrarTurma(){
+    function cadastrarTurma() {
         let turma = $("#turma").val().trim();
         let snackbar = new SnackBar();
-            snackbar.make("message", [
-                "Turma criada!",
-                null,
-                "top",
-                "right"
-            ], 4000);
+        snackbar.make("message", [
+            "Turma criada!",
+            null,
+            "top",
+            "right"
+        ], 4000);
 
-            $.ajax({
-                type: "POST",
-                data: {
-                    turma: turma
-                },
-                url: "insert/insert_turma.php",
-                success: function (data) {
-                    if (data == 0) {
-                        location.reload();
-                    }
+        $.ajax({
+            type: "POST",
+            data: {
+                turma: turma
+            },
+            url: "insert/insert_turma.php",
+            success: function (data) {
+                if (data == 0) {
+                    location.reload();
                 }
-            });
-    
-            $("#turma").val("");
-            loadTurmas();
+            }
+        });
+
+        $("#turma").val("");
+        loadTurmas();
     }
 
     $('#cadastrar-turma').click(function () {
@@ -1698,7 +1702,7 @@ $(document).ready(function () {
                 `Deseja cadastrar a seguinte turma?<br>
                 <span class="font-semibold text-green-700" id="modal-nome"></span>
                 <p id="modal-cad-opcao" value="turma" style="visibility: hidden; display: none;"></p>`);
-            $("#modal-nome").append(" <b>"+turma +"</b>");
+            $("#modal-nome").append(" <b>" + turma + "</b>");
             $("#modal-btncad-texto").append("Confirmar cadastro");
             $('#cadastro-escondido').trigger("click");
         }
@@ -1708,17 +1712,18 @@ $(document).ready(function () {
         $.ajax({
             url: 'read/read_alunos_vinculo.php',
             method: 'GET',
-            data: { query: query,
-                    turma: $(inputElement).attr("turma")
+            data: {
+                query: query,
+                turma: $(inputElement).attr("turma")
             },
-            success: function(response) {
+            success: function (response) {
                 let alunos = JSON.parse(response);
                 let suggestionList = '';
-    
-                alunos.forEach(function(aluno) {
+
+                alunos.forEach(function (aluno) {
                     suggestionList += `<li class="px-4 py-2 cursor-pointer hover:bg-blue-100" aluno_id="${aluno.id_aluno}">${aluno.nome_aluno}</li>`;
                 });
-    
+
                 let suggestionsList = $(inputElement).siblings('.aluno-suggestions');
                 if (alunos.length > 0) {
                     suggestionsList.html(suggestionList).removeClass('hidden');
@@ -1730,29 +1735,29 @@ $(document).ready(function () {
     }
 
     // Event delegation for dynamically added email input elements
-    $(document).on('focus click', '.aluno-input', function() {
+    $(document).on('focus click', '.aluno-input', function () {
         $('.aluno-suggestions').addClass('hidden');
         $(this).next().removeClass('hidden');
         let query = $(this).val().toLowerCase();
         sugerirAlunos(this, query);
     });
 
-    $(document).on('input', '.aluno-input', function() {
+    $(document).on('input', '.aluno-input', function () {
         let query = $(this).val().toLowerCase();
         sugerirAlunos(this, query);
     });
 
     // Event delegation for suggestion selection
-    $(document).on('click', '.aluno-suggestions li', function() {
+    $(document).on('click', '.aluno-suggestions li', function () {
         let selectedEmail = $(this).text();
         $(this).closest('.div-aluno').find('.aluno-input').val(selectedEmail);
         $(this).closest('.div-aluno').find('.aluno-input').attr("id_aluno", $(this).attr("aluno_id"));
         $(this).closest('.aluno-suggestions').addClass('hidden');
     });
 
-    $(document).on('blur', '.aluno-input', function() {
+    $(document).on('blur', '.aluno-input', function () {
         let inputValue = $(this).val();
-        let validEmails = $(this).siblings('.aluno-suggestions').find('li').map(function() {
+        let validEmails = $(this).siblings('.aluno-suggestions').find('li').map(function () {
             return $(this).text();
         }).get();
 
@@ -1761,7 +1766,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).click(function(e) {
+    $(document).click(function (e) {
         if (!$(e.target).closest('.aluno-input, .aluno-suggestions').length) {
             $('.aluno-suggestions').addClass('hidden');
         }
@@ -1772,14 +1777,14 @@ $(document).ready(function () {
             url: 'read/read_responsaveis.php',
             method: 'GET',
             data: { query: query },
-            success: function(response) {
+            success: function (response) {
                 let validEmails = JSON.parse(response);
                 let suggestionList = '';
-    
-                validEmails.forEach(function(email) {
+
+                validEmails.forEach(function (email) {
                     suggestionList += `<li class="px-4 py-2 cursor-pointer hover:bg-blue-100">${email}</li>`;
                 });
-    
+
                 let suggestionsList = $(inputElement).siblings('.email-suggestions');
                 if (validEmails.length > 0) {
                     suggestionsList.html(suggestionList).removeClass('hidden');
@@ -1791,28 +1796,28 @@ $(document).ready(function () {
     }
 
     // Event delegation for dynamically added email input elements
-    $(document).on('focus click', '.email-input', function() {
+    $(document).on('focus click', '.email-input', function () {
         $('.email-suggestions').addClass('hidden');
         $(this).next().removeClass('hidden');
         let query = $(this).val().toLowerCase();
         sugerirEmails(this, query);
     });
 
-    $(document).on('input', '.email-input', function() {
+    $(document).on('input', '.email-input', function () {
         let query = $(this).val().toLowerCase();
         sugerirEmails(this, query);
     });
 
     // Event delegation for suggestion selection
-    $(document).on('click', '.email-suggestions li', function() {
+    $(document).on('click', '.email-suggestions li', function () {
         let selectedEmail = $(this).text();
         $(this).closest('.div-email').find('.email-input').val(selectedEmail);
         $(this).closest('.email-suggestions').addClass('hidden');
     });
 
-    $(document).on('blur', '.email-input', function() {
+    $(document).on('blur', '.email-input', function () {
         let inputValue = $(this).val();
-        let validEmails = $(this).siblings('.email-suggestions').find('li').map(function() {
+        let validEmails = $(this).siblings('.email-suggestions').find('li').map(function () {
             return $(this).text();
         }).get();
 
@@ -1821,7 +1826,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).click(function(e) {
+    $(document).click(function (e) {
         if (!$(e.target).closest('.email-input, .email-suggestions').length) {
             $('.email-suggestions').addClass('hidden');
         }
@@ -1838,21 +1843,20 @@ $(document).ready(function () {
                     <div class="flex w-2/12 flex-col mr-4">
                         <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
                         <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <option disabled value="regular" selected>Selecionar turma</option>
                         </select>
                     </div>
                     <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
                         <label for="nome-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
                         <input type="text" id="nome-aluno0" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
-                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                     <div class="relative flex w-5/12 flex-col mr-4 div-email">
                         <label for="email-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
                         <input type="email" id="email-responsavel0" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="nereu.vo@gmail.com">
 
-                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                 </div>
@@ -1867,18 +1871,18 @@ $(document).ready(function () {
             value="Cadastrar vínculos">
         `);
         loadTurmas();
-    } 
+    }
 
-    function cadastrarVinculo(){
+    function cadastrarVinculo() {
         var alunos = [];
-        $(".aluno-input").each(function() {
+        $(".aluno-input").each(function () {
             // alert($(this).attr("id_aluno"));
             // alert($(this).val());
             alunos.push($(this).attr("id_aluno"));
         });
-            
+
         var responsaveis = [];
-        $(".email-input").each(function() {
+        $(".email-input").each(function () {
             // alert($(this).val());
             responsaveis.push($(this).val());
         });
@@ -1915,21 +1919,20 @@ $(document).ready(function () {
                     <div class="flex w-2/12 flex-col mr-4">
                         <label for="select-turma0" class="block my-2 text-sm font-medium text-gray-900">Turma</label>
                         <select required name="0" id="select-turma0" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                            <option disabled value="regular" selected>Selecionar turma</option>
                         </select>
                     </div>
                     <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
                         <label for="nome-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
                         <input type="text" id="nome-aluno0" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
-                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                     <div class="relative flex w-5/12 flex-col mr-4 div-email">
                         <label for="email-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
                         <input type="email" id="email-responsavel0" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="nereu.vo@gmail.com">
 
-                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                 </div>
@@ -1941,7 +1944,7 @@ $(document).ready(function () {
     }
 
     $("#main").on("change", ".turma-vinculo", function () {
-        nome_aluno = '#nome-aluno'+ $(this).attr('name');
+        nome_aluno = '#nome-aluno' + $(this).attr('name');
         turma = $(this).find('option:selected').text();
         $(nome_aluno).prop('disabled', false);
         $(nome_aluno).val('');
@@ -1969,17 +1972,17 @@ $(document).ready(function () {
 
     $("#main").on("click", "#btn-cadastrar-vinculo", function () {
         nomes_preenchidos = true;
-        $(".aluno-input").each(function() {
+        $(".aluno-input").each(function () {
             if ($(this).val() === null || $(this).val() === '') {
                 nomes_preenchidos = false;
                 return false; // Break the loop early
-            } 
+            }
         });
-        $(".email-input").each(function() {
+        $(".email-input").each(function () {
             if ($(this).val() === null || $(this).val() === '') {
                 nomes_preenchidos = false;
                 return false; // Break the loop early
-            } 
+            }
         });
         if (!nomes_preenchidos) {
             let snackbar = new SnackBar();
@@ -2002,31 +2005,30 @@ $(document).ready(function () {
             $('#cadastro-escondido').trigger("click");
         }
     });
-    
+
 
     let vinculoCounter = 0;
 
     $("#main").on("click", "#btn-add-vinculo", function () {
-        $('.add-vinculo').empty(); 
-    
-        vinculoCounter++; 
+        $('.add-vinculo').empty();
+
+        vinculoCounter++;
         $('#form-vinculo').append(`
             <div class="col-span-4 row${vinculoCounter} adicionado">
             <div class="flex flex-row">
                 <div class="flex w-2/12 flex-col mr-4">
                     <select required name="${vinculoCounter}" id="select-turma${vinculoCounter}" class="select-turmas turma-vinculo bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                        <option disabled value="regular" selected>Selecionar turma</option>
                     </select>
                 </div>
                 <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
                     <input type="text" id="nome-aluno${vinculoCounter}" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
-                    <ul class="aluno-suggestions overflow-x-auto  absolute top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden">
+                    <ul class="aluno-suggestions overflow-x-auto  absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                     </ul>
                 </div>
                  <div class="div-email relative flex items-center w-5/12 mr-4 space-x-2">
                             <input type="email" id="email-responsavel${vinculoCounter}" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select w-11/12 focus:ring-primary-500 focus:border-primary-500 p-2.5" placeholder="nereu.vo@gmail.com">
-                            <ul class="email-suggestions overflow-x-auto  w-11/12 absolute top-full left-0 w-full z-10 bg-white border border-gray-300 rounded-md mt-1 hidden absolute z-10">
+                            <ul class="email-suggestions overflow-x-auto  w-11/12 absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden absolute z-10">
                             </ul>
                             <span value="row${vinculoCounter}" class="btn-remove-vinculo text-red-600 mt-5 cursor-pointer">
                                 <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>   
@@ -2042,8 +2044,8 @@ $(document).ready(function () {
     });
 
     $("#main").on("click", ".btn-remove-vinculo", function () {
-        $("." +  $(this).attr('value')).remove();
-        $('.add-vinculo').remove(); 
+        $("." + $(this).attr('value')).remove();
+        $('.add-vinculo').remove();
 
         $('#form-vinculo').append(`
         <div class="add-vinculo adicionado justify-self-end col-span-4">
@@ -2053,17 +2055,17 @@ $(document).ready(function () {
 
     $("#main").on("click", "#confirmar-cadastro", function () {
         opcao = $("#modal-cad-opcao").attr('value');
-        if(opcao == "aluno"){
+        if (opcao == "aluno") {
             cadastrarAluno();
-        } else if(opcao == "motivo"){
+        } else if (opcao == "motivo") {
             cadastrarMotivo();
-        } else if(opcao == "turma"){
+        } else if (opcao == "turma") {
             cadastrarTurma();
-        } else if(opcao == "responsavel"){
+        } else if (opcao == "responsavel") {
             cadastrarResponsavel();
-        } else if(opcao == "vinculo"){
+        } else if (opcao == "vinculo") {
             cadastrarVinculo();
-        } 
+        }
     });
 
     $('.select-motivo').change(function () {
