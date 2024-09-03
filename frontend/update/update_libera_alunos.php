@@ -10,7 +10,6 @@ if(isset($_SESSION['email'])) {
         $id_aluno = intval($_POST['id_aluno']);
         $data = $_POST['date']."%";
         $saida = date('Y-m-d H:i:s');
-        date_default_timezone_set('America/Sao_Paulo');
         // Conectando ao BD e inserindo novos dados
         $sql = connect();
         // if(isset($_POST['servidor'])) {

@@ -30,7 +30,8 @@ if (isset($_SESSION['email'])) {
             AND (CAST(`sepae_libera_aluno`.`data` AS DATE) = ?)
             AND (`sepae_libera_aluno`.`horario_saida` IS NULL)
             AND (`turma`.`id` = `aluno`.`turma_id`)
-            AND (`motivo`.`id` = `sepae_libera_aluno`.`motivo_id`)) 
+            AND (`motivo`.`id` = `sepae_libera_aluno`.`motivo_id`)
+            AND (`sepae_libera_aluno`.`isAutorizado` = TRUE)) 
     UNION SELECT 
         `aluno`.`id` AS `id_aluno`,
         `aluno`.`nome` AS `aluno`,
