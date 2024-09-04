@@ -161,7 +161,7 @@ $(document).ready(function () {
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
                     $('#main').prepend(`
-                            <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
+                            <table class="text-sm mb-20 text-left text-gray-500 sm:rounded-lg shadow-lg mx-auto w-3/4 mt-4">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
                                         <th scope="col" class="active p-4">
@@ -1503,7 +1503,7 @@ $(document).ready(function () {
                     <input type="text" name="motivo" id="motivo" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="O professor morreu de amor..." required>
                 </form>
             </div>
-            <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg col-span-2 row-span-4">
+            <table class="text-sm mb-20 text-left text-gray-500 sm:rounded-lg shadow-lg col-span-2 row-span-4">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -1612,7 +1612,7 @@ $(document).ready(function () {
                     <input type="text" name="turma" id="turma" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Técnico em Crochet" required>
                 </form>
             </div>
-            <table class="text-sm text-left text-gray-500 sm:rounded-lg shadow-lg col-span-2 row-span-4">
+            <table class="text-sm mb-20 text-left text-gray-500 sm:rounded-lg shadow-lg col-span-2 row-span-4">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -1849,14 +1849,14 @@ $(document).ready(function () {
                         <label for="nome-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
                         <input type="text" id="nome-aluno0" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
-                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="aluno-suggestions z-10 absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                     <div class="relative flex w-5/12 flex-col mr-4 div-email">
                         <label for="email-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
                         <input type="email" id="email-responsavel0" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="nereu.vo@gmail.com">
 
-                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="email-suggestions z-10 absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                 </div>
@@ -1898,6 +1898,7 @@ $(document).ready(function () {
             },
             url: "insert/insert_vinculo.php",
             success: function (data) {
+                loadTurmas();
                 if (data == 0) {
                     location.reload();
                 }
@@ -1925,14 +1926,14 @@ $(document).ready(function () {
                         <label for="nome-aluno0" class="block my-2 text-sm font-medium text-gray-900">Aluno</label>
                         <input type="text" id="nome-aluno0" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
-                        <ul class="aluno-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="aluno-suggestions z-10 absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                     <div class="relative flex w-5/12 flex-col mr-4 div-email">
                         <label for="email-responsavel0" class="block my-2 text-sm font-medium text-gray-900">Email do responsável</label>
                         <input type="email" id="email-responsavel0" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="nereu.vo@gmail.com">
 
-                        <ul class="email-suggestions absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
+                        <ul class="email-suggestions z-10 absolute overflow-x-auto top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                         </ul>
                     </div>
                 </div>
@@ -2023,12 +2024,12 @@ $(document).ready(function () {
                 <div class="relative flex w-5/12 flex-col mr-4 div-aluno">
                     <input type="text" id="nome-aluno${vinculoCounter}" disabled autocomplete="off" class="aluno-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Nereu Jr.">
 
-                    <ul class="aluno-suggestions overflow-x-auto  absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
+                    <ul class="aluno-suggestions z-10 overflow-x-auto absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden">
                     </ul>
                 </div>
                  <div class="div-email relative flex items-center w-5/12 mr-4 space-x-2">
                             <input type="email" id="email-responsavel${vinculoCounter}" autocomplete="off" class="email-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg form-select w-11/12 focus:ring-primary-500 focus:border-primary-500 p-2.5" placeholder="nereu.vo@gmail.com">
-                            <ul class="email-suggestions overflow-x-auto  w-11/12 absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden absolute z-10">
+                            <ul class="email-suggestions z-10 overflow-x-auto w-11/12 absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 hidden absolute">
                             </ul>
                             <span value="row${vinculoCounter}" class="btn-remove-vinculo text-red-600 mt-5 cursor-pointer">
                                 <svg fill="#595959" height="10px" width="10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775"><path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path></svg>   
