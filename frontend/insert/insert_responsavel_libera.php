@@ -22,7 +22,11 @@ function insert_responsavel_libera($email, $aluno_id, $motivo){
     $query = $sql->prepare("INSERT INTO responsavel_libera_aluno (responsavel_email, aluno_id, data, horario_saida, motivo_id) VALUES (?, ?, ?, NULL, ?);");
     if ($query) {
         $query->bind_param("ssss", $email, $aluno_id, $date, $motivo);
-        $query->execute();
+        if ($query->execute()){
+            return True;
+        } else {
+            return False;
+        }
 
         if ($query->affected_rows <= 0) {
             echo "Error inserting data: " . $query->error;
@@ -35,6 +39,5 @@ function insert_responsavel_libera($email, $aluno_id, $motivo){
         return false;
     }
     $sql->close();
-    return true;
 }
 ?>
