@@ -46,5 +46,5 @@ if (isset($_SESSION['email'])) {
 		$mysqli->close();
 	}
 } else {
-	echo json_encode(0);
+	
 }

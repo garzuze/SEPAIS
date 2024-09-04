@@ -38,5 +38,5 @@ if (isset($_SESSION['email'])) {
 	$consulta->close();
 	$mysqli->close();
 } else {
-	echo json_encode(0);
+	
 }

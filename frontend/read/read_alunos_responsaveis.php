@@ -37,5 +37,4 @@ session_start();
 if (!empty($_SESSION['email'])) {
 	read_dependentes($emailResponsavel);
 } else {
-	echo json_encode(0);
 }

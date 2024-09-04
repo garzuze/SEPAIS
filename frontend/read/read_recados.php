@@ -29,5 +29,4 @@ if (isset($_SESSION['email'])) {
 
 	echo json_encode($recados,  JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 } else {
-	echo json_encode(0);
 }

@@ -29,6 +29,6 @@ if(!empty($_SESSION['email'])) {
         }
     }
 } else{
-	echo json_encode(0);
+	
 	header('Location: ../login.php');
 }

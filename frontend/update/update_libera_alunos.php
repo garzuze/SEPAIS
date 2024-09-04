@@ -40,6 +40,6 @@ if(isset($_SESSION['email'])) {
         header('Location: ../index.php');
     }
 } else{
-	echo json_encode(0);
+	
 }
 ?>
