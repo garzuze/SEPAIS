@@ -18,6 +18,11 @@ function update_autoriza_liberacao($aluno_id){
             echo "Error inserting data: " . $query->error;
             return false;
         }
+        if ($query->execute()) {
+            return true;
+        } else {
+            return false;
+        }
 
         $query->close();
     } else {
@@ -25,6 +30,5 @@ function update_autoriza_liberacao($aluno_id){
         return false;
     }
     $sql->close();
-    return true;
 }
 ?>
