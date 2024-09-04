@@ -12,7 +12,7 @@ function read_dependentes_liberados($date, $email)
         `sepae_libera_aluno`.`data` AS `data`,
         `sepae_libera_aluno`.`horario_saida` AS `horario_saida`,
         `motivo`.`motivo` AS `motivo`
-    FROM
+    FROM    
         (((`aluno`
         JOIN `turma`)
         JOIN `sepae_libera_aluno`)
@@ -20,6 +20,7 @@ function read_dependentes_liberados($date, $email)
         JOIN `motivo`)  
     WHERE
         ((`aluno`.`id` = `sepae_libera_aluno`.`aluno_id`)
+            and (`isAutorizado` = FALSE)
             AND (`sepae_libera_aluno`.`horario_saida` IS NULL)
             AND (`turma`.`id` = `aluno`.`turma_id`)
             AND (`motivo`.`id` = `sepae_libera_aluno`.`motivo_id`)
