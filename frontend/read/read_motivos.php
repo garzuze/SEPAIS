@@ -2,7 +2,8 @@
 require_once('../connect.php');
 
 session_start();
-if (isset($_SESSION['email'])) {
+
+function read_motivos() {
 	$mysqli = connect();
 	try {
 		$consulta = $mysqli->prepare("SELECT * from motivo;");
@@ -15,11 +16,14 @@ if (isset($_SESSION['email'])) {
 		print_r($mysqli->error);
 		exit('Alguma coisa estranha aconteceu...');
 	}
-
-	echo json_encode($resultadoFormatado);
-
+	return $resultadoFormatado;
 	$consulta->close();
 	$mysqli->close();
+}
+
+if (isset($_SESSION['email'])) {
+	$motivos = read_motivos();
+	echo json_encode($motivos);
 } else {
 	
 }
