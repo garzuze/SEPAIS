@@ -1,9 +1,10 @@
 <?php
 require_once('../connect.php');
 
-function read_alunos_autorizados($date, $email)
+function read_alunos_autorizados($email)
 {
     $mysqli = connect();
+    $date = date('Y-m-d');
     try {
         $consulta = $mysqli->prepare("SELECT 
         `aluno`.`id` AS `id_aluno`,

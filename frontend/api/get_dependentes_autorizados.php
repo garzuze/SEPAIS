@@ -8,19 +8,15 @@ require "../read/read_alunos_autorizados.php";
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-header('Content-type: application/json;');
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-	$date = date('Y-m-d');
 	$all_headers = getallheaders();
 	$jwt = $all_headers['Authorization'];
-	$data = $_POST;
 	if (!empty($jwt)) {
 		try {
 			$secret = "SomosOsSepinhosBananaoDoChicao";
 			$decoded_data =  (array) JWT::decode($jwt, new Key($secret, 'HS256'));
             $email_responsavel = $decoded_data["sub"];
-            $dependentes_autorizados = read_alunos_autorizados($date, $email_responsavel);
+            $dependentes_autorizados = read_alunos_autorizados($email_responsavel);
 			http_response_code(200);
 			echo json_encode(array(
 				"status" => True,

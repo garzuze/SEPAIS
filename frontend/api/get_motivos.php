@@ -7,8 +7,6 @@ require "../read/read_motivos.php";
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-header('Content-type: application/json;');
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$all_headers = getallheaders();
 	$jwt = $all_headers['Authorization'];
