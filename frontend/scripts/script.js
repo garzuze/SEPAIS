@@ -1708,6 +1708,39 @@ $(document).ready(function () {
         }
     });
 
+    let currentIndex = -1;
+
+    // Generalized function to handle keyboard navigation
+    function handleKeyDown(e, suggestionsListClass) {
+        let suggestionsList = $(e.target).siblings(suggestionsListClass);
+        let items = suggestionsList.find('li');
+    
+        if (suggestionsList.is(':visible') && items.length > 0) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentIndex = (currentIndex + 1) % items.length;
+                highlightItem(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                highlightItem(items);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentIndex >= 0) {
+                    items.eq(currentIndex).trigger('click');
+                }
+            }
+        }
+    }
+    
+    // Generalized function to highlight a list item
+    function highlightItem(items) {
+        items.removeClass('bg-blue-100');
+        if (currentIndex >= 0) {
+            items.eq(currentIndex).addClass('bg-blue-100');
+        }
+    }
+    
     function sugerirAlunos(inputElement, query = '') {
         $.ajax({
             url: 'read/read_alunos_vinculo.php',
@@ -1719,14 +1752,15 @@ $(document).ready(function () {
             success: function (response) {
                 let alunos = JSON.parse(response);
                 let suggestionList = '';
-
+    
                 alunos.forEach(function (aluno) {
                     suggestionList += `<li class="px-4 py-2 cursor-pointer hover:bg-blue-100" aluno_id="${aluno.id_aluno}">${aluno.nome_aluno}</li>`;
                 });
-
+    
                 let suggestionsList = $(inputElement).siblings('.aluno-suggestions');
                 if (alunos.length > 0) {
                     suggestionsList.html(suggestionList).removeClass('hidden');
+                    currentIndex = -1; // Reset index when suggestions are updated
                 } else {
                     suggestionsList.addClass('hidden');
                 }
@@ -1734,38 +1768,40 @@ $(document).ready(function () {
         });
     }
 
-    // Event delegation for dynamically added email input elements
     $(document).on('focus click', '.aluno-input', function () {
         $('.aluno-suggestions').addClass('hidden');
         $(this).next().removeClass('hidden');
         let query = $(this).val().toLowerCase();
         sugerirAlunos(this, query);
     });
-
+    
     $(document).on('input', '.aluno-input', function () {
         let query = $(this).val().toLowerCase();
         sugerirAlunos(this, query);
     });
 
-    // Event delegation for suggestion selection
     $(document).on('click', '.aluno-suggestions li', function () {
-        let selectedEmail = $(this).text();
-        $(this).closest('.div-aluno').find('.aluno-input').val(selectedEmail);
+        let selectedName = $(this).text();
+        $(this).closest('.div-aluno').find('.aluno-input').val(selectedName);
         $(this).closest('.div-aluno').find('.aluno-input').attr("id_aluno", $(this).attr("aluno_id"));
         $(this).closest('.aluno-suggestions').addClass('hidden');
     });
 
-    $(document).on('blur', '.aluno-input', function () {
-        let inputValue = $(this).val();
-        let validEmails = $(this).siblings('.aluno-suggestions').find('li').map(function () {
-            return $(this).text();
-        }).get();
-
-        if (!validEmails.includes(inputValue)) {
-            $(this).val(''); // Clear input if the value is not in the valid emails list
-        }
+    $(document).on('keydown', '.aluno-input', function (e) {
+        handleKeyDown(e, '.aluno-suggestions');
     });
 
+    $(document).on('blur', '.aluno-input', function () {
+        let inputValue = $(this).val();
+        let validAlunos = $(this).siblings('.aluno-suggestions').find('li').map(function () {
+            return $(this).text();
+        }).get();
+    
+        if (!validAlunos.includes(inputValue)) {
+            $(this).val(''); 
+        }
+    });
+    
     $(document).click(function (e) {
         if (!$(e.target).closest('.aluno-input, .aluno-suggestions').length) {
             $('.aluno-suggestions').addClass('hidden');
@@ -1780,57 +1816,61 @@ $(document).ready(function () {
             success: function (response) {
                 let validEmails = JSON.parse(response);
                 let suggestionList = '';
-
+    
                 validEmails.forEach(function (email) {
                     suggestionList += `<li class="px-4 py-2 cursor-pointer hover:bg-blue-100">${email}</li>`;
                 });
-
+    
                 let suggestionsList = $(inputElement).siblings('.email-suggestions');
                 if (validEmails.length > 0) {
                     suggestionsList.html(suggestionList).removeClass('hidden');
+                    currentIndex = -1;
                 } else {
                     suggestionsList.addClass('hidden');
                 }
             }
         });
     }
-
-    // Event delegation for dynamically added email input elements
+    
     $(document).on('focus click', '.email-input', function () {
         $('.email-suggestions').addClass('hidden');
         $(this).next().removeClass('hidden');
         let query = $(this).val().toLowerCase();
         sugerirEmails(this, query);
     });
-
+    
     $(document).on('input', '.email-input', function () {
         let query = $(this).val().toLowerCase();
         sugerirEmails(this, query);
     });
-
-    // Event delegation for suggestion selection
+    
     $(document).on('click', '.email-suggestions li', function () {
         let selectedEmail = $(this).text();
         $(this).closest('.div-email').find('.email-input').val(selectedEmail);
         $(this).closest('.email-suggestions').addClass('hidden');
     });
-
-    $(document).on('blur', '.email-input', function () {
-        let inputValue = $(this).val();
-        let validEmails = $(this).siblings('.email-suggestions').find('li').map(function () {
-            return $(this).text();
-        }).get();
-
-        if (!validEmails.includes(inputValue)) {
-            $(this).val(''); // Clear input if the value is not in the valid emails list
-        }
+    
+    $(document).on('keydown', '.email-input', function (e) {
+        handleKeyDown(e, '.email-suggestions');
     });
 
-    $(document).click(function (e) {
-        if (!$(e.target).closest('.email-input, .email-suggestions').length) {
-            $('.email-suggestions').addClass('hidden');
-        }
-    });
+$(document).on('blur', '.email-input', function () {
+    let inputValue = $(this).val();
+    let validEmails = $(this).siblings('.email-suggestions').find('li').map(function () {
+        return $(this).text();
+    }).get();
+
+    if (!validEmails.includes(inputValue)) {
+        $(this).val(''); 
+    }
+});
+
+$(document).click(function (e) {
+    if (!$(e.target).closest('.email-input, .email-suggestions').length) {
+        $('.email-suggestions').addClass('hidden');
+    }
+});
+
 
     function loadCadastrarVinculo() {
         $('.btn-liberar').hide();
