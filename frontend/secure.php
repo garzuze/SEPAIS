@@ -25,7 +25,7 @@ function verify_user($email, $password){
         if (password_verify($password, $stored_password)) {
             // As senhas coincidem, o usuário é logado
             $_SESSION['email'] = $email;
-            $_SESSION['senha'] = $password;
+            $_SESSION['senha'] = $stored_password;
             $_SESSION['funcao'] = "sepae";
             header('Location: index.php');
         } else {
@@ -44,7 +44,7 @@ function verify_user($email, $password){
         if (password_verify($password, $stored_password)) {
             // As senhas coincidem, o usuário é logado
             $_SESSION['email'] = $email;
-            $_SESSION['senha'] = $password;
+            $_SESSION['senha'] = $stored_password;
             $_SESSION['funcao'] = "portaria";
             header('Location: portaria.php');
         } else {
