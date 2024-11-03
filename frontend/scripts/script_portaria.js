@@ -16,7 +16,40 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 
+window.addEventListener("storage", function (event) {
+    if (event.key === "logoutEvent") {
+        window.location.href = "index.php";
+    }
+});
+
 $(document).ready(function () {
+    function logout(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "", 
+            type: "POST",
+            data: { logout: true },
+            dataType: "json", 
+            success: function(response) {
+                if (response.success) {
+                    sessionStorage.removeItem("logoutEvent");
+                    localStorage.removeItem("logoutEvent");
+
+                    sessionStorage.setItem("logoutEvent", "true");
+                    localStorage.setItem("logoutEvent", "true");
+
+                    window.location.href = "index.php"; 
+                }
+            },
+            error: function() {
+                alert("An error occurred during logout. Please try again.");
+            }
+        });
+    }
+
+    $("#logoutForm").submit(logout);
+
     $.ajax({
         url: 'read/read_turmas.php',
         type: 'GET',

@@ -6,7 +6,7 @@ if(!empty($_SESSION['email'])) {
     if (!empty($_POST['turma'])){
         try {
             $email = $_SESSION['email'];
-            $turma = $_POST['turma'];
+            $turma = strtoupper($_POST['turma']);
             $sql = connect();
             $query = $sql->prepare("INSERT INTO turma (turma) VALUES (?)");
             $query->bind_param("s", $turma);

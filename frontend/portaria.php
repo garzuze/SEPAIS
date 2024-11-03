@@ -8,7 +8,8 @@ if ($_SESSION['funcao'] == "sepae"){
 }
 if (isset($_POST['logout'])) {
     session_destroy();
-    header('Location: login.php');
+    echo json_encode(['success' => true]); 
+    exit;
 }
 
 # função de horário em tempo real
@@ -60,7 +61,7 @@ $foto_path = $result_array[0]['foto_path'];
                     </div>
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
-                            <form method="post"><input type="submit" name="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 m-auto" value="Logout"></form>
+                            <form id="logoutForm" method="post" style="display: inline;"><input type="submit" name="logout" class="block px-4 py-2 text-sm text-gray-700 active:hover:bg-gray-100 m-auto" value="Logout"></form>
                         </li>
                     </ul>
                 </div>

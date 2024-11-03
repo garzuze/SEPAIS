@@ -16,7 +16,53 @@ function updateTime() {
 }
 setInterval(updateTime, 1000)
 
+window.addEventListener("storage", function (event) {
+    if (event.key === "logoutEvent") {
+        window.location.href = "index.php";
+    }
+});
+
 $(document).ready(function () {
+    localStorage.removeItem("modalAviso")
+    function logout(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "", 
+            type: "POST",
+            data: { logout: true },
+            dataType: "json", 
+            success: function(response) {
+                if (response.success) {
+                    sessionStorage.removeItem("logoutEvent");
+                    localStorage.removeItem("logoutEvent");
+
+                    sessionStorage.setItem("logoutEvent", "true");
+                    localStorage.setItem("logoutEvent", "true");
+
+                    window.location.href = "index.php"; 
+                }
+            },
+            error: function() {
+                alert("An error occurred during logout. Please try again.");
+            }
+        });
+    }
+
+    $("#logoutForm").submit(logout);
+    
+    if (localStorage.getItem("showSnackbar") === "true") {
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Turma atualizada com sucesso!",
+            null,
+            "top",
+            "right"
+        ], 4000);
+
+        // Remove the flag after displaying the snackbar
+        localStorage.removeItem("showSnackbar");
+    }
 
     $(document).on("keydown", ":input:not(textarea)", function () {
         if (event.key == "Enter") {
@@ -60,7 +106,10 @@ $(document).ready(function () {
                     )
                     $('#ul-turma').empty();
                     $('#tb-turmas').empty();
+                    $('#atualizar-turma').empty();
+                    curso_anterior = 0;
                     for (var i = 0; i < turma.length; i++) {
+                    curso = turma[i]["turma"].replace(/([^A-Za-z]*)/g, '');
                         $('#ul-turma').append(`
                             <li>
                                 <a id="`+ turma[i]["turma"] + `" class="select-turma select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg active:hover:bg-gray-100 group">
@@ -68,6 +117,15 @@ $(document).ready(function () {
                                 </a>
                             </li>
                         `);
+
+                        if(i == 0 || curso_anterior != curso){
+                            $('#atualizar-turma').append(`
+                                <a id="`+curso+`" class="subclasse-atualizar hidden target flex justify-center items-center cursor-pointer p-2 text-gray-900 group" href="#atualizar-`+curso+`">
+                                    <span>`+curso+`</span>
+                                </a>        
+                            `)
+                        }
+                        curso_anterior = curso;
                         $('#tb-turmas').append(
                             '<tr class="bg-white border-b">' +
                             '<td id="' + turma[i]['turma'] + '" scope="col" class="px-6 py-4 font-medium text-gray-900">' +
@@ -128,10 +186,11 @@ $(document).ready(function () {
 
     // Função para botões ficarem em destaque quando ativos
     function activateButton(element) {
+        $(".subclasse-atualizar").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
         $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
         $(".subclasse-cadastrar").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
         $('.select-destaque').removeClass('bg-gray-100');
-        if (String(element).includes("historico") || String(element).includes("cadastrar")) {
+        if (String(element).includes("historico") || String(element).includes("cadastrar") || String(element).includes("atualizar")) {
             $(element).addClass("border-[#00bf63] border-l-2");
         } else {
             $(element).addClass('bg-gray-100');
@@ -144,10 +203,12 @@ $(document).ready(function () {
 
 
     // Função para selecionar alunos por turma
-    function selectTurma(turma) {
+    function selectTurma(turma, caso) {
         //mostra o botão liberar
-        $('.btn-liberar').show()
-        loadMotivos();
+        if(caso == "liberar"){
+            $('.btn-liberar').show()
+            loadMotivos();
+        }
         $.ajax({
             url: 'read/read_alunos_turma.php',
             data: 'turma=' + turma,
@@ -216,6 +277,21 @@ $(document).ready(function () {
                             '</td>' +
                             '</tr>');
                     }
+                    if(caso == "aprovar"){
+                        $('#main').prepend(`
+                        <div class="mx-auto w-3/4 mt-4">
+                            <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Confirmar <span class="text-green-700">aprovações</span> de alunos de <span class="font-bold text-green-900">`+turma+`</span></h2>`);
+                        $('#main').append(`
+                            <input type="button" id="btn-confirmar-aprovacao" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                            value="Confirmar aprovação">`);
+                    } else if(caso == "desistir"){
+                        $('#main').prepend(`
+                        <div class="mx-auto w-3/4 mt-4">
+                            <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Confirmar <span class="text-red-700">desistências</span> de alunos de <span class="font-bold text-green-900">`+turma+`</span></h2>`);
+                        $('#main').append(`
+                            <input type="button" id="btn-confirmar-desistencia" class="bg-gradient-to-r from-[#00BF63] to-[#016D39] mt-6 bg-[#016D39] shadow-[0_9px_0_rgb(1,109,57)] hover:shadow-[0_4px_0px_rgb(1,109,57)] ease-out hover:translate-y-1 transition-all text-white rounded-lg font-bold px-5 py-2.5 text-center fixed bottom-8 left-[25%] right-[25%]"
+                            value="Confirmar desistência">`);
+                    }
                 }
             },
             error: function (request, status, error) {
@@ -226,20 +302,20 @@ $(document).ready(function () {
 
     if (window.location.hash.includes("turma") && !window.location.hash.includes("cadastrar")) {
         var turma = window.location.hash.split('-')[1];
-        selectTurma(turma);
+        selectTurma(turma, "liberar");
         activateButton('#' + turma);
     }
 
     $(".turmas").on("click", ".select-turma", function () {
         event.preventDefault();
         history.pushState(null, null, '#turma-' + $(this).attr('id'));
-        selectTurma($(this).attr('id'));
+        selectTurma($(this).attr('id'), "liberar");
     });
 
     window.addEventListener('popstate', function () {
         if (window.location.hash.includes("turma") && !window.location.hash.includes("cadastrar")) {
             var turma = window.location.hash.split('-')[1];
-            selectTurma(turma);
+            selectTurma(turma, "liberar");
             activateButton('#' + turma);
         }
     });
@@ -1854,22 +1930,22 @@ $(document).ready(function () {
         handleKeyDown(e, '.email-suggestions');
     });
 
-$(document).on('blur', '.email-input', function () {
-    let inputValue = $(this).val();
-    let validEmails = $(this).siblings('.email-suggestions').find('li').map(function () {
-        return $(this).text();
-    }).get();
+    $(document).on('blur', '.email-input', function () {
+        let inputValue = $(this).val();
+        let validEmails = $(this).siblings('.email-suggestions').find('li').map(function () {
+            return $(this).text();
+        }).get();
 
-    if (!validEmails.includes(inputValue)) {
-        $(this).val(''); 
-    }
-});
+        if (!validEmails.includes(inputValue)) {
+            $(this).val(''); 
+        }
+    });
 
-$(document).click(function (e) {
-    if (!$(e.target).closest('.email-input, .email-suggestions').length) {
-        $('.email-suggestions').addClass('hidden');
-    }
-});
+    $(document).click(function (e) {
+        if (!$(e.target).closest('.email-input, .email-suggestions').length) {
+            $('.email-suggestions').addClass('hidden');
+        }
+    });
 
 
     function loadCadastrarVinculo() {
@@ -1991,6 +2067,7 @@ $(document).click(function (e) {
         $(nome_aluno).val('');
         $(nome_aluno).attr("turma", $(this).find('option:selected').text());
     });
+
     $('#cadastrar-vinculo').click(function () {
         event.preventDefault();
         history.pushState(null, null, '#cadastrar-vinculo');
@@ -2094,6 +2171,194 @@ $(document).click(function (e) {
         </div>`);
     });
 
+    let turmaGlobal = 0;
+    let indiceTurma = 0;
+
+    function selectCursoTurma(curso, callback) {
+        $.ajax({
+            url: 'read/read_turmas_curso',
+            data: 'curso=' + curso,
+            type: 'POST',
+            success: function (turma) {
+                if (turma == 0) {
+                    location.reload();
+                } else {
+                    turma = JSON.parse(turma);
+                    turmaGlobal = turma;
+                    indiceTurma = 0;
+                    callback(); // Call the callback once turmaGlobal is set
+                }
+            }
+        });
+    }
+    
+    function handleHashChange() {
+        if (window.location.hash.includes("atualizar") && window.location.hash.split('-')[1] != null) {
+            const curso = window.location.hash.split('-')[1].toUpperCase();
+            selectCursoTurma(curso, function() {
+                if (!localStorage.getItem("modalAviso")) {$('#atualizar-info-escondido').trigger("click");}
+                $(".subclasse-atualizar").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
+                $(".subclasse-historico").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
+                $(".subclasse-cadastrar").removeClass("border-[#00bf63] border-l-2 bg-gray-100");
+                $('#' + curso).addClass("border-[#00bf63] border-l-2");
+                $("#atualizar").next().children().slideDown("slow");
+                console.log(turmaGlobal);
+                // console.log(indiceTurma);
+                selectTurma(turmaGlobal[indiceTurma]['turma'], "aprovar");
+                localStorage.setItem("modalAviso", true);
+            });
+        }
+    }
+    
+    handleHashChange();
+    
+    window.onhashchange = handleHashChange;
+
+    function confirmarAprovacao() {
+        id_aluno = [];
+        $("input.select-item:checked").each(function () {
+            id_aluno.push(this.value);
+        });
+
+        $('.gmail-checkbox').prop('checked', false);
+
+        if (id_aluno.length === 0) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Operação realizada!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+        } else {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Aprovações confirmadas!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+
+            console.log(id_aluno);
+            if (0 == indiceTurma) {
+                turma = "APROV";
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        id_aluno: id_aluno,
+                        turma: turma
+                    },
+                    url: "update/update_aluno_turma.php",
+                    success: function (data) {
+                        if (data == 0) {
+                            location.reload();
+                        }
+                    }
+                });
+            } else {
+                turma = turmaGlobal[indiceTurma-1]['id'];
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        id_aluno: id_aluno,
+                        turma: turma
+                    },
+                    url: "update/update_aluno_turma.php",
+                    success: function (data) {
+                        if (data == 0) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+        setTimeout(
+            function() {
+                selectTurma(turmaGlobal[indiceTurma]['turma'], "desistir");
+            }, 100);
+    }
+    
+    $('.aside').on('click', '.subclasse-atualizar', function(event) {
+        event.preventDefault();
+        history.pushState(null, null, '#atualizar-' + $(this).attr('id'));
+        handleHashChange(); 
+    });
+
+    $("#main").on("click", "#btn-confirmar-aprovacao", function () {
+        $("#modal-atu-titulo").empty();
+        $("#modal-atu-body").empty();
+        $("#modal-btnatu-texto").empty();
+        $("#modal-atu-titulo").append("Confirmar aprovações");
+        $("#modal-atu-body").append(
+            `Tem certeza de que todos alunos aprovados nesse ano foram selecionados?
+            <p id="modal-atu-opcao" value="aprovacao" style="visibility: hidden; display: none;"></p>`);
+        $("#modal-btnatu-texto").append("Confirmar aprovações");
+        $('#atualizar-escondido').trigger("click");
+    });
+
+    $("#main").on("click", "#btn-confirmar-desistencia", function () {
+        $("#modal-atu-titulo").empty();
+        $("#modal-atu-body").empty();
+        $("#modal-btnatu-texto").empty();
+        $("#modal-atu-titulo").append("Confirmar desistências");
+        $("#modal-atu-body").append(
+            `Tem certeza de que todos alunos que desistiram do curso foram selecionados?
+            <p id="modal-atu-opcao" value="desistencia" style="visibility: hidden; display: none;"></p>`);
+        $("#modal-btnatu-texto").append("Confirmar desistências");
+        $('#atualizar-escondido').trigger("click");
+    });
+
+    function confirmarDesistencia() {
+        id_aluno = [];
+        $("input.select-item:checked").each(function () {
+            id_aluno.push(this.value);
+        });
+
+        $('.gmail-checkbox').prop('checked', false);
+
+        if (id_aluno.length === 0) {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Operação realizada!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+        } else {
+            let snackbar = new SnackBar();
+            snackbar.make("message", [
+                "Desistências confirmadas!",
+                null,
+                "top",
+                "right"
+            ], 4000);
+
+            console.log(id_aluno);
+
+            turma = "DESIS";
+            $.ajax({
+                type: "POST",
+                data: {
+                    id_aluno: id_aluno,
+                    turma: turma
+                },
+                url: "update/update_aluno_turma.php",
+                success: function (data) {
+                    if (data == 0) {
+                        location.reload();
+                    }
+                }
+            });
+        }
+        indiceTurma++;
+        if (indiceTurma < turmaGlobal.length){
+            selectTurma(turmaGlobal[indiceTurma]['turma'], "aprovar");
+        } else {
+            localStorage.setItem("showSnackbar", "true");
+            location.href = "index.php";
+        }
+    }
+
     $("#main").on("click", "#confirmar-cadastro", function () {
         opcao = $("#modal-cad-opcao").attr('value');
         if (opcao == "aluno") {
@@ -2106,6 +2371,15 @@ $(document).click(function (e) {
             cadastrarResponsavel();
         } else if (opcao == "vinculo") {
             cadastrarVinculo();
+        }
+    });
+
+    $("#main").on("click", "#confirmar-atualizar", function () {
+        opcao = $("#modal-atu-opcao").attr('value');
+        if (opcao == "aprovacao") {
+            confirmarAprovacao()
+        } else if (opcao == "desistencia") {
+            confirmarDesistencia();
         }
     });
 
@@ -2122,6 +2396,10 @@ $(document).click(function (e) {
     })
 
     $(".subclasse-cadastrar").click(function () {
+        activateButton(this);
+    })
+
+    $(".aside").on("click", ".subclasse-atualizar", function () {
         activateButton(this);
     })
 

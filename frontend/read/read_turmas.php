@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['email'])) {
 	$mysqli = connect();
 	try {
-		$consulta = $mysqli->prepare("SELECT * from turma order by turma;");
+		$consulta = $mysqli->prepare("SELECT * from turma where (turma.turma != 'APROV') and (turma.turma != 'DESIS') order by turma");
 		$consulta->execute();
 
 		$resultado = $consulta->get_result();
