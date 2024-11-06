@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($user_flag->num_rows > 0) {
                 $verification_code = random_int(1000, 9999);
                 if (send_verification_email($user_email, $verification_code)) {
-
                     http_response_code(200);
                     $server_response_success = array(
                         "code" => http_response_code(200),
@@ -76,6 +75,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($server_response_error);
 }
 
+function insert_verification_code($user_email, $validation_code)
+{
+    require_once("../connect.php");
+    $mysqli = connect();
+
+    $INSERT_VERIFICATION_SQL = "INSERT INTO `email_verification`(`email`,`codigo`) VALUES (?, ?)";
+    $insert_verification_stmt = $mysqli->prepare($INSERT_VERIFICATION_SQL);
+    $insert_verification_stmt->bind_param("ss", $user_email, $validation_code);
+    $insert_verification_stmt->execute();
+}
+
 function send_verification_email($user_email, $validation_code)
 {
     $email_password = $_SERVER['APP_PASSWORD'];
@@ -103,6 +113,7 @@ function send_verification_email($user_email, $validation_code)
             echo 'Deu ruim: ' . $mail->ErrorInfo;
             return false;
         } else {
+            insert_verification_code($user_email, $validation_code);
             return true;
         }
         $mail->smtpClose();
