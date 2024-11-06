@@ -2,6 +2,7 @@
 require "../../vendor/autoload.php";
 header('Content-type: application/json');
 date_default_timezone_set('America/Sao_Paulo');
+include("functions.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST["code"]) && !empty($_POST["email"])) {
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $server_response_success = array(
                     "code" => http_response_code(200),
                     "status" => true,
-                    "Message" => "Deu boa! O código enviado é válido."
+                    "message" => "Deu boa! O código enviado é válido."
                 );
                 echo json_encode($server_response_success);
             } else {
@@ -53,32 +54,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "message" => "Bad Request"
     );
     echo json_encode($server_response_error);
-}
-
-function validate_code($user_email, $user_code)
-{
-    $mysqli = connect();
-    $SELECT_CODES_SQL = "SELECT * FROM `email_verification` WHERE email = ?";
-    $select_codes_stmt = $mysqli->prepare($SELECT_CODES_SQL);
-    $select_codes_stmt->bind_param("s", $user_email);
-    $select_codes_stmt->execute();
-    $result_flag = $select_codes_stmt->get_result();
-    $result = $result_flag->fetch_all(MYSQLI_ASSOC);
-    
-    if ($result_flag->num_rows > 0) {
-        $result = $result[0];
-        $valid_code = $result["codigo"] === $user_code;
-        $valid_time = strtotime($result['created_at']) >= strtotime('-15 minutes');
-
-        if ($valid_code && $valid_time) { 
-            $delete_code_stmt = $mysqli->prepare("DELETE FROM `email_verification` WHERE (`codigo` = ?)");
-            $delete_code_stmt->bind_param("s", $user_code);
-            $delete_code_stmt->execute();
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
 }
