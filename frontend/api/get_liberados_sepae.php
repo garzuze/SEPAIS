@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$jwt = $all_headers['Authorization'];
 	if (!empty($jwt)) {
 		try {
-			$secret = "SomosOsSepinhosBananaoDoChicao";
+			$secret = $_SERVER['SECRET'];;
 			$decoded_data =  (array) JWT::decode($jwt, new Key($secret, 'HS256'));
 			$email_responsavel = $decoded_data["sub"];
 			$dependentes_liberados = read_dependentes_liberados($email_responsavel);

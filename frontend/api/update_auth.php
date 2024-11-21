@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = $_POST;
     if (!empty($jwt)) {
         try {
-            $secret = "SomosOsSepinhosBananaoDoChicao";
+            $secret = $_SERVER['SECRET'];;
             $decoded_data =  (array) JWT::decode($jwt, new Key($secret, 'HS256'));
             $aluno_id = $_POST["aluno_id"];
             $isAutorized = update_autoriza_liberacao($aluno_id);

@@ -1,6 +1,7 @@
 <?php
 ini_set("display_errors", 1);
 date_default_timezone_set('America/Sao_Paulo');
+
 require_once('../connect.php');
 require "../../vendor/autoload.php";
 require "../read/read_alunos_autorizados.php";
@@ -13,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$jwt = $all_headers['Authorization'];
 	if (!empty($jwt)) {
 		try {
-			$secret = "SomosOsSepinhosBananaoDoChicao";
+			$secret = $_SERVER['SECRET'];;
 			$decoded_data =  (array) JWT::decode($jwt, new Key($secret, 'HS256'));
             $email_responsavel = $decoded_data["sub"];
             $dependentes_autorizados = read_alunos_autorizados($email_responsavel);

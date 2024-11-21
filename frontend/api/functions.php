@@ -1,17 +1,14 @@
 <?php
 date_default_timezone_set('America/Sao_Paulo');
+require_once("../connect.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require "../../vendor/autoload.php";
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
-
 function insert_verification_code($user_email, $validation_code)
 {
-    require_once("../connect.php");
     $mysqli = connect();
 
     $INSERT_VERIFICATION_SQL = "INSERT INTO `email_verification`(`email`,`codigo`) VALUES (?, ?)";

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (password_verify($password, $user_data[0]['senha'])) {
                     $payload = array('sub' => $user_data[0]["email"], 'name' => $user_data[0]["nome"], 'iat' => time(), 'exp' => (time() + 86400), 'pwd' => $user_data[0]["senha"],);
 
-                    $secret = "SomosOsSepinhosBananaoDoChicao";
+                    $secret = $_SERVER['SECRET'];;
 
                     $jwt = JWT::encode($payload, $secret, 'HS256');
 

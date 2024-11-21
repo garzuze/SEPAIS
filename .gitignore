@@ -1,3 +1,2 @@
-
 *.log
-frontend/.env
+.env

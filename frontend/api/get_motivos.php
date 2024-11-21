@@ -13,9 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$data = $_POST;
 	if (!empty($jwt)) {
 		try {
-			$secret = "SomosOsSepinhosBananaoDoChicao";
+			$secret = $_SERVER['SECRET'];;
 			$decoded_data =  (array) JWT::decode($jwt, new Key($secret, 'HS256'));
-            $motivos = read_motivos();
+			$motivos = read_motivos();
 			http_response_code(200);
 			echo json_encode(array(
 				"status" => True,

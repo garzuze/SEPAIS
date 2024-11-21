@@ -7,16 +7,15 @@ require "../read/read_recados.php";
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-header('Content-type: application/json;');
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$all_headers = getallheaders();
 	$jwt = $all_headers['Authorization'];
-	$data = $_POST;
 	if (!empty($jwt)) {
 		try {
 			$recados = read_recados();
-			$secret = "SomosOsSepinhosBananaoDoChicao";
+			$secret = $_SERVER['SECRET'];;
 			$decoded_data = JWT::decode($jwt, new Key($secret, 'HS256'));
 			http_response_code(200);
 			echo json_encode(array(

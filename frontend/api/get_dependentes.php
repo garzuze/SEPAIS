@@ -1,5 +1,6 @@
 <?php
 ini_set("display_errors", 1);
+
 require_once('../connect.php');
 require "../../vendor/autoload.php";
 require "../read/read_alunos_responsaveis.php";
@@ -7,15 +8,13 @@ require "../read/read_alunos_responsaveis.php";
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 
-header('Content-type: application/json;');
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$all_headers = getallheaders();
 	$jwt = $all_headers['Authorization'];
 	$data = $_POST;
 	if (!empty($jwt)) {
 		try {
-			$secret = "SomosOsSepinhosBananaoDoChicao";
+			$secret = $_SERVER['SECRET'];;
 			$decoded_data =  (array) JWT::decode($jwt, new Key($secret, 'HS256'));
             $email_responsavel = $decoded_data["sub"];
             $dependentes = read_dependentes($email_responsavel);
