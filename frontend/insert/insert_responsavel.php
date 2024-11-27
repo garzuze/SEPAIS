@@ -16,9 +16,9 @@ if(!empty($_SESSION['email'])) {
                 $email = strtolower($registros["emails"][$index]);
                 $telefone = preg_replace('/[^\d]/', '', $registros["telefones"][$index]);
                 $foto_path = "static/default_user_icon.jpg";
-                echo "\n $responsavel \n";
-                echo "$email \n";
-                echo "$telefone \n";
+                // echo "\n $responsavel \n";
+                // echo "$email \n";
+                // echo "$telefone \n";
 
                 $insert_user_query = $sql->prepare("INSERT INTO usuario (nome, email, foto_path) VALUES (?, ?, ?)");
                 $insert_user_query->bind_param("sss", $responsavel, $email, $foto_path);

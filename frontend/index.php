@@ -94,6 +94,11 @@ $foto_path = $result_array[0]['foto_path'];
 
                     </div>
                 </li>
+                <li>
+                    <a id="importar" class="select-destaque target flex justify-center items-center cursor-pointer p-2 text-gray-900 rounded-lg group" href="#importar">
+                        <span>Importar</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </aside>

@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     $("#logoutForm").submit(logout);
     
-    if (localStorage.getItem("showSnackbar") === "true") {
+    if (localStorage.getItem("showSnackbarTurma") === "true") {
         let snackbar = new SnackBar();
         snackbar.make("message", [
             "Turma atualizada com sucesso!",
@@ -61,7 +61,20 @@ $(document).ready(function () {
         ], 4000);
 
         // Remove the flag after displaying the snackbar
-        localStorage.removeItem("showSnackbar");
+        localStorage.removeItem("showSnackbarTurma");
+    }
+
+    if (localStorage.getItem("showSnackbarImport") === "true") {
+        let snackbar = new SnackBar();
+        snackbar.make("message", [
+            "Importação realizada com sucesso!",
+            null,
+            "top",
+            "right"
+        ], 4000);
+
+        // Remove the flag after displaying the snackbar
+        localStorage.removeItem("showSnackbarImport");
     }
 
     $(document).on("keydown", ":input:not(textarea)", function () {
@@ -2354,7 +2367,7 @@ $(document).ready(function () {
         if (indiceTurma < turmaGlobal.length){
             selectTurma(turmaGlobal[indiceTurma]['turma'], "aprovar");
         } else {
-            localStorage.setItem("showSnackbar", "true");
+            localStorage.setItem("showSnackbarTurma", "true");
             location.href = "index.php";
         }
     }
@@ -2457,4 +2470,114 @@ $(document).ready(function () {
             "right"
         ], 4000);
     });
+
+    // Função para carregar o import por excel.
+    function loadImportarExcel() {
+        // esconde o botão liberar
+        $('.btn-liberar').hide();
+        $("#main > *:not('.modal')").remove();
+        $('#main').prepend(`
+            <div class="mx-auto w-3/4 mt-4">
+                <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Importar registros por arquivo Excel</h2>
+                <div id="input-container"></div>
+            </div>`)
+        $('#input-container').html('<input id="fileupload" type="file" name="files[]">');
+        document.getElementById('fileupload').addEventListener('change', handleFileSelect, false);
+    } 
+    
+    $('#importar').click(function () {
+        event.preventDefault();
+        history.pushState(null, null, '#importar-excel');
+        loadImportarExcel();
+    });
+
+    if (window.location.hash === '#importar-excel') {
+        loadImportarExcel();
+        activateButton(window.location.hash);
+    };
+
+    window.addEventListener('popstate', function () {
+        if (window.location.hash === '#importar-excel') {
+            loadImportarExcel();
+            activateButton(window.location.hash)
+        }
+    });
+
+    function enviarDados(cadastro) {
+		$.ajax({
+			url: 'recebe_xlsx.php', 
+			type: 'POST',
+			data: JSON.stringify(cadastro),
+			contentType: 'application/json',
+			success: function(response) {
+                location.reload();
+				console.log(response); 
+                localStorage.setItem("showSnackbarImport", "true");
+			},
+			error: function(error) {
+				console.error(error);
+			}
+		});
+	}
+
+	var ExcelToJSON = function() {
+		this.parseExcel = function(file) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				var data = e.target.result;
+				var workbook = XLSX.read(data, { type: 'binary' });
+
+				workbook.SheetNames.forEach(function(sheetName) {
+					var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+					var cadastroList = JSON.parse(JSON.stringify(XL_row_object));
+
+					var cadastro = [];
+
+					for (var i = 0; i < cadastroList.length; i++) {
+						var aluno = [];
+						var responsaveis = [];
+
+						aluno.push({
+							curso: cadastroList[i]["Matriculado no curso de:"],
+							periodo: cadastroList[i]["Em qual ano ou período está se matriculando no ano letivo 2024?"][0],
+							nome: cadastroList[i]["Nome completo do estudante (utilizar todas MAIÚSCULAS)"]
+						});
+
+						responsaveis.push({
+							nome: cadastroList[i]["Nome completo do Responsável/Familiar 1"],
+							email: cadastroList[i]["endereço de e-mail do Responsável/Familiar 1  (não incluir e-mail do estudante)"],
+							telefone: cadastroList[i]["Telefone celular do Responsável/Familiar 1"]
+						});
+
+						responsaveis.push({
+							nome: cadastroList[i]["Nome completo do Responsável 2"],
+							email: cadastroList[i]["endereço de e-mail do Responsável 2"],
+							telefone: cadastroList[i]["Telefone celular do Responsável 2"]
+						});
+
+						cadastro.push({
+							aluno: aluno,
+							responsaveis: responsaveis
+						});
+					}
+
+					enviarDados(cadastro);
+				});
+			};
+
+			reader.onerror = function(ex) {
+				console.log(ex);
+			};
+
+			reader.readAsBinaryString(file);
+		};
+	};
+
+	function handleFileSelect(evt) {
+		var files = evt.target.files; // FileList object
+		var xl2json = new ExcelToJSON();
+		xl2json.parseExcel(files[0]);
+	}
+
 });
