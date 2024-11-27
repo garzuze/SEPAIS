@@ -210,8 +210,9 @@ $(document).ready(function () {
                     console.log(data);
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
+                    $("#main").css('visibility', 'hidden');
                     $('#main').prepend(`
-                            <table style="width:100%; display:none;" class="tabela-saidas text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                            <table style="width:100%;" class="tabela-saidas text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <th scope="col" class="px-6 py-3 hidden">
                                             id
@@ -263,14 +264,15 @@ $(document).ready(function () {
                     }
                     var tabela = $(".tabela-saidas").DataTable({
                         "bSort": false,
+                        "deferRender": true, 
+                        initComplete: function (settings, json) {
+                            $("#main").css("visibility", "visible");
+                        },
                         language: {
                             url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
                         "pageLength": 25
                     });
-                    setTimeout(function () {
-                        $(".tabela-saidas").show();
-                    }, 10);
                 }
             }
         });

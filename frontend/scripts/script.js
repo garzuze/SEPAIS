@@ -23,6 +23,7 @@ window.addEventListener("storage", function (event) {
 });
 
 $(document).ready(function () {
+    $('body').show();
     localStorage.removeItem("modalAviso")
     function logout(event) {
         event.preventDefault();
@@ -99,6 +100,9 @@ $(document).ready(function () {
         $.ajax({
             url: 'read/read_turmas.php',
             type: 'GET',
+            complete: function(){
+                $('#div_turmas').show();
+            },
             success: function (turma) {
                 if (turma == 0) {
                     location.reload();
@@ -158,6 +162,9 @@ $(document).ready(function () {
         $.ajax({
             url: 'read/read_motivos.php',
             type: 'GET',
+            complete: function(){
+                $('#div_motivo').show();
+            },
             success: function (motivo) {
                 if (motivo == 0) {
                     location.reload();
@@ -434,7 +441,6 @@ $(document).ready(function () {
     function loadHistoricoSepae() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
-        $("#main").css('visibility', 'hidden');
         $.ajax({
             url: 'read/read_historico_liberado_sepae.php',
             type: 'GET',
@@ -446,8 +452,9 @@ $(document).ready(function () {
                     console.log(data);
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
+                    $("#main").css("visibility", "hidden");
                     $('#main').prepend(`
-                            <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                            <table style="width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <th scope="col" class="px-6 py-3 hidden">
                                             id
@@ -509,6 +516,10 @@ $(document).ready(function () {
                     }
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
+                        "deferRender": true, 
+                        initComplete: function (settings, json) {
+                            $("#main").css("visibility", "visible");
+                        },
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
@@ -581,10 +592,6 @@ $(document).ready(function () {
                             }
                         ]
                     });
-                    setTimeout(function () {
-                        $(".tabela-historico").show();
-                        $("#main").css('visibility', 'visible');
-                    }, 10);
                 }
             }
         })
@@ -619,7 +626,6 @@ $(document).ready(function () {
     function loadHistoricoResponsavel() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
-        $("#main").css('visibility', 'hidden');
         $.ajax({
             url: 'read/read_historico_liberado_responsaveis.php',
             type: 'GET',
@@ -631,8 +637,9 @@ $(document).ready(function () {
                     console.log(data);
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
+                    $("#main").css("visibility", "hidden");
                     $('#main').prepend(`
-                            <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                            <table style="width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                         <th scope="col" class="px-6 py-3 hidden">
                                             id
@@ -694,6 +701,10 @@ $(document).ready(function () {
                     }
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
+                        "deferRender": true, 
+                        initComplete: function (settings, json) {
+                            $("#main").css("visibility", "visible");
+                        },
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
@@ -766,10 +777,6 @@ $(document).ready(function () {
                             }
                         ]
                     });
-                    setTimeout(function () {
-                        $(".tabela-historico").show();
-                        $("#main").css('visibility', 'visible');
-                    }, 10);
                 }
             }
         })
@@ -803,7 +810,6 @@ $(document).ready(function () {
     function loadHistoricoAtrasos() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
-        $("#main").css('visibility', 'hidden');
         $.ajax({
             url: 'read/read_historico_atrasos.php',
             type: 'GET',
@@ -815,8 +821,9 @@ $(document).ready(function () {
                     console.log(data);
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
+                    $("#main").css("visibility", "hidden");
                     $('#main').prepend(`
-                                <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                                <table style="width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                             <th scope="col" class="px-6 py-3 hidden">
                                                 id
@@ -860,6 +867,10 @@ $(document).ready(function () {
                     }
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
+                        "deferRender": true, 
+                        initComplete: function (settings, json) {
+                            $("#main").css("visibility", "visible");
+                        },
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
@@ -932,10 +943,6 @@ $(document).ready(function () {
                             }
                         ]
                     });
-                    setTimeout(function () {
-                        $(".tabela-historico").show();
-                        $("#main").css('visibility', 'visible');
-                    }, 10);
                 }
             }
         })
@@ -969,7 +976,6 @@ $(document).ready(function () {
     function loadHistoricoRecados() {
         //esconde o botão liberar
         $('.btn-liberar').hide();
-        $("#main").css('visibility', 'hidden');
         $.ajax({
             url: 'read/read_recados.php',
             type: 'GET',
@@ -981,8 +987,9 @@ $(document).ready(function () {
                     console.log(data);
                     // Limpando o seção principal
                     $("#main > *:not('.modal')").remove();
+                    $("#main").css('visibility', 'hidden');
                     $('#main').prepend(`
-                        <table style="display:none; width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
+                        <table style="width:100%;" class="tabela-historico text-sm text-left mx-auto text-gray-500 sm:rounded-lg shadow-lg mt-4">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <th scope="col" class="px-6 py-3 hidden">
                                         id
@@ -1036,6 +1043,10 @@ $(document).ready(function () {
                     }
                     var tabela = $(".tabela-historico").DataTable({
                         "bSort": false,
+                        "deferRender": true, 
+                        initComplete: function (settings, json) {
+                            $("#main").css("visibility", "visible");
+                        },
                         language: {
                             url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json',
                         },
@@ -1108,10 +1119,6 @@ $(document).ready(function () {
                             }
                         ]
                     });
-                    setTimeout(function () {
-                        $(".tabela-historico").show();
-                        $("#main").css('visibility', 'visible');
-                    }, 10);
                 }
             }
         })
@@ -1584,7 +1591,7 @@ $(document).ready(function () {
         $('.btn-liberar').hide();
         $("#main > *:not('.modal')").remove();
         $('#main').prepend(`
-                <div class="w-3/4 mt-4 mx-auto grid grid-cols-4 gap-4 grid-rows-4">
+                <div id="div_motivo" style="display:none" class="w-3/4 mt-4 mx-auto grid grid-cols-4 gap-4 grid-rows-4">
             <div class="col-span-2 row-span-4 content-center">
                 <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl">Cadastrar novo motivo</h2>
                 <form id="form_motivo">
@@ -1639,23 +1646,24 @@ $(document).ready(function () {
     $('#cadastrar-motivo').click(function () {
         event.preventDefault();
         history.pushState(null, null, '#cadastrar-motivo');
-        loadMotivos();
         loadCadastrarMotivo();
+        loadMotivos();
     })
 
     if (window.location.hash === '#cadastrar-motivo') {
         $("#cadastrar").next().children().slideDown("slow");
-        loadMotivos();
         loadCadastrarMotivo();
+        loadMotivos();
         activateButton(window.location.hash);
     }
 
     window.addEventListener('popstate', function () {
         if (window.location.hash === '#cadastrar-motivo') {
             $("#cadastrar").next().children().slideDown("slow");
-            loadMotivos();
             loadCadastrarMotivo();
+            loadMotivos();
             activateButton(window.location.hash)
+
         }
     });
 
@@ -1693,7 +1701,7 @@ $(document).ready(function () {
         $('.btn-liberar').hide();
         $("#main > *:not('.modal')").remove();
         $('#main').prepend(`
-                <div class="w-3/4 mt-4 mx-auto grid grid-cols-4 gap-4 grid-rows-4">
+                <div id="div_turmas" style="display:none" class="w-3/4 mt-4 mx-auto grid grid-cols-4 gap-4 grid-rows-4">
             <div class="col-span-2 row-span-4 content-center">
                 <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl">Cadastrar nova turma</h2>
                 <form id="form_turma">
@@ -2481,34 +2489,41 @@ $(document).ready(function () {
                 <h2 class="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Importar registros por arquivo Excel</h2>
                 <div id="input-container"></div>
             </div>`)
-        $('#input-container').html('<input id="fileupload" type="file" name="files[]">');
+        $('#input-container').html('<input id="fileupload" type="file" name="files[]"> <a class="font-bold text-green-900 underline" href="static/Template para importação.xlsx" download="Template.xls">Download do template</a>');
         document.getElementById('fileupload').addEventListener('change', handleFileSelect, false);
     } 
     
     $('#importar').click(function () {
         event.preventDefault();
-        history.pushState(null, null, '#importar-excel');
+        history.pushState(null, null, '#importar');
         loadImportarExcel();
     });
 
-    if (window.location.hash === '#importar-excel') {
+    if (window.location.hash === '#importar') {
         loadImportarExcel();
         activateButton(window.location.hash);
     };
 
     window.addEventListener('popstate', function () {
-        if (window.location.hash === '#importar-excel') {
+        if (window.location.hash === '#importar') {
             loadImportarExcel();
             activateButton(window.location.hash)
         }
     });
 
     function enviarDados(cadastro) {
+        $("#main > *:not('.modal')").remove();
 		$.ajax({
 			url: 'recebe_xlsx.php', 
 			type: 'POST',
 			data: JSON.stringify(cadastro),
 			contentType: 'application/json',
+            beforeSend: function(){
+                $('#loading').show();
+            },
+            complete: function(){
+                $('#loading').hide();
+            },
 			success: function(response) {
                 location.reload();
 				console.log(response); 
