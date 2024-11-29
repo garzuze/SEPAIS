@@ -1,10 +1,11 @@
-<?php 
-require "../../vendor/autoload.php";
+<?php
+require dirname(__DIR__) . "/vendor/autoload.php";
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
-function connect() {
+function connect()
+{
     // =========== Configuração ==============
     $_DB['server'] = 'localhost'; // Servidor MySQL
     $_DB['user'] = 'root'; // Usuário MySQL
@@ -23,28 +24,39 @@ function connect() {
     }
 }
 
-function write_log($log_msg, $log_pasta) {
+function write_log($log_msg, $log_pasta)
+{
     date_default_timezone_set('America/Sao_Paulo');
 
     $log_root = __DIR__ . '/logs';
     $months = [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro'
     ];
     $pasta = [
-        'cadastros', 'validar_saidas'
+        'cadastros',
+        'validar_saidas'
     ];
 
     $month_num = intval(date('m'));
-    $log_month = $months[$month_num - 1]; 
+    $log_month = $months[$month_num - 1];
     $log_dir = $log_root . '/' . $pasta[$log_pasta] . '/' . $log_month . ' ' . date('Y');
-    $log_file = $log_dir . '/sepais_'. $pasta[$log_pasta] .'_' . date('Y-m-d') . '.log';
+    $log_file = $log_dir . '/sepais_' . $pasta[$log_pasta] . '_' . date('Y-m-d') . '.log';
 
     if (!is_dir($log_dir)) {
         mkdir($log_dir, 0777, true);
     }
 
-    $formatted_log_msg = "[" .date('Y-m-d H:i:s') . "] " . $log_msg;
+    $formatted_log_msg = "[" . date('Y-m-d H:i:s') . "] " . $log_msg;
     file_put_contents($log_file, $formatted_log_msg . "\n", FILE_APPEND);
 }
-?>
