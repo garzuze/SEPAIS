@@ -43,7 +43,7 @@ if (isset($_SESSION['email'])) {
             $student_infos = get_student_info($id_aluno);
             foreach ($student_infos as $student_info) {
                 if ($student_info["token_responsavel"] != null) {
-                    send_notification_liberation($student_info["nome_aluno"], $student_info["token_responsavel"]);
+                    send_notification($student_info["token_responsavel"], "liberation", $student_info["nome_aluno"]);
                 } else {
                     continue;
                 }

@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('America/Sao_Paulo');
-require_once("../connect.php");
+require_once("connect.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 use Google\Auth\Credentials\ServiceAccountCredentials;
 use Google\Auth\HttpHandler\HttpHandlerFactory;
 
-require "../../vendor/autoload.php";
+require "../vendor/autoload.php";
 
 function insert_verification_code($user_email, $validation_code)
 {
@@ -101,6 +101,17 @@ function get_google_access_token()
 }
 
 
+function get_all_responsable_tokens() {
+    $mysqli = connect();
+    $query = $mysqli->prepare("SELECT token from responsavel;");
+    $query->execute();
+
+    $result = $query->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
+
+var_dump(get_all_responsable_tokens());
+
 function get_student_info($student_id)
 {
     $mysqli = connect();
@@ -117,15 +128,30 @@ function get_student_info($student_id)
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-function send_notification_liberation($student_name, $token)
+function send_notification($token, $type, $student_name = "", $message = "", $skip_time = "")
 {
     $server_key = get_google_access_token();
+
+    $notifications = [
+        "liberation" => [
+            'title' => 'Olá! O aluno ' . $student_name . ' está liberado para sair.',
+            'body' => 'Clique aqui para autorizar sua saída antecipada.',
+        ],
+        "message" => [
+            'title' => 'Olá! Você tem um novo recado',
+            'body' => $message,
+        ],
+        "skip" => [
+            'title' => 'Opa! O estudente ' . $student_name . ' acabou de sair.',
+            'body' => 'Horário de saída: ' . $skip_time,
+        ],
+    ];
 
     $message = [
         'message' => [
             'notification' => [
-                'title' => 'Olá! O aluno ' . $student_name . ' está liberado para sair.',
-                'body' => 'Clique aqui para autorizar sua saída antecipada.',
+                'title' => $notifications[$type]['title'],
+                'body' => $notifications[$type]['body'],
             ],
             'token' => $token,
         ],
