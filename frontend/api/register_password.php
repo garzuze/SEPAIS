@@ -1,6 +1,6 @@
 <?php
 require "../../vendor/autoload.php";
-include("functions.php");
+include("../functions.php");
 
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_code = $_POST["code"];
         if (validate_code($user_email, $user_code)) {
             $hashed_pwd = password_hash($user_password, PASSWORD_DEFAULT);
-            $UPDATE_USER_SQL = "UPDATE `sepaisdb`.`usuario` SET `senha` = ? WHERE `email` = ?";
+            $UPDATE_USER_SQL = "UPDATE `usuario` SET `senha` = ? WHERE `email` = ?";
             $update_user_stmt = $mysqli->prepare($UPDATE_USER_SQL);
             $update_user_stmt->bind_param("ss",  $hashed_pwd, $user_email);
             if ($update_user_stmt->execute()) {

@@ -1,5 +1,5 @@
 <?php
-include("functions.php");
+include("../functions.php");
 header('Content-type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

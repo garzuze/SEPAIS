@@ -13,7 +13,7 @@ if(!empty($_SESSION['email'])) {
             foreach ($registros["alunos"] as $index => $aluno) {
                 $responsavel = $registros["responsaveis"][$index];
 
-                $query = $sql->prepare("INSERT INTO `sepaisdb`.`responsavel_has_aluno` (`aluno_id`, `responsavel_email`) VALUES (?, ?);");
+                $query = $sql->prepare("INSERT INTO `responsavel_has_aluno` (`aluno_id`, `responsavel_email`) VALUES (?, ?);");
                 $query->bind_param("ss", $aluno, $responsavel);
                 $query->execute();
 

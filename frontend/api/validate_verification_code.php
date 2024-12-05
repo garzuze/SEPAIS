@@ -2,7 +2,7 @@
 require "../../vendor/autoload.php";
 header('Content-type: application/json');
 date_default_timezone_set('America/Sao_Paulo');
-include("functions.php");
+include("../functions.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST["code"]) && !empty($_POST["email"])) {
