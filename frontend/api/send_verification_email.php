@@ -1,5 +1,6 @@
 <?php
-include("../functions.php");
+$functions_path = dirname(__DIR__) . "/functions.php";
+include($functions_path);
 header('Content-type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

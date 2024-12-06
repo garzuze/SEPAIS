@@ -1,5 +1,7 @@
 <?php
 require_once('../connect.php');
+$functions_path = dirname(__DIR__) . "/functions.php";
+include($functions_path);
 
 session_start();
 if(isset($_SESSION['email'])) {
@@ -21,6 +23,14 @@ if(isset($_SESSION['email'])) {
             $query = $sql->prepare("INSERT INTO recado (titulo, recado, data, validade, sepae_email) VALUES (?, ?, ?, ?, ?)");
             $query->bind_param("sssss", $titulo, $recado, $date, $validade, $email);
             $query->execute();
+
+            $tokens = get_all_responsable_tokens();
+            foreach ($tokens as $token) {
+                if ($token != null) {
+                    send_notification($token, "message", "", $titulo);
+                }
+            }
+
             header('Location: ../login.php');
         }catch (Exception $e) {
             error_log($e->getMessage());
@@ -28,7 +38,6 @@ if(isset($_SESSION['email'])) {
         }
     }
 } else{
-	
 	header('Location: ../login.php');
 }
 ?>

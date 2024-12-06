@@ -1,6 +1,7 @@
 <?php
 require "../../vendor/autoload.php";
-include("../functions.php");
+$functions_path = dirname(__DIR__) . "/functions.php";
+include($functions_path);
 
 date_default_timezone_set('America/Sao_Paulo');
 

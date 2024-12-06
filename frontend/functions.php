@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 use Google\Auth\Credentials\ServiceAccountCredentials;
 use Google\Auth\HttpHandler\HttpHandlerFactory;
 
-require "../vendor/autoload.php";
+require dirname(__DIR__) . "/vendor/autoload.php";
 
 function insert_verification_code($user_email, $validation_code)
 {
@@ -91,9 +91,11 @@ function validate_code($user_email, $user_code)
 
 function get_google_access_token()
 {
+    $credential_file = dirname(__DIR__) . "/sepais-2024-firebase-adminsdk-hxhsv-cfe10c070f.json";
+
     $credential = new ServiceAccountCredentials(
         "https://www.googleapis.com/auth/firebase.messaging",
-        json_decode(file_get_contents("../../sepais-2024-firebase-adminsdk-hxhsv-cfe10c070f.json"), true)
+        json_decode(file_get_contents($credential_file), true)
     );
     $token = $credential->fetchAuthToken(HttpHandlerFactory::build());
     $access_token = $token['access_token'];
@@ -101,16 +103,21 @@ function get_google_access_token()
 }
 
 
-function get_all_responsable_tokens() {
+function get_all_responsable_tokens()
+{
     $mysqli = connect();
     $query = $mysqli->prepare("SELECT token from responsavel;");
     $query->execute();
 
-    $result = $query->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
-}
+    $results = $query->get_result();
+    $results = $results->fetch_all(MYSQLI_ASSOC);
+    
+    for ($i = 0; $i < count($results); $i++) {
+        $results[$i] = $results[$i]["token"];
+    }
 
-var_dump(get_all_responsable_tokens());
+    return $results;
+}
 
 function get_student_info($student_id)
 {
