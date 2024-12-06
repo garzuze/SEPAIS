@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mysqli = connect();
         $user_email = $_POST["email"];
         try {
+            clean_expired_codes();
             $SELECT_USER_SQL = "SELECT * FROM `usuario` WHERE email = ?";
             $select_user_stmt = $mysqli->prepare($SELECT_USER_SQL);
             $select_user_stmt->bind_param("s", $user_email);

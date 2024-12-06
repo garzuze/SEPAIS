@@ -67,6 +67,7 @@ function delete_validation_code($user_code)
 
 function validate_code($user_email, $user_code)
 {
+    clean_expired_codes();
     $mysqli = connect();
     $SELECT_CODES_SQL = "SELECT * FROM `email_verification` WHERE email = ?";
     $select_codes_stmt = $mysqli->prepare($SELECT_CODES_SQL);
@@ -74,7 +75,7 @@ function validate_code($user_email, $user_code)
     $select_codes_stmt->execute();
     $result_flag = $select_codes_stmt->get_result();
     $result = $result_flag->fetch_all(MYSQLI_ASSOC);
-
+    
     if ($result_flag->num_rows > 0) {
         $result = $result[0];
         $valid_code = $result["codigo"] === $user_code;
@@ -102,6 +103,24 @@ function get_google_access_token()
     return $access_token;
 }
 
+function clean_expired_codes()
+{
+    $mysqli = connect();
+    $SELECT_CODES_SQL = "SELECT * FROM `email_verification`";
+    $select_codes_stmt = $mysqli->prepare($SELECT_CODES_SQL);
+    $select_codes_stmt->execute();
+    $result_flag = $select_codes_stmt->get_result();
+    $results = $result_flag->fetch_all(MYSQLI_ASSOC);
+
+    foreach ($results as $result) {
+        if (strtotime($result['created_at']) <= strtotime('-15 minutes')) {
+            $DELETE_CODE_SQL = "DELETE FROM `email_verification` WHERE id = ?";
+            $delete_code_stmt = $mysqli->prepare($DELETE_CODE_SQL);
+            $delete_code_stmt->bind_param("i", $result['id']);
+            $delete_code_stmt->execute();
+        }
+    }
+}
 
 function get_all_responsable_tokens()
 {
@@ -111,7 +130,7 @@ function get_all_responsable_tokens()
 
     $results = $query->get_result();
     $results = $results->fetch_all(MYSQLI_ASSOC);
-    
+
     for ($i = 0; $i < count($results); $i++) {
         $results[$i] = $results[$i]["token"];
     }
